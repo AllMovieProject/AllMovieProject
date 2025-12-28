@@ -9,7 +9,7 @@ public class MovieController {
 
 	@GetMapping("/movie/detail")
 	public String movie_detail(Model model) {
-		model.addAttribute("main_html", "movie/detail");
+		model.addAttribute("main_html", "../movie/detail.jsp");
 		return "main/main";
 	}
 }

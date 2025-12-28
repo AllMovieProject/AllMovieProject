@@ -9,7 +9,7 @@ public class MainController {
 
 	@GetMapping("/")
 	public String main_page(Model model) {
-		model.addAttribute("main_jsp", "main/home");
+		model.addAttribute("main_jsp", "../main/home.jsp");
 		return "main/main";
 	}
 	

@@ -1,5 +1,5 @@
 server:
-  port: 1245
+  port: 8000
 spring:
   mvc:
    view:
@@ -7,7 +7,7 @@ spring:
      suffix: .jsp
   datasource:
    url: jdbc:oracle:thin:@211.238.142.22:1521:XE
-   username: hr
+   username: sist3
    password: happy
    driver-class-name: oracle.jdbc.driver.OracleDriver
 mybatis:

@@ -38,8 +38,17 @@
                 </div>
                 <div class="col-lg-2">
                     <div class="header__right">
-                        <a href="#" class="search-switch"><span class="icon_search"></span></a>
-                        <a href="/login"><span class="icon_profile"></span></a>
+                    	<nav class="header__menu mobile-menu">
+                            <ul>
+                                <li><a href="/" class="seach-switch"><span class="icon_search"></span></a></li>
+                                <li><a href="/login"><span class="icon_profile"></span></a>
+                                    <ul class="dropdown">
+                                        <li><a href="/login">로그인</a></li>
+                                        <li><a href="/signup">회원 가입</a></li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </nav>
                     </div>
                 </div>
             </div>
