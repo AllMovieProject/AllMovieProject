@@ -1,5 +1,5 @@
 package com.sist.web.service;
 
-public interface BookService {
+public interface BookingService {
 
 }
