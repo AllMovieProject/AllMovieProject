@@ -36,6 +36,22 @@ dependencies {
 	implementation 'jakarta.servlet:jakarta.servlet-api'
 	implementation 'org.glassfish.web:jakarta.servlet.jsp.jstl'
 	implementation 'jakarta.el:jakarta.el-api:6.0.1'
+	implementation 'org.springframework.boot:spring-boot-starter-web'
+    
+    // JDBC
+    implementation 'org.springframework.boot:spring-boot-starter-jdbc'
+
+    // MyBatis
+    implementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter:3.0.3'
+
+    // MySQL 드라이버
+    runtimeOnly 'com.mysql:mysql-connector-j'
+
+    // JSP 사용 시 필요
+    implementation 'org.apache.tomcat.embed:tomcat-embed-jasper'
+
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+
 	compileOnly 'org.projectlombok:lombok'
 	developmentOnly 'org.springframework.boot:spring-boot-devtools'
 	runtimeOnly 'com.oracle.database.jdbc:ojdbc11'
