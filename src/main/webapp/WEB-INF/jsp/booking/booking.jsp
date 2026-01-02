@@ -15,6 +15,7 @@
 
 /* 날짜 영역 */
 .booking_date {
+  width: auto;
 	height: 8%;
 	background-color: #ffffff;
 }
@@ -78,19 +79,22 @@
 		<div class="container">
 			<div class="row">
 				<div class="col-lg-12 booking_container">
-					<div class="booking_date">
+					<div class="booking_date text-center">
 					  <table class="table table-bordered">
 					    <tr>
 					      <td>
-					        <a class="">&lt;</a>
+					        {{ store.year }} / {{ store.month }} 월 
+					      </td>
+					      <td>
+					        <a class="" v-if="">&lt;</a>
 					      </td>
 					      <td v-for="(day, index) in store.date_list" :key="day">
-					        <div class="text-center" style="width: 40px;">
+					        <div>
                     {{ day }} 일
 					        </div>
 					      </td>
                 <td>
-                  <a class="">&gt;</a>
+                  <a class="" @click="">&gt;</a>
                 </td>
                 <td>
                   <a class="">달력</a>

@@ -23,34 +23,67 @@ public class BookingRestController {
 
     @GetMapping("booking/date_list/")
     public ResponseEntity<Map<String, Object>> booking_date_list(
-            @RequestParam("year") int year, @RequestParam("month") int month) {
-        // 초기값 store에서 받아오지 말고 여기서 null 처리 및 pagination 처럼 쭉 15일씩 날짜 보이게 (달력 클릭시 해당날짜 스케줄 보여주는 건 후순위
+            @RequestParam(name = "year", required = false) Integer year,
+            @RequestParam(name = "month", required = false) Integer month,
+            @RequestParam("page") Integer page) {
+        
         Map<String, Object> map = new HashMap<>();
         List<Integer> list = new ArrayList<>();
-        
+
         try {
             Date date = new Date();
             SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
-            
+
             String today = df.format(date);
             StringTokenizer st = new StringTokenizer(today, "-");
-            
-            int y = Integer.parseInt(st.nextToken());
-            int m = Integer.parseInt(st.nextToken());
-            int day = Integer.parseInt(st.nextToken());
+
+            int yearNow = Integer.parseInt(st.nextToken());
+            if (year == null) {
+                year = yearNow;
+            }
+
+            int monthNow = Integer.parseInt(st.nextToken());
+            if (month == null) {
+                month = monthNow;
+            }
+
+            int dayNow = Integer.parseInt(st.nextToken());
 
             YearMonth ym = YearMonth.of(year, month);
             int lastDay = ym.lengthOfMonth();
             
-            for (int i = day; i <= lastDay; i++) {
-                list.add(i);
-            }
+            // 페이지네이션
+            final int PAGE_SIZE = 13;
+            int startDay = dayNow + (page - 1) * PAGE_SIZE;
+            int endDay = dayNow + page * PAGE_SIZE;
             
+            if (endDay <= lastDay) {
+                for (int i = startDay; i < endDay; i++) {
+                    list.add(i);
+                }
+            } else {
+                for (int i = startDay; i < lastDay; i++) {
+                    list.add(i);
+                }
+                
+                if (month == 12) {
+                    
+                } else {
+                    month++;
+                    ym = YearMonth.of(year, month);
+                    lastDay = ym.lengthOfMonth();
+                }
+            }
+
             map.put("list", list);
+            map.put("year", year);
+            map.put("month", month);
+            map.put("page", page);
+
         } catch (Exception e) {
             return new ResponseEntity<>(map, HttpStatus.OK);
         }
-        
+
         return new ResponseEntity<>(map, HttpStatus.OK);
     }
 }

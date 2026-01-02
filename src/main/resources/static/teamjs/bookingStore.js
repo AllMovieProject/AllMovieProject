@@ -1,8 +1,9 @@
 const { defineStore } = Pinia
 
 const initialState = () => ({
-  year: 2025,
-  month: 1,
+  year: 0,
+  month: 0,
+  page: 1,
   date_list: []
 })
 
@@ -13,12 +14,17 @@ const useBookingStore = defineStore('booking', {
     async dateListData() {
       const res = await api.get('booking/date_list/', {
         params: {
-          year: this.year,
-          month: this.month
+          page: this.page
         }
       })
-      
+            
       this.date_list = res.data.list
+      this.year = res.data.year
+      this.month = res.data.month
+    },
+    
+    datePageChange(month) {
+      
     }
   }
 })
