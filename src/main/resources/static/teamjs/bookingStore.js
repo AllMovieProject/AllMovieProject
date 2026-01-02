@@ -3,9 +3,22 @@ const { defineStore } = Pinia
 const initialState = () => ({
   year: 0,
   month: 0,
+  day: 0,
   page: 1,
-  date_list: []
+  date_list: [],
+  theater_region: null,
+  booking_date: null,
+  booking_movie: null,
+  booking_theater: null
 })
+
+/*
+  scheduleListData() 함수는 날짜, 영화, 영화관 클릭할 때마다 실행되게
+  store에 있는 값들을 this.으로 가져와서 영화관이 비어있으면 return
+  영화관 값이 널이 아니라면 함수 실행해서 스케줄 띄우기
+  (영화관만 클릭할 경우 default로 당일 스케줄 띄우기)
+  스케줄을 클릭하고 예매 버튼을 클릭하면 스케줄의 데이터만 넘어가도 됨
+*/
 
 const useBookingStore = defineStore('booking', {
   state: initialState,
@@ -21,10 +34,27 @@ const useBookingStore = defineStore('booking', {
       this.date_list = res.data.list
       this.year = res.data.year
       this.month = res.data.month
+      this.day = res.data.day
+      this.booking_date = res.data.booking_date
     },
     
-    datePageChange(month) {
+    datePageChange(page) {
+      if (page == 0) {
+        return
+      }
       
+      if (page == 4) {
+        return
+      }
+
+      this.page = page
+      this.dateListData()
+    },
+    
+    async scheduleListData() {
+      console.log(this.booking_date)
+      console.log(this.booking_movie)
+      console.log(this.booking_theater)
     }
   }
 })

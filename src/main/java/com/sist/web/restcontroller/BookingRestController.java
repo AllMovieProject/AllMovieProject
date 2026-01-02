@@ -28,7 +28,7 @@ public class BookingRestController {
             @RequestParam("page") Integer page) {
         
         Map<String, Object> map = new HashMap<>();
-        List<Integer> list = new ArrayList<>();
+        List<String> list = new ArrayList<>();
 
         try {
             Date date = new Date();
@@ -46,38 +46,48 @@ public class BookingRestController {
             if (month == null) {
                 month = monthNow;
             }
-
+            
             int dayNow = Integer.parseInt(st.nextToken());
-
+            
             YearMonth ym = YearMonth.of(year, month);
             int lastDay = ym.lengthOfMonth();
             
             // 페이지네이션
-            final int PAGE_SIZE = 13;
+            final int PAGE_SIZE = 12;
             int startDay = dayNow + (page - 1) * PAGE_SIZE;
             int endDay = dayNow + page * PAGE_SIZE;
             
+            int count = 0;
             if (endDay <= lastDay) {
                 for (int i = startDay; i < endDay; i++) {
-                    list.add(i);
+                    list.add(year + "-" + month + "-" + i);
                 }
             } else {
-                for (int i = startDay; i < lastDay; i++) {
-                    list.add(i);
+                for (int i = startDay; i <= lastDay; i++) {
+                    list.add(year + "-" + month + "-" + i);
+                    count++;
                 }
                 
                 if (month == 12) {
-                    
+                    month = 1;
+                    year++;
+                    ym = YearMonth.of(year, month);
                 } else {
                     month++;
                     ym = YearMonth.of(year, month);
-                    lastDay = ym.lengthOfMonth();
+                }
+                
+                lastDay = ym.lengthOfMonth();
+                for (int i = 1; i <= PAGE_SIZE - count; i++) {
+                    list.add(year + "-" + month + "-" + i);
                 }
             }
 
             map.put("list", list);
             map.put("year", year);
             map.put("month", month);
+            map.put("day", dayNow);
+            map.put("booking_date", year + "-" + month + "-" + dayNow);
             map.put("page", page);
 
         } catch (Exception e) {

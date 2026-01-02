@@ -13,26 +13,23 @@
 	height: 600px;
 }
 
-/* 날짜 영역 */
 .booking_date {
-  width: auto;
+	width: auto;
 	height: 8%;
 	background-color: #ffffff;
 }
 
 .booking_header {
 	height: 10%;
-  background-color: #ffffff;
+	background-color: #ffffff;
 }
 
-/* 아래 영역 전체 */
 .booking_bottom {
 	height: 80%;
-	display: flex; /* 가로 배치 */
-  background-color: #ffffff;
+	display: flex;
+	background-color: #ffffff;
 }
 
-/* 각각 박스 */
 .booking_movie {
 	width: 25%;
 	overflow-y: auto;
@@ -45,10 +42,25 @@
 
 .theater_name {
 	width: 13%;
+	overflow-y: auto;
 }
 
 .booking_schedule {
 	width: 50%;
+	overflow-y: auto;
+}
+
+.booking_data {
+	cursor: pointer;
+}
+
+.booking_data:hover,
+.booking_data:active {
+  background-color: #e0e0e0;
+}
+
+.pageBtn {
+	cursor: pointer;
 }
 
 .v-line {
@@ -80,27 +92,20 @@
 			<div class="row">
 				<div class="col-lg-12 booking_container">
 					<div class="booking_date text-center">
-					  <table class="table table-bordered">
-					    <tr>
-					      <td>
-					        {{ store.year }} / {{ store.month }} 월 
-					      </td>
-					      <td>
-					        <a class="" v-if="">&lt;</a>
-					      </td>
-					      <td v-for="(day, index) in store.date_list" :key="day">
-					        <div>
-                    {{ day }} 일
-					        </div>
-					      </td>
-                <td>
-                  <a class="" @click="">&gt;</a>
-                </td>
-                <td>
-                  <a class="">달력</a>
-                </td>
-					    </tr>
-					  </table>
+						<table class="table table-bordered">
+							<tr>
+								<td>{{ store.year }} / {{ store.month }} 월</td>
+								<td><a class="pageBtn"
+									@click="store.datePageChange(store.page - 1)">&lt;</a></td>
+								<td class="booking_data" v-for="day in store.date_list"
+									@click="store.booking_date = day, store.scheduleListData()"
+									:key="day">
+									{{ day.split('-')[2] }} 일</td>
+								<td><a class="pageBtn"
+									@click="store.datePageChange(store.page + 1)">&gt;</a></td>
+								<td><a class="">달력</a></td>
+							</tr>
+						</table>
 					</div>
 					<div class="booking_header">
 						<table class="table table-bordered">
@@ -115,11 +120,11 @@
 						</table>
 					</div>
 					<div class="booking_bottom">
-            <div class="v-line"></div>
+						<div class="v-line"></div>
 						<div class="booking_movie">
 							<table class="table">
 								<tbody>
-									<c:forEach var="i" begin="1" end="20">
+									<c:forEach var="i" begin="1" end="21">
 										<tr>
 											<td>영화 디비 데이터 반복문 사용</td>
 										</tr>
@@ -134,7 +139,8 @@
 						<div class="theater_region">
 							<table class="table">
 								<tbody>
-									<tr>
+									<tr v-if="true">
+										<!-- 로그인 여부 -->
 										<td>선호극장</td>
 									</tr>
 									<tr>
@@ -186,9 +192,13 @@
 									<tr>
 										<td></td>
 									</tr>
+									<tr>
+										<td></td>
+									</tr>
 								</tbody>
 							</table>
 						</div>
+						<div class="v-line"></div>
 					</div>
 				</div>
 			</div>
@@ -198,25 +208,25 @@
 	<script src="/teamjs/commons.js"></script>
 	<script src="/teamjs/bookingStore.js"></script>
 	<script>
-		const { createApp, onMounted } = Vue
-		const { createPinia } = Pinia
-		
-		const bookingApp = createApp({
-			setup() {
-				const store = useBookingStore()
-				
-				onMounted(() => {
-					store.dateListData()
-				})
-				
-				return {
-					store
-				}
-			}
-		})
-		
-		bookingApp.use(createPinia())
-		bookingApp.mount(".booking_container")
-	</script>
+    const { createApp, onMounted } = Vue
+    const { createPinia } = Pinia
+    
+    const bookingApp = createApp({
+      setup() {
+        const store = useBookingStore()
+        
+        onMounted(() => {
+          store.dateListData()
+        })
+        
+        return {
+          store
+        }
+      }
+    })
+    
+    bookingApp.use(createPinia())
+    bookingApp.mount(".booking_container")
+  </script>
 </body>
 </html>
