@@ -54,9 +54,8 @@
 	cursor: pointer;
 }
 
-.booking_data:hover,
-.booking_data:active {
-  background-color: #e0e0e0;
+.booking_data:hover, .pageBtn:hover {
+	background-color: #e0e0e0;
 }
 
 .pageBtn {
@@ -95,13 +94,13 @@
 						<table class="table table-bordered">
 							<tr>
 								<td>{{ store.year }} / {{ store.month }} 월</td>
-								<td><a class="pageBtn"
+								<td class="pageBtn"><a
 									@click="store.datePageChange(store.page - 1)">&lt;</a></td>
 								<td class="booking_data" v-for="day in store.date_list"
+									:class="{ 'table-active': store.booking_date === day }"
 									@click="store.booking_date = day, store.scheduleListData()"
-									:key="day">
-									{{ day.split('-')[2] }} 일</td>
-								<td><a class="pageBtn"
+									:key="day">{{ day.split('-')[2] }} 일</td>
+								<td class="pageBtn"><a
 									@click="store.datePageChange(store.page + 1)">&gt;</a></td>
 								<td><a class="">달력</a></td>
 							</tr>
@@ -141,7 +140,7 @@
 								<tbody>
 									<tr v-if="true">
 										<!-- 로그인 여부 -->
-										<td>선호극장</td>
+										<td>선호 극장</td>
 									</tr>
 									<tr>
 										<td>서울</td>

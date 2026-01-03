@@ -40,15 +40,33 @@ const useBookingStore = defineStore('booking', {
     
     datePageChange(page) {
       if (page == 0) {
+        alert('스케줄이 존재하지 않습니다')
         return
       }
       
       if (page == 4) {
+      alert('스케줄이 존재하지 않습니다')
         return
       }
 
       this.page = page
       this.dateListData()
+    },
+    
+    async movieListData() {
+      
+    },
+    
+    async theaterRegionData() {
+      
+    },
+    
+    async favoriteTheaterData() {
+      
+    },
+    
+    async theaterListData() {
+      
     },
     
     async scheduleListData() {
