@@ -1,18 +1,22 @@
 server:
   port: 8000
-
 spring:
   mvc:
-    view:
-      prefix: /WEB-INF/jsp/
-      suffix: .jsp
-
+   view:
+     prefix: /WEB-INF/views/
+     suffix: .jsp
   datasource:
-    url: jdbc:mysql://localhost:3306/test?serverTimezone=UTC&characterEncoding=UTF-8
-    username: root
-    password: test
-    driver-class-name: com.mysql.cj.jdbc.Driver
-
+    url: jdbc:oracle:thin:@//211.238.142.22:1521/XE
+    username: sist3
+    password: happy
+    driver-class-name: oracle.jdbc.OracleDriver
+    type: com.zaxxer.hikari.HikariDataSource
+    hikari:
+      minimum-idle: 5
+      maximum-pool-size: 10
+      idle-timeout: 3000
+      max-lifetime: 1800000 
+      connection-timeout: 30000
 mybatis:
   type-aliases-package: com.sist.web.vo
-  mapper-locations: classpath:mybatis/mapper/*.xml
+  mapper-locations: mybatis/mapper/*.xml
