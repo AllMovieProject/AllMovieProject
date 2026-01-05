@@ -15,11 +15,17 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.sist.web.service.BookingService;
+import com.sist.web.vo.MovieVO;
+import com.sist.web.vo.TheaterVO;
+
 import lombok.RequiredArgsConstructor;
 
 @RestController
 @RequiredArgsConstructor
 public class BookingRestController {
+    
+    private final BookingService bService;
 
     @GetMapping("booking/date_list/")
     public ResponseEntity<Map<String, Object>> booking_date_list(
@@ -31,7 +37,7 @@ public class BookingRestController {
         try {
             map = getDateList(year, month, page);
         } catch (Exception e) {
-            return new ResponseEntity<>(map, HttpStatus.OK);
+            return new ResponseEntity<>(null, HttpStatus.OK);
         }
 
         return new ResponseEntity<>(map, HttpStatus.OK);
@@ -104,5 +110,44 @@ public class BookingRestController {
         map.put("page", page);
 
         return map;
+    }
+    
+    @GetMapping("booking/movie_list/")
+    public ResponseEntity<List<MovieVO>> movie_list() {
+        List<MovieVO> list = new ArrayList<>();
+        
+        try {
+            list = bService.bookingAvailableMovieListData();
+        } catch (Exception e) {
+            return new ResponseEntity<>(null, HttpStatus.OK);
+        }
+
+        return new ResponseEntity<>(list, HttpStatus.OK);
+    }
+    
+    @GetMapping("booking/region_list/")
+    public ResponseEntity<List<TheaterVO>> region_list() {
+        List<TheaterVO> list = new ArrayList<>();
+        
+        try {
+            list = bService.theaterRegionListData();
+        } catch (Exception e) {
+            return new ResponseEntity<>(null, HttpStatus.OK);
+        }
+
+        return new ResponseEntity<>(list, HttpStatus.OK);
+    }
+    
+    @GetMapping("booking/theater_list/")
+    public ResponseEntity<List<TheaterVO>> theater_list(@RequestParam("no") int no) {
+        List<TheaterVO> list = new ArrayList<>();
+
+        try {
+            list = bService.theaterListData(no);
+        } catch (Exception e) {
+            return new ResponseEntity<>(null, HttpStatus.OK);
+        }
+
+        return new ResponseEntity<>(list, HttpStatus.OK);
     }
 }

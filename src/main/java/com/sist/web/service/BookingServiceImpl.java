@@ -1,5 +1,36 @@
 package com.sist.web.service;
 
-public class BookingServiceImpl {
+import java.util.List;
 
+import org.springframework.stereotype.Service;
+
+import com.sist.web.mapper.BookingMapper;
+import com.sist.web.vo.MovieVO;
+import com.sist.web.vo.TheaterVO;
+
+import lombok.RequiredArgsConstructor;
+
+@Service
+@RequiredArgsConstructor
+public class BookingServiceImpl implements BookingService {
+    private final BookingMapper mapper;
+
+    @Override
+    public List<MovieVO> bookingAvailableMovieListData() {
+        // TODO Auto-generated method stub
+        return mapper.bookingAvailableMovieListData();
+    }
+
+    @Override
+    public List<TheaterVO> theaterRegionListData() {
+        // TODO Auto-generated method stub
+        return mapper.theaterRegionListData();
+    }
+
+    @Override
+    public List<TheaterVO> theaterListData(int no) {
+        // TODO Auto-generated method stub
+        return mapper.theaterListData(no);
+    }
+    
 }

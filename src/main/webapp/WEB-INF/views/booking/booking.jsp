@@ -123,11 +123,12 @@
 						<div class="booking_movie">
 							<table class="table">
 								<tbody>
-									<c:forEach var="i" begin="1" end="21">
-										<tr>
-											<td>영화 디비 데이터 반복문 사용</td>
-										</tr>
-									</c:forEach>
+									<tr v-for="mvo in store.movie_list" :key="mvo.movie_id">
+										<td class="booking_data"
+											:class="{ 'table-active': store.booking_movie === mvo.title }"
+											@click="store.booking_movie = mvo.title, store.scheduleListData()">
+											{{ mvo.title }}</td>
+									</tr>
 									<tr>
 										<td></td>
 									</tr>
@@ -142,29 +143,11 @@
 										<!-- 로그인 여부 -->
 										<td>선호 극장</td>
 									</tr>
-									<tr>
-										<td>서울</td>
-									</tr>
-									<tr>
-										<td>경기</td>
-									</tr>
-									<tr>
-										<td>인천</td>
-									</tr>
-									<tr>
-										<td>대전/충청/세종</td>
-									</tr>
-									<tr>
-										<td>부산/대구/경상</td>
-									</tr>
-									<tr>
-										<td>광주/전라</td>
-									</tr>
-									<tr>
-										<td>강원</td>
-									</tr>
-									<tr>
-										<td>제주</td>
+									<tr v-for="rvo in store.region_list" :key="rvo.region_no">
+										<td class="booking_data"
+											:class="{ 'table-active': store.region_no === rvo.region_no }"
+											@click="store.theaterListData(rvo.region_no)">{{
+											rvo.theater_region }}</td>
 									</tr>
 									<tr>
 										<td></td>
@@ -176,11 +159,12 @@
 						<div class="theater_name">
 							<table class="table">
 								<tbody>
-									<tr>
-										<td>vue를 이용해 영화관 지역 클릭시 화면이 바뀌지 않게
-										<td>
+									<tr v-for="tvo in store.theater_list" :key="tvo.theater_id">
+										<td class="booking_data"
+											:class="{ 'table-active': store.booking_theater === tvo.theater_name }"
+											@click="store.booking_theater = tvo.theater_name, store.scheduleListData()">
+											{{tvo.theater_name }}</td>
 									</tr>
-									<!-- vue를 이용해 반복 -->
 								</tbody>
 							</table>
 						</div>
@@ -215,7 +199,9 @@
         const store = useBookingStore()
         
         onMounted(() => {
-          store.dateListData()
+          store.dateListData(),
+          store.movieListData(),
+          store.regionListData()
         })
         
         return {

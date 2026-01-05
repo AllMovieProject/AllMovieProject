@@ -25,7 +25,7 @@ public interface BookingMapper {
 	 */
     
     
-	@Select("SELECT DISTINCT m.title, m.rating FROM movie m, schedule s "
+	@Select("SELECT DISTINCT m.movie_id, m.title, m.rating FROM movie m, schedule s "
 		  + "WHERE m.movie_id = s.movie_id "
 	      + "AND s.schedule_date >= SYSDATE")
 	public List<MovieVO> bookingAvailableMovieListData();

@@ -5,11 +5,11 @@ const initialState = () => ({
   month: 0,
   day: 0,
   page: 1,
+  region_no: 0,
   date_list: [],
   movie_list: [],
   region_list: [],
   theater_list: [],
-  theater_region: null,
   booking_date: null,
   booking_movie: null,
   booking_theater: null
@@ -57,23 +57,31 @@ const useBookingStore = defineStore('booking', {
     },
     
     async movieListData() {
-      const res = await api.get('booking/movie_list')
+      const res = await api.get('booking/movie_list/')
       
       this.movie_list = res.data
     },
     
-    async theaterRegionListData() {
-      const res = await api.get('booking/region_list')
+    async regionListData() {
+      const res = await api.get('booking/region_list/')
       
       this.region_list = res.data
     },
     
     async favoriteTheaterData() {
-      
+
     },
     
-    async theaterListData() {
+    async theaterListData(no) {
+      this.region_no = no
       
+      const res = await api.get('booking/theater_list/', {
+        params: {
+          no: no
+        }
+      })
+
+      this.theater_list = res.data
     },
     
     async scheduleListData() {
