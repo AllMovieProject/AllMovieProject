@@ -1,6 +1,7 @@
 package com.sist.web.mapper;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
@@ -55,7 +56,8 @@ public interface BookingMapper {
 	      + "WHERE region_no = #{no} "
 	      + "ORDER BY theater_name ASC")
 	public List<TheaterVO> theaterListData(int no);
-	
+
+	public List<TheaterVO> dynamicTheaterListData(Map<String, Object> map);
 	/*
 	 * 날짜 영화 영화관 종합으로 받아서 스케줄 보여주기
 	 * 영화관은 무조건 들어가야 하므로 if문 하지 않아도 됨

@@ -4,6 +4,6 @@ import lombok.Data;
 
 @Data
 public class TheaterVO {
-	private int region_no, theater_lat, theater_lng;
+	private int region_no, theater_lat, theater_lng, count;
 	private String theater_id, theater_name, theater_region, theater_address;
 }

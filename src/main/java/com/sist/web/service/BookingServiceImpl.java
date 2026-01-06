@@ -1,6 +1,7 @@
 package com.sist.web.service;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.stereotype.Service;
 
@@ -31,6 +32,11 @@ public class BookingServiceImpl implements BookingService {
     public List<TheaterVO> theaterListData(int no) {
         // TODO Auto-generated method stub
         return mapper.theaterListData(no);
+    }
+
+    @Override
+    public List<TheaterVO> dynamicTheaterListData(Map<String, Object> map) {
+        return mapper.dynamicTheaterListData(map);
     }
     
 }

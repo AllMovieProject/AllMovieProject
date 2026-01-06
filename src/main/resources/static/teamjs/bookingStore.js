@@ -99,6 +99,6 @@ const useBookingStore = defineStore('booking', {
       console.log(this.booking_date)
       console.log(this.booking_movie)
       console.log(this.booking_theater)
-    }
+    },
   }
 })

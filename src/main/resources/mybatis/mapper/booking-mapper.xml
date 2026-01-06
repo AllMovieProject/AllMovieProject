@@ -3,12 +3,32 @@
  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.sist.web.mapper.BookingMapper">
-	<select id="dynamicMovieListData" resultType="MovieVO" parameterType="hashmap">
-		SELECT DISTINCT m.movie_id, m.title, m.rating FROM movie m, schedule s
-		WHERE m.movie_id = s.movie_id
-		AND s.screen_id = (SELECT screen.screen_id FROM screen, theater 
-											 WHERE theater_name = #{theater_name}
-											 AND theater.theater_id = screen.theater_id)
-	  AND s.schedule_date >= SYSDATE
-	</select>
+  <select id="dynamicMovieListData" resultType="MovieVO"
+    parameterType="hashmap">
+    SELECT DISTINCT m.movie_id, m.title, m.rating FROM movie m, schedule s
+    WHERE m.movie_id = s.movie_id
+    AND s.screen_id = (SELECT screen.screen_id FROM screen, theater
+    WHERE theater_name = #{theater_name}
+    AND theater.theater_id = screen.theater_id)
+    AND s.schedule_date >= SYSDATE
+  </select>
+
+  <select id="dynamicTheaterListData" resultType="TheaterVO"
+    parameterType="hashmap">
+    SELECT DISTINCT t.theater_id, t.theater_name
+    
+    FROM theater t
+    
+    JOIN schedule s ON s.theater_id = t.theater_id
+    LEFT JOIN movie m ON m.movie_id = s.movie_id
+    
+    <where>
+      t.theater_region = #{region}
+      AND s.schedule_date >= TO_DATE(#{date}, 'YYYY-MM-DD')
+      
+      <if test="movie != null">
+        AND m.movie_name = #{movie}
+      </if>
+    </where>
+  </select>
 </mapper>
