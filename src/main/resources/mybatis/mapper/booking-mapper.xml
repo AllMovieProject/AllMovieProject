@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+ "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sist.web.mapper.BookingMapper">
+	<select id="dynamicMovieListData" resultType="MovieVO" parameterType="hashmap">
+		SELECT DISTINCT m.movie_id, m.title, m.rating FROM movie m, schedule s
+		WHERE m.movie_id = s.movie_id
+		AND s.screen_id = (SELECT screen.screen_id FROM screen, theater 
+											 WHERE theater_name = #{theater_name}
+											 AND theater.theater_id = screen.theater_id)
+	  AND s.schedule_date >= SYSDATE
+	</select>
+</mapper>
