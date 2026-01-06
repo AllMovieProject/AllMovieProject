@@ -21,6 +21,17 @@ const initialState = () => ({
   영화관 값이 널이 아니라면 함수 실행해서 스케줄 띄우기
   (영화관만 클릭할 경우 default로 당일 스케줄 띄우기)
   스케줄을 클릭하고 예매 버튼을 클릭하면 스케줄의 데이터만 넘어가도 됨
+	
+	
+	26/1/6
+	
+	영화관 값이 null이 아니면 다른 함수 실행하게 
+	영화가 선택되면 -> theater 실행
+	영화관이 실행되면 -> movie 실행 
+	영화관이 있을 때만 스케줄 실행 (이건 기존 방식으로 하면 괜찮다)
+	
+	movieListData()에 분기 걸어서 
+	theaterListData() 또한 분기로 처리 기존거 available도 해야함, 날짜까지 가져와야 함
 */
 
 const useBookingStore = defineStore('booking', {

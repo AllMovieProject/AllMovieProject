@@ -37,7 +37,7 @@ public class BookingRestController {
         try {
             map = getDateList(year, month, page);
         } catch (Exception e) {
-            return new ResponseEntity<>(null, HttpStatus.OK);
+            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
 
         return new ResponseEntity<>(map, HttpStatus.OK);
