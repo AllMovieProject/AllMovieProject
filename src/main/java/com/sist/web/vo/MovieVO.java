@@ -4,7 +4,8 @@ import lombok.Data;
 
 @Data
 public class MovieVO {
-	private int movie_id, runtime;
-	private String title, director, actor, nation, company, prod_year, plot,
+	private int movie_id, runtime, likeCount, reviewCount;
+	private String title, director, actor, nation, company, prod_year, plot, kmdb_url,
 		rating, genre, release_date, keywords, poster_url, still_url;
+	
 }
