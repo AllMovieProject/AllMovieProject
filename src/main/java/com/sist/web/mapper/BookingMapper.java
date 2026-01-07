@@ -41,6 +41,9 @@ public interface BookingMapper {
 	 *   	영화를 <if 사용해서 없을 경우에는 극장 전체지만 영화가 있으면 그거에 따라서
 	 *   		+ 날짜까지 오늘 날짜로 store에 변경 (날짜 페이지 함수 클릭이나 다른 함수 클릭할 때마다 날짜 초기화)
 	 *   	theatervo에 count 추가해서 (theater region과 theater_name 분리하면 편하긴 할 듯)
+	 *   
+	 *   1/7
+	 *   
 	 */
     
     

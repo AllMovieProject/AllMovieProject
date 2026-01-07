@@ -193,11 +193,16 @@ public class BookingRestController {
         map.put("region", region);
         List<TheaterVO> theater_list = bService.dynamicTheaterListData(map);
         
-        // for 문으로 available 당 count++ (이중?)
         for (TheaterVO vo:region_list) {
-            vo.setCount(0);
+        	vo.setCount(0);
+        	
+            for (TheaterVO tvo:theater_list) {
+            	if(vo.getRegion_no() == tvo.getRegion_no()) {
+            		vo.setCount(vo.getCount() + 1);;
+            	}
+            }
         }
-        // available ??
+
         map = new HashMap<>();
         map.put("region_list", region_list);
         
