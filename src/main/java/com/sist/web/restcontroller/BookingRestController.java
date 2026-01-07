@@ -153,24 +153,24 @@ public class BookingRestController {
 
     @GetMapping("/booking/data_vue/")
     public ResponseEntity<Map<String, Object>> booking_datas(@RequestParam(name = "date", required = false) String date,
-            @RequestParam(name = "movie", required = false) String movie,
-            @RequestParam(name = "region", required = false) String region,
+            @RequestParam(name = "movie", required = false) int movie,
+            @RequestParam(name = "region", required = false) int region,
             @RequestParam(name = "theater", required = false) String theater) {
         Map<String, Object> map = new HashMap<>();
 
         try {
-            // 체크박스 느낌으로 동적쿼리 사용 복잡하게 생각하지 말기 
-            map.putAll(getDateList(movie, theater));
+            map.putAll(getDateList(date, movie));
             map.putAll(getMovieList(date, theater));
             map.putAll(getTheaterList(date, movie, region));
         } catch (Exception e) {
+            e.printStackTrace();
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
 
         return new ResponseEntity<>(map, HttpStatus.OK);
     }
     
-    private Map<String, Object> getDateList(String date, String movie) {
+    private Map<String, Object> getDateList(String date, int movie) {
         Map<String, Object> map = new HashMap<>();
         // 날짜도 많이 가져오지 말고 맨 마지막 날짜까지
         map.put("date", "date");
@@ -179,11 +179,18 @@ public class BookingRestController {
     
     private Map<String, Object> getMovieList(String date, String theater) {
         Map<String, Object> map = new HashMap<>();
-        map.put("movie", "movie");
+        
+        map.put("date", date);
+        map.put("theater", theater);
+        List<MovieVO> movie_list = bService.dynamicMovieListData(map);
+        
+        map = new HashMap<>();
+        map.put("movie_list", movie_list);
+        
         return map;
     }
     
-    private Map<String, Object> getTheaterList(String date, String movie, String region) {
+    private Map<String, Object> getTheaterList(String date, int movie, int region) {
         Map<String, Object> map = new HashMap<>();
         
         List<TheaterVO> region_list = bService.theaterRegionListData();
@@ -198,7 +205,7 @@ public class BookingRestController {
         	
             for (TheaterVO tvo:theater_list) {
             	if(vo.getRegion_no() == tvo.getRegion_no()) {
-            		vo.setCount(vo.getCount() + 1);;
+            		vo.setCount(vo.getCount() + 1);
             	}
             }
         }
@@ -206,7 +213,7 @@ public class BookingRestController {
         map = new HashMap<>();
         map.put("region_list", region_list);
         
-        if (region != null) {
+        if (region != 0) {
             map.put("theater_list", theater_list);
         }
         

@@ -35,6 +35,11 @@ public class BookingServiceImpl implements BookingService {
     }
 
     @Override
+    public List<MovieVO> dynamicMovieListData(Map<String, Object> map) {
+        return mapper.dynamicMovieListData(map);
+    }
+
+    @Override
     public List<TheaterVO> dynamicTheaterListData(Map<String, Object> map) {
         return mapper.dynamicTheaterListData(map);
     }

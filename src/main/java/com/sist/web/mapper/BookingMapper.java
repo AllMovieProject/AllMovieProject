@@ -60,6 +60,8 @@ public interface BookingMapper {
 	      + "ORDER BY theater_name ASC")
 	public List<TheaterVO> theaterListData(int no);
 
+	public List<MovieVO> dynamicMovieListData(Map<String, Object> map);
+
 	public List<TheaterVO> dynamicTheaterListData(Map<String, Object> map);
 	/*
 	 * 날짜 영화 영화관 종합으로 받아서 스케줄 보여주기

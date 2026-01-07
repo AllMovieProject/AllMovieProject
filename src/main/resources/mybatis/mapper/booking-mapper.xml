@@ -5,22 +5,20 @@
 <mapper namespace="com.sist.web.mapper.BookingMapper">
   <select id="dynamicMovieListData" resultType="MovieVO"
     parameterType="hashmap">
-		SELECT DISTINCT m.title, m.movie_id
-		FROM movie m
-		
-		JOIN screen sc
-  		ON sc.theater_id = t.theater_id
-		JOIN schedule s
-  		ON s.screen_id = sc.screen_id
-		JOIN movie m
-  		ON m.movie_id = s.movie_id
-		
-		<where>
-			s.schedule_date >= SYSDATE
-			<if test="theater != null and theater != ''">
-				AND t.theater_id = #{theater}
-			</if>
-		</where>
+		SELECT DISTINCT m.movie_id, m.title, m.rating
+    FROM movie m
+    
+    JOIN schedule s
+      ON s.movie_id = m.movie_id
+    JOIN screen sc
+      ON sc.screen_id = s.screen_id
+    JOIN theater t
+      ON t.theater_id = sc.theater_id
+    
+    WHERE s.schedule_date >= SYSDATE
+    <if test="theater != null and theater != ''">
+      AND t.theater_id = #{theater}
+    </if>
   </select>
 
   <select id="dynamicTheaterListData" resultType="TheaterVO"
@@ -36,11 +34,13 @@
   		ON m.movie_id = s.movie_id
   	
   	<where>
-  		t.theater_region = #{region}
-  		AND s.schedule_date >= SYSDATE
-  		<if test="movie != null and movie != ''">
+  		s.schedule_date >= SYSDATE
+  		<if test="movie != null and movie != 0">
   			AND m.movie_id = #{movie}
   		</if>
+      <if test="region != null and region != 0">
+        AND t.region_no = #{region}
+      </if>
   	</where>
   </select>
 </mapper>

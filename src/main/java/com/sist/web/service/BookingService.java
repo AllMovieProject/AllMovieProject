@@ -14,5 +14,7 @@ public interface BookingService {
     
     public List<TheaterVO> theaterListData(int no);
     
+    public List<MovieVO> dynamicMovieListData(Map<String, Object> map);
+    
     public List<TheaterVO> dynamicTheaterListData(Map<String, Object> map);
 }
