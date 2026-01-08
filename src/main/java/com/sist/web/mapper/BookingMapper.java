@@ -8,6 +8,7 @@ import org.apache.ibatis.annotations.Select;
 import org.springframework.stereotype.Repository;
 
 import com.sist.web.vo.MovieVO;
+import com.sist.web.vo.ScheduleVO;
 import com.sist.web.vo.TheaterVO;
 
 @Mapper
@@ -59,6 +60,8 @@ public interface BookingMapper {
 	      + "WHERE region_no = #{no} "
 	      + "ORDER BY theater_name ASC")
 	public List<TheaterVO> theaterListData(int no);
+	
+	public List<ScheduleVO> dynamicDateListData(Map<String, Object> map);
 
 	public List<MovieVO> dynamicMovieListData(Map<String, Object> map);
 
