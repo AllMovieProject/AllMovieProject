@@ -18,21 +18,9 @@ public class BookingServiceImpl implements BookingService {
     private final BookingMapper mapper;
 
     @Override
-    public List<MovieVO> bookingAvailableMovieListData() {
-        // TODO Auto-generated method stub
-        return mapper.bookingAvailableMovieListData();
-    }
-
-    @Override
     public List<TheaterVO> theaterRegionListData() {
         // TODO Auto-generated method stub
         return mapper.theaterRegionListData();
-    }
-
-    @Override
-    public List<TheaterVO> theaterListData(int no) {
-        // TODO Auto-generated method stub
-        return mapper.theaterListData(no);
     }
 
 	@Override

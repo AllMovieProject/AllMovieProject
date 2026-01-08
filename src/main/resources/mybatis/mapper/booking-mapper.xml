@@ -17,11 +17,13 @@
     
     WHERE s.schedule_date >= SYSDATE
     <if test="movie != null and movie != 0">
-    	AND m.movie_id = #{movie_id}
+    	AND m.movie_id = #{movie}
     </if>
     <if test="theater != null and theater != ''">
-    	AND t.theater_name = #{theater}
+    	AND t.theater_id = #{theater}
     </if>
+    
+    ORDER BY sday ASC
   </select>
   
   <select id="dynamicMovieListData" resultType="MovieVO"
@@ -37,14 +39,19 @@
       ON t.theater_id = sc.theater_id
     
     WHERE s.schedule_date >= SYSDATE
+    <if test="region != null and region != 0">
+      AND t.region_no = #{region}
+    </if>
     <if test="theater != null and theater != ''">
       AND t.theater_id = #{theater}
     </if>
+    
+    ORDER BY m.title ASC
   </select>
 
   <select id="dynamicTheaterListData" resultType="TheaterVO"
     parameterType="hashmap">
-    SELECT DISTINCT t.theater_name, t.theater_id
+    SELECT DISTINCT t.theater_name, t.theater_id, t.region_no
 		FROM theater t
 		
 		JOIN screen sc
@@ -54,15 +61,12 @@
 		JOIN movie m
   		ON m.movie_id = s.movie_id
   	
-  	<where>
-  		s.schedule_date >= SYSDATE
-  		<if test="movie != null and movie != 0">
-  			AND m.movie_id = #{movie}
-  		</if>
-      <if test="region != null and region != 0">
-        AND t.region_no = #{region}
-      </if>
-  	</where>
+  	WHERE s.schedule_date >= SYSDATE
+  	<if test="movie != null and movie != 0">
+  	  AND m.movie_id = #{movie}
+  	</if>
+    
+    ORDER BY t.theater_name ASC
   </select>
   
   <resultMap type="MovieVO" id="movieMap">

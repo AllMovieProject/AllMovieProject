@@ -8,13 +8,9 @@ import com.sist.web.vo.ScheduleVO;
 import com.sist.web.vo.TheaterVO;
 
 public interface BookingService {
-    
-    public List<MovieVO> bookingAvailableMovieListData();
-    
+
     public List<TheaterVO> theaterRegionListData();
-    
-    public List<TheaterVO> theaterListData(int no);
-    
+
 	public List<ScheduleVO> dynamicDateListData(Map<String, Object> map);
     
     public List<MovieVO> dynamicMovieListData(Map<String, Object> map);

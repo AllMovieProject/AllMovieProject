@@ -28,22 +28,6 @@ public class BookingRestController {
 
     private final BookingService bService;
 
-    @GetMapping("booking/date_list/")
-    public ResponseEntity<Map<String, Object>> booking_date_list(
-            @RequestParam(name = "year", required = false) Integer year,
-            @RequestParam(name = "month", required = false) Integer month, @RequestParam("page") Integer page) {
-
-        Map<String, Object> map = new HashMap<>();
-
-        try {
-            map = getDateList1(year, month, page);
-        } catch (Exception e) {
-            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-
-        return new ResponseEntity<>(map, HttpStatus.OK);
-    }
-
     private Map<String, Object> getDateList1(Integer year, Integer month, int page) {
 
         Map<String, Object> map = new HashMap<>();
@@ -113,45 +97,6 @@ public class BookingRestController {
         return map;
     }
 
-    @GetMapping("booking/movie_list/")
-    public ResponseEntity<List<MovieVO>> movie_list() {
-        List<MovieVO> list = new ArrayList<>();
-
-        try {
-            list = bService.bookingAvailableMovieListData();
-        } catch (Exception e) {
-            return new ResponseEntity<>(null, HttpStatus.OK);
-        }
-
-        return new ResponseEntity<>(list, HttpStatus.OK);
-    }
-
-    @GetMapping("booking/region_list/")
-    public ResponseEntity<List<TheaterVO>> region_list() {
-        List<TheaterVO> list = new ArrayList<>();
-
-        try {
-            list = bService.theaterRegionListData();
-        } catch (Exception e) {
-            return new ResponseEntity<>(null, HttpStatus.OK);
-        }
-
-        return new ResponseEntity<>(list, HttpStatus.OK);
-    }
-
-    @GetMapping("booking/theater_list/")
-    public ResponseEntity<List<TheaterVO>> theater_list(@RequestParam("no") int no) {
-        List<TheaterVO> list = new ArrayList<>();
-
-        try {
-            list = bService.theaterListData(no);
-        } catch (Exception e) {
-            return new ResponseEntity<>(null, HttpStatus.OK);
-        }
-
-        return new ResponseEntity<>(list, HttpStatus.OK);
-    }
-
     @GetMapping("/booking/data_vue/")
     public ResponseEntity<Map<String, Object>> booking_datas(@RequestParam(name = "date", required = false) String date,
             @RequestParam(name = "movie", required = false) int movie,
@@ -161,7 +106,7 @@ public class BookingRestController {
 
         try {
             map.putAll(getDateList(movie, theater));
-            map.putAll(getMovieList(date, theater));
+            map.putAll(getMovieList(date, region, theater));
             map.putAll(getTheaterList(date, movie, region));
         } catch (Exception e) {
             e.printStackTrace();
@@ -183,10 +128,11 @@ public class BookingRestController {
         return map;
     }
     
-    private Map<String, Object> getMovieList(String date, String theater) {
+    private Map<String, Object> getMovieList(String date, int region, String theater) {
         Map<String, Object> map = new HashMap<>();
         
         map.put("date", date);
+        map.put("region", region);
         map.put("theater", theater);
         List<MovieVO> movie_list = bService.dynamicMovieListData(map);
         
@@ -206,22 +152,19 @@ public class BookingRestController {
         map.put("region", region);
         List<TheaterVO> theater_list = bService.dynamicTheaterListData(map);
         
-        for (TheaterVO vo:region_list) {
-        	vo.setCount(0);
-        	
-            for (TheaterVO tvo:theater_list) {
-            	if(vo.getRegion_no() == tvo.getRegion_no()) {
-            		vo.setCount(vo.getCount() + 1);
-            	}
-            }
+        Map<Integer, Integer> countMap = new HashMap<>();
+
+        for (TheaterVO tvo : theater_list) {
+            countMap.put(tvo.getRegion_no(), countMap.getOrDefault(tvo.getRegion_no(), 0) + 1);
+        }
+
+        for (TheaterVO vo : region_list) {
+            vo.setCount(countMap.getOrDefault(vo.getRegion_no(), 0));
         }
 
         map = new HashMap<>();
         map.put("region_list", region_list);
-        
-        if (region != 0) {
-            map.put("theater_list", theater_list);
-        }
+        map.put("theater_list", theater_list);
         
         return map;
     }

@@ -57,6 +57,7 @@ const useBookingStore = defineStore('booking', {
 				this.booking_region = 0
 			} else {
 				this.booking_region = region
+        this.booking_theater = ''
 			}
 			
 			this.bookingListData()
@@ -73,10 +74,10 @@ const useBookingStore = defineStore('booking', {
 		},
     
     async scheduleListData() {
-      console.log(this.booking_date)
-      console.log(this.booking_movie)
-      console.log(this.booking_region)
-      console.log(this.booking_theater)
+      console.log('date:' + this.booking_date)
+      console.log('movie:' + this.booking_movie)
+      console.log('region:' + this.booking_region)
+      console.log('theater' + this.booking_theater)
       
       if (this.booking_theater === '') {
         return
