@@ -92,7 +92,9 @@
           <div class="booking_date text-center">
             <table class="table table-bordered">
               <tr>
-                <td></td>
+                <td v-for="dvo in store.datas.date_list" :key="dvo.sday">
+                  {{ dvo.sday.split('-')[2] }} 일
+                </td>
               </tr>
             </table>
           </div>
@@ -114,7 +116,8 @@
               <table class="table">
                 <tbody>
                   <tr v-for="mvo in store.datas.movie_list" :key="mvo.movie_id">
-                    <td class="booking_data" @click="store.movieUpdate(mvo.movie_id)">
+                    <td class="booking_data" :class="{' table-active': store.booking_movie === mvo.movie_id }"
+                     @click="store.movieUpdate(mvo.movie_id)">
                       {{ mvo.title }}</td>
                   </tr>
                   <tr>
@@ -132,7 +135,8 @@
                     <td>선호 극장</td>
                   </tr>
                   <tr v-for="rvo in store.datas.region_list" :key="rvo.region_no">
-                    <td class="booking_data" @click="store.regionUpdate(rvo.region_no)">
+                    <td class="booking_data" :class="{' table-active': store.booking_region === rvo.region_no }"
+                     @click="store.regionUpdate(rvo.region_no)">
                       {{ rvo.theater_region }}&nbsp;({{ rvo.count }})</td>
                   </tr>
                   <tr>
@@ -146,9 +150,11 @@
               <table class="table">
                 <tbody>
                   <tr v-for="tvo in store.datas.theater_list" :key="tvo.theater_id">
-                    <td class="booking_data" @click="store.theaterUpdate(tvo.theater_id)">
+                    <td class="booking_data"  :class="{' table-active': store.booking_theater === tvo.theater_id }"
+                     @click="store.theaterUpdate(tvo.theater_id)">
                       {{tvo.theater_name }}</td>
                   </tr>
+                  <tr><td></td></tr>
                 </tbody>
               </table>
             </div>
@@ -159,9 +165,7 @@
                   <tr>
                     <td></td>
                   </tr>
-                  <tr>
-                    <td></td>
-                  </tr>
+                  <tr><td></td></tr>
                 </tbody>
               </table>
             </div>

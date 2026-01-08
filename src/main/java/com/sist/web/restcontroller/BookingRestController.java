@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.sist.web.service.BookingService;
 import com.sist.web.vo.MovieVO;
+import com.sist.web.vo.ScheduleVO;
 import com.sist.web.vo.TheaterVO;
 
 import lombok.RequiredArgsConstructor;
@@ -159,7 +160,7 @@ public class BookingRestController {
         Map<String, Object> map = new HashMap<>();
 
         try {
-            map.putAll(getDateList(date, movie));
+            map.putAll(getDateList(movie, theater));
             map.putAll(getMovieList(date, theater));
             map.putAll(getTheaterList(date, movie, region));
         } catch (Exception e) {
@@ -170,10 +171,15 @@ public class BookingRestController {
         return new ResponseEntity<>(map, HttpStatus.OK);
     }
     
-    private Map<String, Object> getDateList(String date, int movie) {
+    private Map<String, Object> getDateList(int movie, String theater) {
         Map<String, Object> map = new HashMap<>();
-        // 날짜도 많이 가져오지 말고 맨 마지막 날짜까지
-        map.put("date", "date");
+        
+        map.put("movie", movie);
+        map.put("theater", theater);
+        List<ScheduleVO> date_list = bService.dynamicDateListData(map);
+        
+        map = new HashMap<>();
+        map.put("date_list", date_list);
         return map;
     }
     

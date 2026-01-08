@@ -3,6 +3,27 @@
  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.sist.web.mapper.BookingMapper">
+  <select id="dynamicDateListData" resultType="ScheduleVO"
+    parameterType="hashmap">
+		SELECT DISTINCT TO_CHAR(s.schedule_date, 'yyyy-mm-dd') as sday
+    FROM schedule s
+    
+    JOIN screen sc
+    	ON s.screen_id = sc.screen_id
+    JOIN theater t
+    	ON t.theater_id = sc.theater_id
+    JOIN movie m
+    	ON m.movie_id = s.movie_id
+    
+    WHERE s.schedule_date >= SYSDATE
+    <if test="movie != null and movie != 0">
+    	AND m.movie_id = #{movie_id}
+    </if>
+    <if test="theater != null and theater != ''">
+    	AND t.theater_name = #{theater}
+    </if>
+  </select>
+  
   <select id="dynamicMovieListData" resultType="MovieVO"
     parameterType="hashmap">
 		SELECT DISTINCT m.movie_id, m.title, m.rating
@@ -43,4 +64,22 @@
       </if>
   	</where>
   </select>
+  
+  <resultMap type="MovieVO" id="movieMap">
+  	<result property="mvo.title" column="title" />
+  	<result property="mvo.movie_type" column="movie_type" />
+  	<result property="mvo.runtime" column="runtime" />
+  </resultMap>
+  
+  <resultMap type="TheaterVO" id="theaterMap">
+  	<result property="tvo.theater_name" column="theater_name" />
+  </resultMap>
+  
+  <resultMap type="SeatVO" id="screenMap">
+  	<result property="svo.screen_name" column="screen_name"/>
+  </resultMap>
+  
+  <resultMap type="ScheduleSeatVO" id="seatVO">
+  
+  </resultMap>
 </mapper>
