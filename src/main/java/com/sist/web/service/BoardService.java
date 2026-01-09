@@ -6,6 +6,8 @@ import java.util.Map;
 import com.sist.web.vo.BoardVO;
 
 public interface BoardService {
-	public List<BoardVO> boradListData(int start);
+	public List<BoardVO> boardListData(int start);
 	public int boardTotalPage();
+	public void boardInsert(BoardVO vo);	
+	public BoardVO boardDetailData(int bno);
 }

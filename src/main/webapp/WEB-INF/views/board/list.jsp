@@ -8,79 +8,86 @@
 <title>Insert title here</title>
 </head>
 <body>
-	<!-- Breadcrumb Begin -->
-    <div class="breadcrumb-option">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-12">
-                    <div class="breadcrumb__links">
-                        <a href="/"><i class="fa fa-home"></i> Home</a>
-                        <a href="./categories.html">이벤트 및 공지사항</a>
-                        <span>공지사항</span>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- Breadcrumb End -->
+	<div class="breadcrumb-option">
+		<div class="container">
+			<div class="row">
+				<div class="col-lg-12">
+					<div class="breadcrumb__links">
+						<a href="/"><i class="fa fa-home"></i> Home</a>
+						<a href="./categories.html">이벤트 및 공지사항</a>
+						<span>공지사항</span>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+		
+	<div class="product__page__content">
+		<div class="product__page__title">
+			<div class="row">
+				<div class="col-lg-8">
+				<div class="section-title">
+					<h4>공지사항</h4>
+				</div>
+				</div>				
+				<!-- 관리자만 글쓰기 -->
+				<c:if test="${sessionScope.admin eq 'y'}">
+					<div class="col-lg-4 text-right">
+						<a href="/board/insert" class="btn btn-sm btn-danger">글쓰기</a>
+					</div>
+				</c:if>
+			</div>
+		</div>
+		
+		<table class="table table-bordered table-hover">
+			<thead class="text-center">
+				<tr>
+					<th width="10%">번호</th>
+					<th width="40%">제목</th>
+					<th width="15%">작성자</th>
+					<th width="15%">등록일</th>
+					<th width="10%">조회수</th>
+				</tr>
+			</thead>
+			<tbody>
+				<c:forEach var="vo" items="${list}">
+					<tr>
+						<td class="text-center">${vo.bno}</td>
+						<td>
+							<a href="/board/detail?bno=${vo.bno}">
+								${vo.bsubject}
+							</a>
+						</td>
+						<td class="text-center">${vo.id}</td>
+						<td class="text-center">
+							<fmt:formatDate value="${vo.dbday}" pattern="yyyy-MM-dd"/>
+						</td>
+						<td class="text-center">${vo.bhit}</td>
+					</tr>
+				</c:forEach>
+			</tbody>
+		</table>
+	</div>
 
-    <!-- Product Section Begin -->
-    <section class="product-page spad">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-8">
-                    <div class="product__page__content">
-                        <div class="product__page__title">
-                            <div class="row">
-                                <div class="col-lg-8 col-md-8 col-sm-6">
-                                    <div class="section-title">
-                                        <h4>공지사항</h4>
-                                    </div>
-                                </div>
-                                <div class="col-lg-4 col-md-4 col-sm-6">
-                                    <div class="product__page__filter">
-                                        <p>Order by:</p>
-                                        <select>
-                                            <option value="">A-Z</option>
-                                            <option value="">1-10</option>
-                                            <option value="">10-50</option>
-                                        </select>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-lg-4 col-md-6 col-sm-6">
-                                <div class="product__item">
-                                    <div class="product__item__pic set-bg" data-setbg="img/popular/popular-1.jpg">
-                                        <div class="ep">18 / 18</div>
-                                        <div class="comment"><i class="fa fa-comments"></i> 11</div>
-                                        <div class="view"><i class="fa fa-eye"></i> 9141</div>
-                                    </div>
-                                    <div class="product__item__text">
-                                        <ul>
-                                            <li>Active</li>
-                                            <li>Movie</li>
-                                        </ul>
-                                        <h5><a href="#">Sen to Chihiro no Kamikakushi</a></h5>
-                                    </div>
-                                </div>
-                            </div>                          
-                        </div>
-                    </div>
-                    <div class="product__pagination text-center">
-                        <a href="#" class="current-page">1</a>
-                        <a href="#">2</a>
-                        <a href="#">3</a>
-                        <a href="#">4</a>
-                        <a href="#">5</a>
-                        <a href="#"><i class="fa fa-angle-double-right"></i></a>
-                    </div>
-                </div>
-</div>
-</div>
-</section>
-<!-- Product Section End -->
+	<div class="product__pagination text-center">
+    <ul class="pagination justify-content-center">        
+    	<c:if test="${startPage > 1}">
+        <li class="page-item">
+            <a class="page-link" href="/board/list?page=${startPage - 1}">이전<i class="fa fa-angle-double-left"></i></a>
+        </li>
+      </c:if>
+      <c:forEach var="i" begin="${startPage}" end="${endPage}">
+          <li class="page-item ${i == curpage ? 'active' : ''}">
+              <a class="page-link" href="/board/list?page=${i}">${i}</a>
+          </li>
+      </c:forEach>
+      <c:if test="${endPage < totalpage}">
+          <li class="page-item">
+              <a class="page-link" href="/board/list?page=${endPage + 1}">다음<i class="fa fa-angle-double-right"></i></a>
+          </li>
+      </c:if>
+  	</ul>
+	</div>
 	
 </body>
 </html>

@@ -9,10 +9,11 @@ import lombok.Data;
 	BCONTENT	CLOB
 	BREGDATE	DATE
 	BHIT		NUMBER
+	ID			VARCHAR2(20 BYTE)
  */
 @Data
 public class BoardVO {
 	private int bno, bcate, bhit;
-	private String bsubject, bcontent;
-	private Date bregdate;
+	private String id, bsubject, bcontent;
+	private Date bregdate;	
 }
