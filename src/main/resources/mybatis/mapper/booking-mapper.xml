@@ -79,11 +79,13 @@
   	<result property="tvo.theater_name" column="theater_name" />
   </resultMap>
   
-  <resultMap type="SeatVO" id="screenMap">
+  <resultMap type="ScreenVO" id="screenMap">
   	<result property="svo.screen_name" column="screen_name"/>
   </resultMap>
   
   <resultMap type="ScheduleSeatVO" id="seatVO">
-  
+  	<result property="ssvo.reservation_flag" column="reservation_flag" />
   </resultMap>
+  
+  <select id="dynamicScheduleListData"></select>
 </mapper>

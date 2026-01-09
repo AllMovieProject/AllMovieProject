@@ -11,7 +11,7 @@ import java.util.StringTokenizer;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -27,8 +27,9 @@ import lombok.RequiredArgsConstructor;
 public class BookingRestController {
 
     private final BookingService bService;
+    final int date_len = 10;
 
-    private Map<String, Object> getDateList1(Integer year, Integer month, int page) {
+    private Map<String, Object> getDateList1(Integer year, Integer month, Integer page) {
 
         Map<String, Object> map = new HashMap<>();
         List<String> list = new ArrayList<>();
@@ -97,15 +98,16 @@ public class BookingRestController {
         return map;
     }
 
-    @GetMapping("/booking/data_vue/")
+    @PostMapping("/booking/data_vue/")
     public ResponseEntity<Map<String, Object>> booking_datas(@RequestParam(name = "date", required = false) String date,
-            @RequestParam(name = "movie", required = false) int movie,
-            @RequestParam(name = "region", required = false) int region,
-            @RequestParam(name = "theater", required = false) String theater) {
+            @RequestParam(name = "movie", required = false) Integer movie,
+            @RequestParam(name = "region", required = false) Integer region,
+            @RequestParam(name = "theater", required = false) String theater,
+            @RequestParam(name = "page", required = false) Integer page) {
         Map<String, Object> map = new HashMap<>();
 
         try {
-            map.putAll(getDateList(movie, theater));
+            map.putAll(getDateList(movie, theater, page));
             map.putAll(getMovieList(date, region, theater));
             map.putAll(getTheaterList(date, movie, region));
         } catch (Exception e) {
@@ -116,19 +118,72 @@ public class BookingRestController {
         return new ResponseEntity<>(map, HttpStatus.OK);
     }
     
-    private Map<String, Object> getDateList(int movie, String theater) {
+    private Map<String, Object> getDateList(Integer movie, String theater, Integer page) {
+    	if (page == null) {
+    		page = 1;
+    	}
         Map<String, Object> map = new HashMap<>();
         
         map.put("movie", movie);
         map.put("theater", theater);
         List<ScheduleVO> date_list = bService.dynamicDateListData(map);
-        
         map = new HashMap<>();
+        
+        ScheduleVO firstVO = date_list.get(0);
+        ScheduleVO lastVO = date_list.get(date_list.size() - 1);
+        
+        //int startDay = Integer.parseInt(firstVO.getSday().split("-")[2]);
+        //int endDay = Integer.parseInt(lastVO.getSday().split("-")[2]);
+        
+        
+        int startDay = 0 + (page - 1) * 10;
+        int endDay = date_len + (page - 1) * 10;
+        
+        // date_list에서 endDay 이후까지 다 잘라내면 끝
+        
+        if (date_list.size() < date_len) {
+        	date_list = addDateData(date_list);
+        }
+
+        date_list = date_list.subList(startDay, endDay);
+        
         map.put("date_list", date_list);
         return map;
     }
     
-    private Map<String, Object> getMovieList(String date, int region, String theater) {
+    private List<ScheduleVO> addDateData(List<ScheduleVO> list) {
+    	List<ScheduleVO> date_list = list;
+    	
+    	StringTokenizer st = new StringTokenizer(date_list.get(date_list.size() - 1).getSday(), "-");
+    	int year = Integer.parseInt(st.nextToken());
+    	int month = Integer.parseInt(st.nextToken());
+    	int day = Integer.parseInt(st.nextToken());
+
+        YearMonth ym = YearMonth.of(year, month);
+        int lastDay = ym.lengthOfMonth();
+        int count = 0;
+        
+        for (int i = day + 1; i <= lastDay; i++) {
+        	ScheduleVO vo = new ScheduleVO();
+        	vo.setSday("--일정 없음");
+        	vo.setAvailable(0);
+        	date_list.add(vo);
+        	count++;
+        	
+        	if (date_list.size() == date_len) {
+        		break;
+        	}
+        }
+        
+        if (count < date_len - date_list.size()) {
+        	// 달이 바뀌거나 연도가 바뀌어서 일자가 다 못 들어간거임
+        	// 중간 중간 값이 없을 수도 있으니 available로 
+        }
+    	
+    	return date_list;
+    }
+    
+    private Map<String, Object> getMovieList(String date, Integer region, String theater) {
         Map<String, Object> map = new HashMap<>();
         
         map.put("date", date);
@@ -142,7 +197,7 @@ public class BookingRestController {
         return map;
     }
     
-    private Map<String, Object> getTheaterList(String date, int movie, int region) {
+    private Map<String, Object> getTheaterList(String date, Integer movie, Integer region) {
         Map<String, Object> map = new HashMap<>();
         
         List<TheaterVO> region_list = bService.theaterRegionListData();

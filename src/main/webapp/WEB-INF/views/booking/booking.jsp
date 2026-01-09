@@ -10,6 +10,9 @@
 	background-color: white;
 	width: 100%;
 	height: 600px;
+	border-style: solid;
+	border-width: 1px;
+	border-color: gray;
 }
 
 .booking_date {
@@ -187,7 +190,7 @@
 	</section>
 	<!-- Signup Section End -->
 	<script src="/teamjs/commons.js"></script>
-	<script src="/teamjs/bookingStore.js"></script>
+	<script src="/teamjs/booking/bookingStore.js"></script>
 	<script>
     const { createApp, onMounted } = Vue
     const { createPinia } = Pinia
