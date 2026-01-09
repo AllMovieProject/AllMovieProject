@@ -10,15 +10,11 @@ import com.sist.web.vo.MemberVO;
 @Mapper
 @Repository
 public interface MemberMapper {
-	@Select("SELECT COUNT(*) FROM member "
-		  + "WHERE userid = #{userid}")
+	@Select("SELECT COUNT(*) FROM member WHERE userid = #{userid}")
 	public int memberIdCheck(String userid);
 	
-	@Insert("INSERT INTO member(userid, username, userpwd, "
-		  + "sex, birthday, email, post, addr1, addr2, phone, content) "
-		  + "VALUES(#{userid}, #{username}, #{userpwd}, #{sex}, "
-		  + "#{birthday}, #{email}, #{post}, #{addr1}, #{addr2}, "
-		  + "#{phone}, #{content})")
+	@Insert("INSERT INTO member(userid, username, userpwd, email, phone, sex, post, addr1, addr2) "
+		  + "VALUES(#{userid}, #{username}, #{userpwd}, #{email}, #{phone}, #{sex}, #{post}, #{addr1}, #{addr2})")
 	public void memberInsert(MemberVO vo);
 	
 	@Insert("INSERT INTO authority VALUES(#{userid}, 'ROLE_USER')")

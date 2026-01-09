@@ -4,7 +4,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>Insert title here</title>≈
 </head>
 <body>
 	<header class="header">
@@ -43,8 +43,8 @@
 										class="icon_search"></span></a></li>
 								<li><a href="member/login"><span class="icon_profile"></span></a>
 									<ul class="dropdown">
-										<li><a href="member/login">로그인</a></li>
-										<li><a href="member/join">회원 가입</a></li>
+										<li><a href="/member/login">로그인</a></li>
+										<li><a href="/member/join">회원 가입</a></li>
 									</ul></li>
 							</ul>
 						</nav>
