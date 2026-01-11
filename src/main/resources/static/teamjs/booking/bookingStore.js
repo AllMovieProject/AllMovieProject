@@ -11,8 +11,9 @@ const initialState = () => ({
 		movie_list: [],
 		region_list: [],
 		theater_list: [],
+    schedule_list: []
 	},
-	schedule_list: []
+  schedule_id: 0
 })
 
 const useBookingStore = defineStore('booking', {
@@ -20,7 +21,7 @@ const useBookingStore = defineStore('booking', {
 
 	actions: {
 		async bookingListData() {
-			const res = await api.post('/booking/data_vue/', {
+			const res = await api.post('/booking/data/', {
 				page: this.page,
 				date: this.booking_date,
 				movie: this.booking_movie,
@@ -72,20 +73,9 @@ const useBookingStore = defineStore('booking', {
 
 			this.bookingListData()
 		},
-
-		async scheduleListData() {
-			console.log('date:' + this.booking_date)
-			console.log('movie:' + this.booking_movie)
-			console.log('region:' + this.booking_region)
-			console.log('theater' + this.booking_theater)
-
-			if (this.booking_theater === '') {
-				return
-			}
-
-			/*
-				함수 실행
-			*/
-		}
+    
+    reservation(id) {
+      
+    }
 	}
 })

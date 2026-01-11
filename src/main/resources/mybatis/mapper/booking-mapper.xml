@@ -5,87 +5,121 @@
 <mapper namespace="com.sist.web.mapper.BookingMapper">
   <select id="dynamicDateListData" resultType="ScheduleVO"
     parameterType="hashmap">
-		SELECT DISTINCT TO_CHAR(s.schedule_date, 'yyyy-mm-dd') as sday
+    SELECT TO_CHAR(s.schedule_date, 'yyyy-mm-dd') AS sday
     FROM schedule s
-    
-    JOIN screen sc
-    	ON s.screen_id = sc.screen_id
-    JOIN theater t
-    	ON t.theater_id = sc.theater_id
-    JOIN movie m
-    	ON m.movie_id = s.movie_id
-    
+
+    JOIN screen sc ON s.screen_id = sc.screen_id
+    JOIN theater t ON
+    t.theater_id = sc.theater_id
+    JOIN movie m ON m.movie_id = s.movie_id
+
     WHERE s.schedule_date >= SYSDATE
     <if test="movie != null and movie != 0">
-    	AND m.movie_id = #{movie}
+      AND m.movie_id = #{movie}
     </if>
+
     <if test="theater != null and theater != ''">
-    	AND t.theater_id = #{theater}
+      AND t.theater_id = #{theater}
     </if>
-    
+
+    GROUP BY TO_CHAR(s.schedule_date, 'yyyy-mm-dd')
     ORDER BY sday ASC
   </select>
-  
+
   <select id="dynamicMovieListData" resultType="MovieVO"
     parameterType="hashmap">
-		SELECT DISTINCT m.movie_id, m.title, m.rating
+    SELECT DISTINCT m.movie_id, m.title, m.rating
     FROM movie m
-    
+
     JOIN schedule s
-      ON s.movie_id = m.movie_id
+    ON s.movie_id = m.movie_id
     JOIN screen sc
-      ON sc.screen_id = s.screen_id
+    ON sc.screen_id = s.screen_id
     JOIN theater t
-      ON t.theater_id = sc.theater_id
-    
+    ON t.theater_id = sc.theater_id
+
     WHERE s.schedule_date >= SYSDATE
+    <if test="date != null and date != ''">
+      AND s.schedule_date >= TO_DATE(#{date}, 'yyyy-mm-dd')
+      AND s.schedule_date &lt; TO_DATE(#{date}, 'yyyy-mm-dd') + 1
+    </if>
     <if test="region != null and region != 0">
       AND t.region_no = #{region}
     </if>
     <if test="theater != null and theater != ''">
       AND t.theater_id = #{theater}
     </if>
-    
+
     ORDER BY m.title ASC
   </select>
 
   <select id="dynamicTheaterListData" resultType="TheaterVO"
     parameterType="hashmap">
     SELECT DISTINCT t.theater_name, t.theater_id, t.region_no
-		FROM theater t
-		
-		JOIN screen sc
-  		ON sc.theater_id = t.theater_id
-		JOIN schedule s
-  		ON s.screen_id = sc.screen_id
-		JOIN movie m
-  		ON m.movie_id = s.movie_id
-  	
-  	WHERE s.schedule_date >= SYSDATE
-  	<if test="movie != null and movie != 0">
-  	  AND m.movie_id = #{movie}
-  	</if>
-    
+    FROM theater t
+
+    JOIN screen sc
+    ON sc.theater_id = t.theater_id
+    JOIN schedule s
+    ON s.screen_id = sc.screen_id
+    JOIN movie m
+    ON m.movie_id = s.movie_id
+
+    WHERE s.schedule_date >= SYSDATE
+    <if test="date != null and date != ''">
+      AND s.schedule_date >= TO_DATE(#{date}, 'yyyy-mm-dd')
+      AND s.schedule_date &lt; TO_DATE(#{date}, 'yyyy-mm-dd') + 1
+    </if>
+    <if test="movie != null and movie != 0">
+      AND m.movie_id = #{movie}
+    </if>
+
     ORDER BY t.theater_name ASC
   </select>
-  
-  <resultMap type="MovieVO" id="movieMap">
-  	<result property="mvo.title" column="title" />
-  	<result property="mvo.movie_type" column="movie_type" />
-  	<result property="mvo.runtime" column="runtime" />
+
+  <resultMap id="scheduleMap" type="ScheduleVO">
+
+    <association property="mvo" javaType="MovieVO">
+      <result property="title" column="title" />
+      <result property="movie_type" column="movie_type" />
+      <result property="runtime" column="runtime" />
+    </association>
+
+    <association property="tvo" javaType="TheaterVO">
+      <result property="theater_name" column="theater_name" />
+    </association>
+
+    <association property="scvo" javaType="ScreenVO">
+      <result property="screen_name" column="screen_name" />
+    </association>
+
+    <association property="ssvo" javaType="ScheduleSeatVO">
+      <result property="reservation_flag"
+        column="reservation_flag" />
+    </association>
+
   </resultMap>
-  
-  <resultMap type="TheaterVO" id="theaterMap">
-  	<result property="tvo.theater_name" column="theater_name" />
-  </resultMap>
-  
-  <resultMap type="ScreenVO" id="screenMap">
-  	<result property="svo.screen_name" column="screen_name"/>
-  </resultMap>
-  
-  <resultMap type="ScheduleSeatVO" id="seatVO">
-  	<result property="ssvo.reservation_flag" column="reservation_flag" />
-  </resultMap>
-  
-  <select id="dynamicScheduleListData"></select>
+
+
+  <select id="dynamicScheduleListData" resultMap="scheduleMap" parameterType="hashmap">
+    SELECT m.title, m.movie_type, m.runtime, t.theater_name, sc.screen_name, s.schedule_id, s.schedule_date
+    FROM movie m
+    
+    JOIN schedule s ON m.movie_id = s.movie_id
+    JOIN screen sc ON sc.screen_id = s.screen_id
+    JOIN theater t ON sc.theater_id = t.theater_id
+    LEFT JOIN schedule_seat ss ON s.schedule_id = ss.schedule_id
+    
+    WHERE s.schedule_date >= SYSDATE
+    <if test="date != null and date != ''">
+      AND s.schedule_date >= TO_DATE(#{date}, 'yyyy-mm-dd')
+      AND s.schedule_date &lt; TO_DATE(#{date}, 'yyyy-mm-dd') + 1
+    </if>
+    <if test="movie != null and movie != 0">
+      AND m.movie_id = #{movie}
+    </if>
+    <if test="theater != null and theater != ''">
+      AND t.theater_id = #{theater}
+    </if>
+  </select>
 </mapper>

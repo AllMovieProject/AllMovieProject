@@ -4,7 +4,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>≈
+<title>Insert title here</title>
 </head>
 <body>
 	<header class="header">
@@ -20,7 +20,7 @@
 					<div class="header__nav">
 						<nav class="header__menu mobile-menu">
 							<ul>
-								<li class="active"><a href="booking">영화 예매</a></li>
+								<li class="active"><a href="/booking">영화 예매</a></li>
 								<li><a href="./categories.html">영화 <span
 										class="arrow_carrot-down"></span></a>
 									<ul class="dropdown">
