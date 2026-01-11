@@ -16,7 +16,7 @@ import com.sist.web.vo.BoardVO;
 public interface BoardMapper {	
 	@Select("SELECT bno, bcate, bhit, id, bsubject, TO_CHAR(bregdate, 'yyyy-mm-dd HH24:MI:SS') as dbday "
 			+ "FROM board "			
-			+ "ORDER BY bno DESC"
+			+ "ORDER BY bno DESC "
 			+ "OFFSET #{start} ROWS FETCH NEXT 12 ROWS ONLY")
 	public List<BoardVO> boardListData(int start);
 	

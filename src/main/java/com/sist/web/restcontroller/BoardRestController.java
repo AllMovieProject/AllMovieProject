@@ -20,7 +20,7 @@ public class BoardRestController {
 	@GetMapping("/board/list_vue/")
 	public ResponseEntity<Map> board_list_vue(@RequestParam("page") int page) {
 		Map map = new HashMap<>();
-		try {			
+		try {
 			List<BoardVO> list = bService.boardListData((page-1)*12);
 			int totalpage = bService.boardTotalPage();
 			
@@ -36,7 +36,6 @@ public class BoardRestController {
 			map.put("totalpage", totalpage);
 			map.put("startPage", startPage);
 			map.put("endPage", endPage);
-			
 		} catch (Exception e) {
 			return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
