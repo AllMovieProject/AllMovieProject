@@ -12,10 +12,4 @@ public class BookingController {
 		model.addAttribute("main_jsp", "../booking/booking.jsp");
 		return "main/main";
 	}
-	
-	@GetMapping("/booking/seat")
-	public String booking_seat(Model model) {
-		model.addAttribute("main_jsp", "../booking/seat.jsp");
-		return "main/main";
-	}
 }

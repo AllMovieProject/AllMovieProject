@@ -7,14 +7,31 @@
 <title>Insert title here</title>
 </head>
 <body>
-    <!-- Signup Section Begin -->
-    <section class="signup spad">
-        <div class="container">
-            <div class="row">
-                
-            </div>
+  <!-- Normal Breadcrumb Begin -->
+  <section class="normal-breadcrumb set-bg"
+    data-setbg="img/normal-breadcrumb.jpg">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-12 text-center">
+          <div class="normal__breadcrumb__text">
+            <h2>영화 좌석 선택</h2>
+            <p>좌석을 골라주세요</p>
+          </div>
         </div>
-    </section>
-    <!-- Signup Section End -->
+      </div>
+    </div>
+  </section>
+  <!-- Normal Breadcrumb End -->
+
+  <!-- Signup Section Begin -->
+  <section class="signup spad">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-12 booking_container">
+        
+        </div>
+      </div>
+    </div>
+  </section>
 </body>
 </html>

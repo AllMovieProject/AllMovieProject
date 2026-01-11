@@ -16,7 +16,6 @@
 }
 
 .booking_date {
-	width: auto;
 	height: 8%;
 	background-color: #ffffff;
 }
@@ -98,8 +97,8 @@
 								<td class="pageBtn">&lt;</td>
 								<td v-for="dvo in store.datas.date_list" class="booking_data"
 									:class="{' table-active': store.booking_date === dvo.sday }"
-									@click="store.dateUpdate(dvo.sday)"
-									:key="dvo.sday">{{ dvo.sday.split('-')[2] }} 일</td>
+									@click="store.dateUpdate(dvo.sday)" :key="dvo.sday">{{
+									dvo.sday.split('-')[2] }} 일</td>
 								<td class="pageBtn">&gt;</td>
 								<td class="booking_data">달력</td>
 							</tr>
@@ -175,10 +174,37 @@
 						<div class="booking_schedule">
 							<table class="table">
 								<tbody>
+									<tr v-for="svo in store.datas.schedule_list"
+										:key="svo.schedule_id">
+										<td @click="">
+											<div class="schedule-list">
+
+												<div class="schedule-item">
+													<div class="time">
+														<strong>12:25</strong> <span>~14:23</span>
+													</div>
+
+													<div class="info">
+														<div class="title">{{ svo.mvo.title }}</div>
+														<div class="type">{{ svo.mvo.movie_type }}</div>
+													</div>
+
+													<div class="theater">
+														<div>{{ svo.tvo.theater_name }}</div>
+														<div>{{ svo.scvo.screen_name }}</div>
+													</div>
+
+													<div class="seat">
+														<span class="remain">82</span>/<span class="total">89</span>
+													</div>
+												</div>
+
+											</div>
+										</td>
+									</tr>
 									<tr>
 										<td></td>
 									</tr>
-									<tr><td></td></tr>
 								</tbody>
 							</table>
 						</div>
