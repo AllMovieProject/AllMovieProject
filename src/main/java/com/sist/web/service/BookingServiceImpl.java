@@ -39,7 +39,7 @@ public class BookingServiceImpl implements BookingService {
         map.putAll(getMovieList(date, region, theater));
         map.putAll(getTheaterList(date, movie, region));
 
-        if (theater != null && theater != "") {
+        if (theater != null && !theater.equals("")) {
         	map.putAll(getScheduleData(date, movie, theater));
         }
         
@@ -158,7 +158,6 @@ public class BookingServiceImpl implements BookingService {
         map.put("movie", movie);
         map.put("theater", theater);
         List<ScheduleVO> schedule_list = mapper.dynamicScheduleListData(map);
-
         map = new HashMap<>();
         map.put("schedule_list", schedule_list);
 

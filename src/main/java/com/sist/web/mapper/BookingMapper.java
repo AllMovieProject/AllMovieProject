@@ -25,4 +25,12 @@ public interface BookingMapper {
 	public List<TheaterVO> dynamicTheaterListData(Map<String, Object> map);
 	
 	public List<ScheduleVO> dynamicScheduleListData(Map<String, Object> map);
+	
+	@Select("SELECT COUNT(*) FROM schedule_seat WHERE schedule_id = #{id}")
+	public int scheduleSeatCount(int schedule_id);
+	
+	@Select("SELECT COUNT(*) FROM schedule_seat "
+	      + "WHERE schedule_id = #{id} "
+	      + "AND reservation_flag = 0")
+	public int scheduleReservatedSeatCount(int scheuld_id);
 }

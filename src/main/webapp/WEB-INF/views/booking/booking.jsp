@@ -179,7 +179,7 @@
 											:key="svo.schedule_id">
 											<td @click="store.seatPage(form)">
 												<div class="schedule-list">
-													<input type="hidden" name="id" value="svo.schedule_id" />
+													<input type="hidden" name="id" :value="svo.schedule_id" />
 
 													<div class="schedule-item">
 														<div class="time">

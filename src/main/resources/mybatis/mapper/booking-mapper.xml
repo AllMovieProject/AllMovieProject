@@ -31,14 +31,17 @@
     SELECT DISTINCT m.movie_id, m.title, m.rating
     FROM movie m
 
-    JOIN schedule s
+    JOIN
+    schedule s
     ON s.movie_id = m.movie_id
     JOIN screen sc
-    ON sc.screen_id = s.screen_id
+    ON sc.screen_id =
+    s.screen_id
     JOIN theater t
     ON t.theater_id = sc.theater_id
 
-    WHERE s.schedule_date >= SYSDATE
+    WHERE
+    s.schedule_date >= SYSDATE
     <if test="date != null and date != ''">
       AND s.schedule_date >= TO_DATE(#{date}, 'yyyy-mm-dd')
       AND s.schedule_date &lt; TO_DATE(#{date}, 'yyyy-mm-dd') + 1
@@ -56,11 +59,13 @@
   <select id="dynamicTheaterListData" resultType="TheaterVO"
     parameterType="hashmap">
     SELECT DISTINCT t.theater_name, t.theater_id, t.region_no
-    FROM theater t
+    FROM
+    theater t
 
     JOIN screen sc
     ON sc.theater_id = t.theater_id
-    JOIN schedule s
+    JOIN schedule
+    s
     ON s.screen_id = sc.screen_id
     JOIN movie m
     ON m.movie_id = s.movie_id
@@ -78,6 +83,10 @@
   </select>
 
   <resultMap id="scheduleMap" type="ScheduleVO">
+
+    <id property="schedule_id" column="schedule_id" />
+    <result property="schedule_date" column="schedule_date" />
+    <result property="sday" column="sday" />
 
     <association property="mvo" javaType="MovieVO">
       <result property="title" column="title" />
@@ -101,15 +110,19 @@
   </resultMap>
 
 
-  <select id="dynamicScheduleListData" resultMap="scheduleMap" parameterType="hashmap">
-    SELECT m.title, m.movie_type, m.runtime, t.theater_name, sc.screen_name, s.schedule_id, s.schedule_date
+  <select id="dynamicScheduleListData" resultMap="scheduleMap"
+    parameterType="hashmap">
+    SELECT m.title, m.movie_type, m.runtime, t.theater_name,
+    sc.screen_name, s.schedule_id, s.schedule_date
     FROM schedule s
-    
+
     JOIN movie m ON m.movie_id = s.movie_id
-    JOIN screen sc ON sc.screen_id = s.screen_id
+    JOIN screen sc ON sc.screen_id =
+    s.screen_id
     JOIN theater t ON sc.theater_id = t.theater_id
-    LEFT JOIN schedule_seat ss ON s.schedule_id = ss.schedule_id
-    
+    LEFT JOIN
+    schedule_seat ss ON s.schedule_id = ss.schedule_id
+
     WHERE s.schedule_date >= SYSDATE
     <if test="date != null and date != ''">
       AND s.schedule_date >= TO_DATE(#{date}, 'yyyy-mm-dd')
@@ -121,5 +134,7 @@
     <if test="theater != null and theater != ''">
       AND t.theater_id = #{theater}
     </if>
+    ORDER BY s.schedule_date ASC
   </select>
+
 </mapper>
