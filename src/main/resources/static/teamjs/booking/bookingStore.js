@@ -12,8 +12,7 @@ const initialState = () => ({
 		region_list: [],
 		theater_list: [],
     schedule_list: []
-	},
-  schedule_id: 0
+	}
 })
 
 const useBookingStore = defineStore('booking', {
@@ -30,7 +29,6 @@ const useBookingStore = defineStore('booking', {
 			})
 
 			this.datas = res.data
-			this.scheduleListData()
 		},
 
 		dateUpdate(date) {
@@ -74,8 +72,8 @@ const useBookingStore = defineStore('booking', {
 			this.bookingListData()
 		},
     
-    reservation(id) {
-      
+    seatPage(form) {
+			form.submit()
     }
 	}
 })
