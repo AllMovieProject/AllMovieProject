@@ -33,6 +33,30 @@
 	<section class="product-page spad">
 		<div class="container">
 			<div class="row">
+				<table class="table">
+					<thead>
+						<tr>
+							<th>번호</th>
+							<th>식품명</th>
+							<th>이미지</th>
+							<th>재고</th>
+							<th>품절</th>
+							<th>등록일</th>
+							<th>최종수정일</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td>번호</td>
+							<td>식품명</td>
+							<td>이미지</td>
+							<td>재고</td>
+							<td>품절</td>
+							<td>등록일</td>
+							<td>최종수정일</td>
+						</tr>
+					</tbody>
+				</table>
 			</div>
 		</div>
 	</section>
