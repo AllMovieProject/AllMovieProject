@@ -42,7 +42,8 @@
           <div class="col-lg-12">
              <div class="breadcrumb__links">
                 <a href="/"><i class="fa fa-home"></i> Home</a>
-                <a href="/board/list">이벤트 및 공지사항</a>
+                <a href="/">이벤트 및 공지사항</a>
+                <a href="/board/list">공지사항</a>
                 <span>공지사항</span>
              </div>
           </div>

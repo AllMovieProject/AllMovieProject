@@ -44,7 +44,8 @@
 				<thead class="text-center">
 					<tr>
 						<th width="10%">번호</th>
-						<th width="40%">제목</th>
+						<th width="10%">구분</th>
+						<th width="30%">제목</th>
 						<th width="15%">작성자</th>
 						<th width="15%">등록일</th>
 						<th width="10%">조회수</th>
@@ -53,8 +54,9 @@
 				<tbody>
 					<tr v-for="vo in store.list" :key="vo.bno">
 						<td class="text-center">{{vo.bno}}</td>
+						<td class="text-center">{{vo.bcatename}}</td>
 						<td>
-							<a :href="`/board/detail?bno=${vo.bno}`">
+							<a href="/board/detail?bno=${vo.bno}">
 								{{vo.bsubject}}
 							</a>
 						</td>
