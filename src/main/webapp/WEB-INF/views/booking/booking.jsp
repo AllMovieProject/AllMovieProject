@@ -172,41 +172,44 @@
 						</div>
 						<div class="v-line"></div>
 						<div class="booking_schedule">
-							<table class="table">
-								<tbody>
-									<tr v-for="svo in store.datas.schedule_list"
-										:key="svo.schedule_id">
-										<td @click="">
-											<div class="schedule-list">
+							<form action="/booking/seat" method="post" ref="form">
+								<table class="table">
+									<tbody>
+										<tr v-for="svo in store.datas.schedule_list"
+											:key="svo.schedule_id">
+											<td @click="store.seatPage(form)">
+												<div class="schedule-list">
+													<input type="hidden" name="id" value="svo.schedule_id" />
 
-												<div class="schedule-item">
-													<div class="time">
-														<strong>12:25</strong> <span>~14:23</span>
+													<div class="schedule-item">
+														<div class="time">
+															<strong>12:25</strong> <span>~14:23</span>/{{ svo.schedule_id }}
+														</div>
+
+														<div class="info">
+															<div class="title">{{ svo.mvo.title }}</div>
+															<div class="type">{{ svo.mvo.movie_type }}</div>
+														</div>
+
+														<div class="theater">
+															<div>{{ svo.tvo.theater_name }}</div>
+															<div>{{ svo.scvo.screen_name }}</div>
+														</div>
+
+														<div class="seat">
+															<span class="remain">82</span>/<span class="total">89</span>
+														</div>
 													</div>
 
-													<div class="info">
-														<div class="title">{{ svo.mvo.title }}</div>
-														<div class="type">{{ svo.mvo.movie_type }}</div>
-													</div>
-
-													<div class="theater">
-														<div>{{ svo.tvo.theater_name }}</div>
-														<div>{{ svo.scvo.screen_name }}</div>
-													</div>
-
-													<div class="seat">
-														<span class="remain">82</span>/<span class="total">89</span>
-													</div>
 												</div>
-
-											</div>
-										</td>
-									</tr>
-									<tr>
-										<td></td>
-									</tr>
-								</tbody>
-							</table>
+											</td>
+										</tr>
+										<tr>
+											<td></td>
+										</tr>
+									</tbody>
+								</table>
+							</form>
 						</div>
 						<div class="v-line"></div>
 					</div>
@@ -218,19 +221,21 @@
 	<script src="/teamjs/commons.js"></script>
 	<script src="/teamjs/booking/bookingStore.js"></script>
 	<script>
-    const { createApp, onMounted } = Vue
+    const { createApp, onMounted, ref } = Vue
     const { createPinia } = Pinia
     
     const bookingApp = createApp({
       setup() {
         const store = useBookingStore()
+        const form = ref(null)
         
         onMounted(() => {
         	store.bookingListData()
         })
         
         return {
-          store
+          store,
+          form
         }
       }
     })

@@ -27,7 +27,7 @@ public class BookingServiceImpl implements BookingService {
 
     @Override
     public Map<String, Object> bookingListData(BookingRequestDTO dto) {
-        Map<String, Object> booking_datas = new HashMap<>();
+        Map<String, Object> map = new HashMap<>();
 
         Integer page = dto.getPage();
         String date = dto.getDate();
@@ -35,14 +35,15 @@ public class BookingServiceImpl implements BookingService {
         Integer region = dto.getRegion();
         String theater = dto.getTheater();
         
-        booking_datas.putAll(getDateList(movie, theater, page));
-        booking_datas.putAll(getMovieList(date, region, theater));
-        booking_datas.putAll(getTheaterList(date, movie, region));
+        map.putAll(getDateList(movie, theater, page));
+        map.putAll(getMovieList(date, region, theater));
+        map.putAll(getTheaterList(date, movie, region));
 
         if (theater != null && theater != "") {
-            booking_datas.putAll(getScheduleData(date, movie, theater));
+        	map.putAll(getScheduleData(date, movie, theater));
         }
-        return booking_datas;
+        
+        return map;
     }
     
     private Map<String, Object> getDateList(Integer movie, String theater, Integer page) {
@@ -64,14 +65,15 @@ public class BookingServiceImpl implements BookingService {
 
         int start = 0 + (page - 1) * 10;
         int end = date_len + (page - 1) * 10;
-
-        // date_list에서 endDay 이후까지 다 잘라내면 끝
-
-        if (date_list.size() < date_len) {
-            // date_list = addDateData(date_list);
+        if (end > date_list.size()) {
+        	end =  date_list.size();
         }
 
-        // date_list = date_list.subList(start, end);
+        if (date_list.size() >= date_len) {
+            date_list = date_list.subList(start, end);
+        } else {
+            date_list = addDateData(date_list);
+        }
 
         map.put("date_list", date_list);
         return map;

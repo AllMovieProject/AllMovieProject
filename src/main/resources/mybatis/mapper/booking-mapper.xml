@@ -103,9 +103,9 @@
 
   <select id="dynamicScheduleListData" resultMap="scheduleMap" parameterType="hashmap">
     SELECT m.title, m.movie_type, m.runtime, t.theater_name, sc.screen_name, s.schedule_id, s.schedule_date
-    FROM movie m
+    FROM schedule s
     
-    JOIN schedule s ON m.movie_id = s.movie_id
+    JOIN movie m ON m.movie_id = s.movie_id
     JOIN screen sc ON sc.screen_id = s.screen_id
     JOIN theater t ON sc.theater_id = t.theater_id
     LEFT JOIN schedule_seat ss ON s.schedule_id = ss.schedule_id
