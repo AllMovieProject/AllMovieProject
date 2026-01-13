@@ -94,7 +94,6 @@ public class BookingServiceImpl implements BookingService {
         for (int i = day + 1; i <= lastDay; i++) {
             ScheduleVO vo = new ScheduleVO();
             vo.setSday("--일정 없음");
-            vo.setAvailable(0);
             date_list.add(vo);
             count++;
 
@@ -158,6 +157,12 @@ public class BookingServiceImpl implements BookingService {
         map.put("movie", movie);
         map.put("theater", theater);
         List<ScheduleVO> schedule_list = mapper.dynamicScheduleListData(map);
+        
+        for (ScheduleVO vo : schedule_list) {
+        	vo.setAvailable_count(mapper.scheduleReservatedSeatCount(vo.getSchedule_id()));
+        	vo.setTotal_count(mapper.scheduleSeatCount(vo.getSchedule_id()));
+        }
+        
         map = new HashMap<>();
         map.put("schedule_list", schedule_list);
 

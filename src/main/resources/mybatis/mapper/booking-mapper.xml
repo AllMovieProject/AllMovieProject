@@ -49,7 +49,7 @@
     <if test="region != null and region != 0">
       AND t.region_no = #{region}
     </if>
-    <if test="theater != null and theater != ''">
+    <if test="(theater != null and theater != '') and (region == null and region == 0)">
       AND t.theater_id = #{theater}
     </if>
 

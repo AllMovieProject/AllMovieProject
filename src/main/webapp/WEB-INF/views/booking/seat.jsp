@@ -27,11 +27,46 @@
   <section class="signup spad">
     <div class="container">
       <div class="row">
-        <div class="col-lg-12 booking_container">
-        	${id }
+        <div class="col-lg-12 seat_container">
+        	<div class="seat_count">
+        		<table class="table">
+        			<tr v-for="vo in store.seat_list" :key="vo.seat_id">
+        				<td>
+        					{{ vo.seat_row }}
+        				</td>
+        			</tr>
+        		</table>
+        	</div>
+        	
+        	<div class="seat_list">
+        	
+        	</div>
         </div>
       </div>
     </div>
   </section>
+<script src="/teamjs/commons.js"></script>
+<script src="/teamjs/booking/seatStore.js"></script>
+<script>
+const { createApp, onMounted, ref } = Vue
+const { createPinia } = Pinia
+
+const seatApp = createApp({
+	setup() {
+		const store = useSeatStore()
+		
+		onMounted(() => {
+			store.seatListData(${id})
+		})
+		
+		return {
+			store
+		}
+	}
+})
+
+seatApp.use(createPinia())
+seatApp.mount(".seat_container")
+</script>
 </body>
 </html>
