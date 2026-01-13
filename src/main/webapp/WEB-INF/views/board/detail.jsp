@@ -1,76 +1,100 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="jakarta.tags.core" %>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
-<title>공지사항 상세보기</title>
+<title>공지사항 상세</title>
 
 <style>
-.board-detail-header {
-    border-top: 2px solid #222;
-    border-bottom: 1px solid #ddd;
+.notice-detail-wrap {
+    max-width: 1000px;
+    margin: 40px auto;
+    border-top: 2px solid #333;
+}
+
+.notice-header {
     padding: 20px 10px;
+    border-bottom: 1px solid #ddd;
 }
-.board-detail-header h4 {
-    font-weight: bold;
+
+.notice-title {
+    font-size: 22px;
+    font-weight: 600;
+    margin-bottom: 10px;
 }
-.board-info {
+
+.notice-meta {
     font-size: 14px;
     color: #777;
-    margin-top: 10px;
+    display: flex;
+    justify-content: space-between;
 }
-.board-content {
-    padding: 30px 10px;
-    min-height: 300px;
+
+.notice-meta span {
+    margin-right: 15px;
+}
+
+.notice-content {
+    padding: 40px 10px;
     line-height: 1.8;
+    font-size: 16px;
+    color: #333;
+    min-height: 300px;
     border-bottom: 1px solid #ddd;
-    white-space: pre-line;
 }
-.board-btns {
-    margin-top: 20px;
+
+.notice-footer {
+    padding: 20px 10px;
     text-align: right;
 }
-</style>
 
+.notice-footer a {
+    display: inline-block;
+    padding: 8px 20px;
+    border: 1px solid #333;
+    color: #333;
+    text-decoration: none;
+    font-size: 14px;
+}
+
+.notice-footer a:hover {
+    background-color: #333;
+    color: #fff;
+}
+</style>
 </head>
+
 <body>
-	<div class="breadcrumb-option">
-    <div class="container">
-       <div class="row">
-          <div class="col-lg-12">
-             <div class="breadcrumb__links">
-                <a href="/"><i class="fa fa-home"></i> Home</a>
-                <a href="/">이벤트 및 공지사항</a>
-                <a href="/board/list">공지사항</a>
-                <span>공지사항</span>
-             </div>
-          </div>
-       </div>
+
+<div class="notice-detail-wrap">
+
+    <!-- 제목 / 메타 -->
+    <div class="notice-header">
+        <div class="notice-title">
+            ${vo.bsubject}
+        </div>
+        <div class="notice-meta">
+            <div>
+                <span>구분 : ${vo.bcatename}</span>
+                <span>작성자 : ${vo.id}</span>
+            </div>
+            <div>
+                <span>등록일 : ${vo.bdbday}</span>
+                <span>조회수 : ${vo.bhit}</span>
+            </div>
+        </div>
     </div>
-	</div>
-	<div class="container mt-5 mb-5">		    
-    <div class="board-detail-header">
-       <h4>${vo.bsubject}</h4>
-       <div class="board-info">
-           <span>카테고리 | ${vo.cateName}</span>
-           &nbsp;&nbsp;|&nbsp;&nbsp;
-           <span>등록일 | ${vo.dbday}</span>
-           &nbsp;&nbsp;|&nbsp;&nbsp;
-           <span>조회수 | ${vo.bhit}</span>
-       </div>
-    </div>	    
-    <div class="board-content">
-       ${vo.bcontent}
-    </div>		   
-    <div class="board-btns">
-       <a href="/board/list?page=${page}" class="btn btn-sm btn-secondary">목록</a>	
-       <c:if test="${sessionScope.admin eq 'y'}">
-          <a href="/board/update?bno=${vo.bno}" class="btn btn-sm btn-warning">수정</a>
-          <a href="/board/delete?bno=${vo.bno}" class="btn btn-sm btn-danger" onclick="return confirm('삭제하시겠습니까?')">삭제</a>
-       </c:if>
-    </div>	
-	</div>
+
+    <!-- 내용 -->
+    <div class="notice-content">
+        ${vo.bcontent}
+    </div>
+
+    <!-- 하단 버튼 -->
+    <div class="notice-footer">
+        <a href="/board/list">목록</a>
+    </div>
+</div>
 </body>
 </html>

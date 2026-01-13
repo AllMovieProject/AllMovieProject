@@ -52,47 +52,32 @@
 					</tr>
 				</thead>
 				<tbody>
-					<tr v-for="vo in store.list" :key="vo.bno">
-						<td class="text-center">{{vo.bno}}</td>
-						<td class="text-center">{{vo.bcatename}}</td>
-						<td>
-							<a href="/board/detail?bno=${vo.bno}">
-								{{vo.bsubject}}
-							</a>
-						</td>
-						<td class="text-center">{{vo.id}}</td>
-						<td class="text-center">{{vo.dbday}}</td>
-						<td class="text-center">{{vo.bhit}}</td>
-					</tr>
+					<c:forEach var="vo" items="${list }">
+						<tr>
+							<td class="text-center">${vo.bno}</td>
+							<td class="text-center">${vo.bcatename}</td>
+							<td>
+								<a href="/board/detail?bno=${vo.bno}">${vo.bsubject}</a>
+							</td>
+							<td class="text-center">${vo.id}</td>
+							<c:if test="${today == vo.bdbday }">
+								<sup><img src="/img/new.gif"></sup>
+							</c:if>
+							<td class="text-center">${vo.bdbday}</td>
+							<td class="text-center">${vo.bhit}</td>
+						</tr>
+					</c:forEach>
 				</tbody>
 			</table>
 	
 			<div class="product__pagination text-center">
 				<ul class="pagination justify-content-center">        
-					<a v-if="store.startPage>1" @click="store.movePage(store.startPage-1)"><i class="fa fa-long-arrow-left"></i></a>
-				    <a v-for="i in store.range" @click="store.movePage(i)">{{i}}</a>	                
-				    <a v-if="store.endPage<store.totalpage" @click="store.movePage(store.endPage+1)"><i class="fa fa-long-arrow-right"></i></a>
+					<a href="/board/list?page=${curpage>1?curpage-1:curpage }"><i class="fa fa-long-arrow-left"></i></a>
+				    ${curpage } page / ${totalpage } pages	                
+				  <a href="/board/list?page=${curpage<totalpage?curpage+1:curpage }"><i class="fa fa-long-arrow-right"></i></a>
 				</ul>
 			</div>
 		</div>
-	</div>
-	
-	<script src="/teamjs/board/boardStore.js"></script>
-	<script>
-		const app = Vue.createApp({
-			setup(){
-				const store = boardStore()
-				// 한번 실행 
-				Vue.onMounted(() => {
-					store.boardListData()
-				})
-				return {
-					store
-				}
-			}
-		})
-		app.use(Pinia.createPinia())
-		app.mount("#board_list")
-	</script>	
+	</div>	
 </body>
 </html>

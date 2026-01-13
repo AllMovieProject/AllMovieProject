@@ -14,7 +14,7 @@ import com.sist.web.vo.BoardVO;
 @Mapper
 @Repository
 public interface BoardMapper {	
-	@Select("SELECT b.bno, b.bcate, c.cate_name as bcateName, b.bhit, b.id, b.bsubject, TO_CHAR(b.bregdate, 'yyyy-mm-dd HH24:MI:SS') as dbday "
+	@Select("SELECT b.bno, b.bcate, c.cate_name as bcateName, b.bhit, b.id, b.bsubject, TO_CHAR(b.bregdate, 'yyyy-mm-dd HH24:MI:SS') as bdbday "
 			+ "FROM board b "
 			+ "JOIN commons_category c "
 			+ "ON b.bcate = c.cate_no "
@@ -40,7 +40,7 @@ public interface BoardMapper {
 	 	   +"bhit = bhit + 1 "
 	 	   +"WHERE bno = #{bno}")
     public void boardHitIncrement(int bno);
-    @Select("SELECT bno, id, bsubject, bcontent, TO_CHAR(bregdate,'yyyy-mm-dd') as dbday, bhit "
+    @Select("SELECT bno, id, bsubject, bcontent, TO_CHAR(bregdate,'yyyy-mm-dd') as bdbday, bhit "
 	 	   +"FROM board "
 	 	   +"WHERE bno = #{bno}")
     public BoardVO boardDetailData(int bno);
