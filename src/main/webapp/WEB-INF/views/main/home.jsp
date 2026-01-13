@@ -65,7 +65,7 @@
 												<li>Active</li>
 												<li>Movie</li>
 											</ul>
-											<h5><a href="#">{{ vo.title }}</a></h5>
+											<h5><a :href="'/movie/detail?movieId=' + vo.movie_id">{{ vo.title }}</a></h5>
 										</div>
 									</div>
 								</div>
@@ -98,7 +98,7 @@
 												<li>Active</li>
 												<li>Movie</li>
 											</ul>
-											<h5><a href="#">Sen to Chihiro no Kamikakushi</a></h5>
+											<h5><a :href="'/movie/detail?movieId=' + vo.movie_id">Sen to Chihiro no Kamikakushi</a></h5>
 										</div>
 									</div>
 								</div>
@@ -131,7 +131,7 @@
 												<li>Active</li>
 												<li>Movie</li>
 											</ul>
-											<h5><a href="#">Great Teacher Onizuka</a></h5>
+											<h5><a :href="'/movie/detail?movieId=' + vo.movie_id">Great Teacher Onizuka</a></h5>
 										</div>
 									</div>
 								</div>
@@ -158,7 +158,7 @@
 											 v-for="(vo, idx) in store.topList" :key="idx">
 										<div class="ep">18 / ?</div>
 										<div class="view"><i class="fa fa-eye"></i> 9141</div>
-										<h5><a href="#">Boruto: Naruto next generations</a></h5>
+										<h5><a :href="'/movie/detail?movieId=' + vo.movie_id">Boruto: Naruto next generations</a></h5>
 									</div>
 								</div>
 							</div>
