@@ -8,7 +8,6 @@ import org.springframework.stereotype.Repository;
 import com.sist.web.vo.MemberVO;
 
 @Mapper
-@Repository
 public interface MemberMapper {
 	@Select("SELECT COUNT(*) FROM member WHERE userid = #{userid}")
 	public int memberIdCheck(String userid);

@@ -9,7 +9,6 @@ import org.springframework.stereotype.Repository;
 import com.sist.web.vo.SeatVO;
 
 @Mapper
-@Repository
 public interface SeatMapper {
 	@Select("SELECT distinct se.seat_row, se.seat_col, se.seat_id FROM seat se "
 		  + "JOIN schedule s "

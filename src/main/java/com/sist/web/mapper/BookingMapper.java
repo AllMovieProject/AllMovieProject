@@ -12,7 +12,6 @@ import com.sist.web.vo.ScheduleVO;
 import com.sist.web.vo.TheaterVO;
 
 @Mapper
-@Repository
 public interface BookingMapper {
 	
 	@Select("SELECT DISTINCT theater_region, region_no FROM theater ORDER BY region_no ASC")

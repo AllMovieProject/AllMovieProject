@@ -12,7 +12,6 @@ import org.springframework.stereotype.Repository;
 import com.sist.web.vo.BoardVO;
 
 @Mapper
-@Repository
 public interface BoardMapper {	
 	@Select("SELECT b.bno, b.bcate, c.cate_name as bcateName, b.bhit, b.id, b.bsubject, TO_CHAR(b.bregdate, 'yyyy-mm-dd HH24:MI:SS') as bdbday "
 			+ "FROM board b "
