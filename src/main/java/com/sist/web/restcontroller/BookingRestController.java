@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.sist.web.dto.BookingRequestDTO;
 import com.sist.web.service.BookingService;
+import com.sist.web.service.SeatService;
 
 import lombok.RequiredArgsConstructor;
 
@@ -20,8 +21,9 @@ import lombok.RequiredArgsConstructor;
 public class BookingRestController {
 
     private final BookingService bService;
+    private final SeatService sService;
 
-    @PostMapping("booking/data/")
+    @PostMapping("/booking/data/")
     public ResponseEntity<Map<String, Object>> bookingListData(@RequestBody BookingRequestDTO dto) {
         Map<String, Object> map = new HashMap<>();
         
@@ -35,4 +37,17 @@ public class BookingRestController {
         return new ResponseEntity<>(map, HttpStatus.OK);
     }
     
+    @PostMapping("/seat/data")
+    public ResponseEntity<Map<String, Object>> seatListData(@RequestParam("id") int id) {
+        Map<String, Object> map = new HashMap<>();
+        
+        try {
+        	map = sService.seatListData(id);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+
+        return new ResponseEntity<>(map, HttpStatus.OK);
+    }
 }

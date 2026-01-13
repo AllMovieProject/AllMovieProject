@@ -178,26 +178,26 @@
 										<tr v-for="svo in store.datas.schedule_list"
 											:key="svo.schedule_id">
 											<td @click="store.seatPage(form)">
-												<div class="schedule-list">
+												<div class="schedule_list">
 													<input type="hidden" name="id" :value="svo.schedule_id" />
 
-													<div class="schedule-item">
+													<div class="schedule_info">
 														<div class="time">
-															<strong>12:25</strong> <span>~14:23</span>/{{ svo.schedule_id }}
+															<strong>12:25</strong> <span>~14:23</span>
 														</div>
 
-														<div class="info">
+														<div class="movie_info">
 															<div class="title">{{ svo.mvo.title }}</div>
 															<div class="type">{{ svo.mvo.movie_type }}</div>
 														</div>
 
-														<div class="theater">
+														<div class="theater_info">
 															<div>{{ svo.tvo.theater_name }}</div>
 															<div>{{ svo.scvo.screen_name }}</div>
 														</div>
 
-														<div class="seat">
-															<span class="remain">82</span>/<span class="total">89</span>
+														<div class="seat_count">
+															<span class="remain">{{ svo.available_count }}</span>/<span class="total">{{ svo.total_count }}</span>
 														</div>
 													</div>
 

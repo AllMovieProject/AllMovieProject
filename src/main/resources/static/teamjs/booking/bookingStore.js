@@ -46,6 +46,7 @@ const useBookingStore = defineStore('booking', {
 				this.booking_movie = 0
 			} else {
 				this.booking_movie = movie
+				this.booking_region = 0
 			}
 
 			this.bookingListData()
@@ -72,6 +73,7 @@ const useBookingStore = defineStore('booking', {
 		},
     
     seatPage(form) {
+			// if sessionId가 null이면 alert 아이디 입력해주세요 return
 			form.submit()
     }
 	}
