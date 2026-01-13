@@ -32,7 +32,7 @@
         		<table class="table">
         			<tr v-for="vo in store.seat_list" :key="vo.seat_id">
         				<td>
-        					{{ vo.seat_row }}
+        					{{ vo.seat_row }}hi
         				</td>
         			</tr>
         		</table>
@@ -48,7 +48,7 @@
 <script src="/teamjs/commons.js"></script>
 <script src="/teamjs/booking/seatStore.js"></script>
 <script>
-const { createApp, onMounted, ref } = Vue
+const { createApp, onMounted } = Vue
 const { createPinia } = Pinia
 
 const seatApp = createApp({

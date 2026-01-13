@@ -5,7 +5,7 @@
 <mapper namespace="com.sist.web.mapper.BookingMapper">
   <select id="dynamicDateListData" resultType="ScheduleVO"
     parameterType="hashmap">
-    SELECT TO_CHAR(s.schedule_date, 'yyyy-mm-dd') AS sday
+    SELECT TO_CHAR(s.start_time, 'yyyy-mm-dd') AS sday
     FROM schedule s
 
     JOIN screen sc ON s.screen_id = sc.screen_id
@@ -13,7 +13,7 @@
     t.theater_id = sc.theater_id
     JOIN movie m ON m.movie_id = s.movie_id
 
-    WHERE s.schedule_date >= SYSDATE
+    WHERE s.start_time >= SYSDATE
     <if test="movie != null and movie != 0">
       AND m.movie_id = #{movie}
     </if>
@@ -22,7 +22,7 @@
       AND t.theater_id = #{theater}
     </if>
 
-    GROUP BY TO_CHAR(s.schedule_date, 'yyyy-mm-dd')
+    GROUP BY TO_CHAR(s.start_time, 'yyyy-mm-dd')
     ORDER BY sday ASC
   </select>
 
@@ -41,10 +41,10 @@
     ON t.theater_id = sc.theater_id
 
     WHERE
-    s.schedule_date >= SYSDATE
+    s.start_time >= SYSDATE
     <if test="date != null and date != ''">
-      AND s.schedule_date >= TO_DATE(#{date}, 'yyyy-mm-dd')
-      AND s.schedule_date &lt; TO_DATE(#{date}, 'yyyy-mm-dd') + 1
+      AND s.start_time >= TO_DATE(#{date}, 'yyyy-mm-dd')
+      AND s.start_time &lt; TO_DATE(#{date}, 'yyyy-mm-dd') + 1
     </if>
     <if test="region != null and region != 0">
       AND t.region_no = #{region}
@@ -70,10 +70,10 @@
     JOIN movie m
     ON m.movie_id = s.movie_id
 
-    WHERE s.schedule_date >= SYSDATE
+    WHERE s.start_time >= SYSDATE
     <if test="date != null and date != ''">
-      AND s.schedule_date >= TO_DATE(#{date}, 'yyyy-mm-dd')
-      AND s.schedule_date &lt; TO_DATE(#{date}, 'yyyy-mm-dd') + 1
+      AND s.start_time >= TO_DATE(#{date}, 'yyyy-mm-dd')
+      AND s.start_time &lt; TO_DATE(#{date}, 'yyyy-mm-dd') + 1
     </if>
     <if test="movie != null and movie != 0">
       AND m.movie_id = #{movie}
@@ -85,7 +85,8 @@
   <resultMap id="scheduleMap" type="ScheduleVO">
 
     <id property="schedule_id" column="schedule_id" />
-    <result property="schedule_date" column="schedule_date" />
+    <result property="starttime" column="starttime" />
+    <result property="endtime" column="endtime" />
     <result property="sday" column="sday" />
 
     <association property="mvo" javaType="MovieVO">
@@ -112,8 +113,8 @@
 
   <select id="dynamicScheduleListData" resultMap="scheduleMap"
     parameterType="hashmap">
-    SELECT m.title, m.movie_type, m.runtime, t.theater_name,
-    sc.screen_name, s.schedule_id, s.schedule_date
+    SELECT m.title, m.movie_type, m.runtime, t.theater_name, sc.screen_name, s.schedule_id,
+    TO_CHAR(s.start_time, 'HH24:MI') AS starttime, TO_CHAR(s.end_time, 'HH24:MI') AS endtime
     FROM schedule s
 
     JOIN movie m ON m.movie_id = s.movie_id
@@ -123,10 +124,10 @@
     LEFT JOIN
     schedule_seat ss ON s.schedule_id = ss.schedule_id
 
-    WHERE s.schedule_date >= SYSDATE
+    WHERE s.start_time >= SYSDATE
     <if test="date != null and date != ''">
-      AND s.schedule_date >= TO_DATE(#{date}, 'yyyy-mm-dd')
-      AND s.schedule_date &lt; TO_DATE(#{date}, 'yyyy-mm-dd') + 1
+      AND s.start_time >= TO_DATE(#{date}, 'yyyy-mm-dd')
+      AND s.start_time &lt; TO_DATE(#{date}, 'yyyy-mm-dd') + 1
     </if>
     <if test="movie != null and movie != 0">
       AND m.movie_id = #{movie}
@@ -134,7 +135,7 @@
     <if test="theater != null and theater != ''">
       AND t.theater_id = #{theater}
     </if>
-    ORDER BY s.schedule_date ASC
+    ORDER BY s.start_time ASC
   </select>
 
 </mapper>

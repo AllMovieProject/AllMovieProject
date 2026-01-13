@@ -9,4 +9,5 @@ public class BookingRequestDTO {
     private Integer movie;
     private Integer region;
     private String theater;
+    private Integer schedule_id;
 }

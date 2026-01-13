@@ -7,8 +7,8 @@ import lombok.Data;
 @Data
 public class ScheduleVO {
 	private int schedule_id, movie_id, screen_id, available_count, total_count;
-	private Date schedule_date;
-	private String sday, schedule_time;
+	private Date start_time, end_time;
+	private String sday, schedule_time, starttime, endtime;
 	
 	private MovieVO mvo = new MovieVO();
 	private TheaterVO tvo = new TheaterVO();

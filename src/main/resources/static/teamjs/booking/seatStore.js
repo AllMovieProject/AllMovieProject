@@ -12,13 +12,11 @@ const useSeatStore = defineStore('seat', {
 		async seatListData(id) {
 			this.id = id
 			
-			const res = await api.post('/seat/data', null, {
-				params: {
-					id: this.id
-				}
+			const res = await api.post('/seat/data', {
+        id: this.id
 			})
 			
-			this.seat_list = res.data.list
+			this.seat_list = res.data.seat_list
 		}
 	}
 })

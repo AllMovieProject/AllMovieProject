@@ -183,7 +183,7 @@
 
 													<div class="schedule_info">
 														<div class="time">
-															<strong>12:25</strong> <span>~14:23</span>
+															<strong>{{ svo.starttime }} ~ </strong> <span>{{ svo.endtime }}</span>
 														</div>
 
 														<div class="movie_info">
