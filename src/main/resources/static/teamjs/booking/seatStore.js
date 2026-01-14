@@ -8,7 +8,8 @@ const initialState = () => ({
 		seat_id: [],
 	},
 	col_len: 0,
-	seat_id: 0
+	seat_id: 0,
+  checked_seat: []
 })
 
 const useSeatStore = defineStore('seat', {
@@ -25,14 +26,38 @@ const useSeatStore = defineStore('seat', {
 			this.datas = res.data
 			this.col_len = this.datas.seat_col.length
 		},
+    
+    seatAvailable(rindex, cindex) {
+      const no = this.col_len * rindex + cindex
+      
+      if (this.datas.seat_id[no].reservation_flag === 0) {
+        return 0
+      } else {
+        return 1
+      }
+    },
 		
-		validation(no) {
-			console.log(this.datas.seat_id[no - 1].seat_id)
-			// 클릭하고 리프레시해서 체크 후 예약? 우선 seatlistdata 호출 후 if문으로 예약 가능 유무 체크 후 가능하면 checked 및 reservation 가능 불린 리턴?
+		seatValidation(rindex, cindex) {
+      const no = this.col_len * rindex + cindex
+      // 좌석 재클릭 취소시에 처리도 해야 함
+      console.log(no)
+      console.log(this.schedule_id)
+			console.log(this.datas.seat_id[no].seat_id)
+      this.seatListData(this.schedule_id)
+      
+      // 안되넹 0으로 뜸 reservation_flag 기다리거나 해야 할 듯
+      console.log(this.datas.seat_id[no].reservation_flag)
+      if (this.datas.seat_id[no].reservation_flag === 1) {
+        alert('이미 선점된 좌석입니다')
+        return
+      }
+      
+      this.checked_seat.push(no)
 		},
 		
-		async booking() {
+		booking() {
 			// 결제 버튼 클릭할때 validation 한 번 더 호출
+      
 		}
 	}
 })

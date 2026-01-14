@@ -30,13 +30,11 @@ public interface SeatMapper {
 		  + "ORDER BY se.seat_col ASC")
 	public List<SeatVO> seatColListData(int id);
 
-	@Select("SELECT DISTINCT se.seat_row, se.seat_col, ss.seat_id, ss.reservation_flag "
+	@Select("SELECT se.seat_row, se.seat_col, ss.seat_id, ss.reservation_flag "
 		  + "FROM schedule_seat ss "
 		  + "JOIN seat se "
 		  + "ON ss.seat_id = se.seat_id "
-		  + "JOIN schedule s "
-		  + "ON s.screen_id = se.screen_id "
-		  + "WHERE s.schedule_id = #{id} "
+		  + "WHERE ss.schedule_id = #{id} "
 		  + "ORDER BY se.seat_row ASC, se.seat_col ASC")
 	public List<ScheduleSeatVO> seatIdListData(int id);
 	
