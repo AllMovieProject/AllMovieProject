@@ -133,6 +133,9 @@
 						<a href="#">5</a>
 						<a href="#"><i class="fa fa-angle-double-right"></i></a>
 					</div>
+					<div style="align-self: flex-end;">
+						<a href="product_insert" class="btn btn-sm btn-primary">식품 추가</a>
+					</div>
 				
 			</div>
 		</div>

@@ -4,90 +4,7 @@
 
 <head>
 	<title>식품 관리 | 추가</title>
-	<style>
-		.hidden {
-			display: none !important;
-		}
-
-		.form-group {
-			margin-bottom: 15px;
-		}
-
-		.form-group label {
-			display: block;
-			margin-bottom: 5px;
-			font-weight: bold;
-		}
-
-		.form-group input,
-		.form-group select {
-			padding: 8px;
-			width: 100%;
-			max-width: 300px;
-		}
-
-		fieldset {
-			margin: 20px 0;
-			padding: 15px;
-			border: 2px solid #ddd;
-			border-radius: 5px;
-		}
-
-		legend {
-			font-weight: bold;
-			padding: 0 10px;
-		}
-
-		.combo-item {
-			display: flex;
-			align-items: center;
-			gap: 10px;
-			padding: 10px;
-			background: #f5f5f5;
-			margin: 5px 0;
-			border-radius: 5px;
-		}
-
-		.combo-item button {
-			background: #e74c3c;
-			color: white;
-			border: none;
-			padding: 5px 10px;
-			border-radius: 3px;
-			cursor: pointer;
-		}
-
-		.btn-group {
-			display: flex;
-			gap: 10px;
-			margin-top: 20px;
-		}
-
-		.btn-group button {
-			padding: 12px 24px;
-			border: none;
-			border-radius: 5px;
-			cursor: pointer;
-			font-size: 16px;
-		}
-
-		.btn-info {
-			background: #95a5a6;
-			color: white;
-		}
-
-		.btn-primary {
-			background: #3498db;
-			color: white;
-		}
-
-		.price-display {
-			font-size: 20px;
-			font-weight: bold;
-			color: #27ae60;
-			margin: 10px 0;
-		}
-	</style>
+	<link rel="stylesheet" href="/css/prod-insert.css" type="text/css">
 </head>
 
 <body>
@@ -114,14 +31,14 @@
 					<!-- 단품/콤보 선택 -->
 					<div class="form-group">
 						<label>상품 유형</label>
-						<select v-model="store.isCombo" @change="store.resetForm">
+						<select v-model="store.isCombo" @change="store.resetForm()">
 							<option value="S">단품</option>
 							<option value="C">콤보</option>
 						</select>
 					</div>
 
 					<!-- 단품 폼 -->
-					<div id="singleProductForm" :class="{ hidden: store.isCombo !== 'S' }">
+					<div id="singleProductForm" :class="{ hidden: store.isCombo !== 'N' }">
 						<fieldset>
 							<legend>식품 카테고리</legend>
 							<label><input type="checkbox" v-model="store.categories" value="1"> 팝콘</label>
@@ -173,7 +90,7 @@
 					</div>
 
 					<!-- 콤보 폼 -->
-					<div id="comboProductForm" :class="{ hidden: store.isCombo !== 'C' }">
+					<div id="comboProductForm" :class="{ hidden: store.isCombo !== 'Y' }">
 						<fieldset>
 							<legend>콤보 구성</legend>
 							<div id="comboList">
@@ -237,14 +154,14 @@
 					<div class="form-group">
 						<label>판매 가격</label>
 						<div class="price-display">{{ (store.calculatedPrice || 0).toLocaleString() }}원</div>
-						<small v-if="store.isCombo === 'S' && store.isBase">
+						<small v-if="store.isCombo === 'N' && store.isBase">
 							(기본 식품 가격)
 						</small>
-						<small v-if="store.isCombo === 'S' && !store.isBase && store.baseItemPrice > 0">
+						<small v-if="store.isCombo === 'N' && !store.isBase && store.baseItemPrice > 0">
 							(기본: {{ (store.baseItemPrice || 0).toLocaleString() }}원 + 추가: {{ (store.addPrice || 0).toLocaleString()
 							}}원)
 						</small>
-						<small v-if="store.isCombo === 'C' && store.comboItemList.length > 0">
+						<small v-if="store.isCombo === 'Y' && store.comboItemList.length > 0">
 							(합계: {{ (store.comboTotalPrice || 0).toLocaleString() }}원 - 할인: {{ (store.discountPrice ||
 							0).toLocaleString() }}원)
 						</small>
@@ -269,7 +186,10 @@
 		const app = createApp({
 			setup() {
 				const store = useProductStore();
-				return { store };
+				
+				return {
+					store
+				};
 			}
 		});
 

@@ -3,7 +3,7 @@ const { defineStore } = Pinia;
 // Pinia Store 정의
 const useProductStore = defineStore('product', {
 	state: () => ({
-		isCombo: 'S',
+		isCombo: 'N',
 		categories: [],
 		isBase: true,
 		itemName: '',
@@ -56,7 +56,7 @@ const useProductStore = defineStore('product', {
 
 		// 계산된 최종 가격
 		calculatedPrice() {
-			if (this.isCombo === 'S') {
+			if (this.isCombo === 'N') {
 				// 단품
 				if (this.isBase) {
 					return this.basePrice || 0; // 기본 식품 가격
@@ -72,19 +72,20 @@ const useProductStore = defineStore('product', {
 
 	actions: {
 		resetForm() {
-		    // 폼 전환 시 초기화
-		    this.categories = [];
-		    this.isBase = true;
-		    this.itemName = '';
-		    this.size = '';
-		    this.basePrice = 0;
-		    this.addPrice = 0;
-		    this.baseItemId = '';
-		    this.baseItemPrice = 0;
-		    this.comboCategory = '';
-		    this.selectedComboItemId = '';
-		    this.comboItemList = [];
-		    this.discountPrice = 0;
+			console.log(this.isCombo)
+	    // 폼 전환 시 초기화
+	    this.categories = [];
+	    this.isBase = true;
+	    this.itemName = '';
+	    this.size = '';
+	    this.basePrice = 0;
+	    this.addPrice = 0;
+	    this.baseItemId = '';
+	    this.baseItemPrice = 0;
+	    this.comboCategory = '';
+	    this.selectedComboItemId = '';
+	    this.comboItemList = [];
+	    this.discountPrice = 0;
 		},
 		
 		updateBaseItemPrice() {
@@ -130,14 +131,14 @@ const useProductStore = defineStore('product', {
 			this.comboItemList.splice(index, 1);
 		},
 
-		submitForm() {
+		async submitForm() {
 			// 유효성 검사
 			if (!this.productName) {
 				alert('판매 식품 이름을 입력하세요');
 				return;
 			}
 
-			if (this.isCombo === 'S') {
+			if (this.isCombo === 'N') {
 				if (this.categories.length === 0 || !this.itemName) {
 					alert('필수 항목을 입력하세요');
 					return;
@@ -161,7 +162,7 @@ const useProductStore = defineStore('product', {
 				price: this.calculatedPrice
 			};
 
-			if (this.isCombo === 'S') {
+			if (this.isCombo === 'N') {
 				formData.categories = this.categories;
 				formData.itemName = this.itemName;
 				formData.size = this.size;
@@ -176,12 +177,10 @@ const useProductStore = defineStore('product', {
 
 			console.log('전송 데이터:', formData);
 
-			// 실제로는 서버로 전송
-			// fetch('/api/product/add', {
-			//     method: 'POST',
-			//     headers: { 'Content-Type': 'application/json' },
-			//     body: JSON.stringify(formData)
-			// })
+			const { data } = await api.post('/product/insert', {
+				formData: formData
+			})
+			console.log('받은 데이터', data)
 
 			alert('식품이 추가되었습니다!');
 		}
