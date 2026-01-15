@@ -55,61 +55,15 @@ public class BookingServiceImpl implements BookingService {
         map.put("movie", movie);
         map.put("theater", theater);
         List<ScheduleVO> date_list = mapper.dynamicDateListData(map);
+
+        date_list = beautifulDateList(date_list, page);
+
         map = new HashMap<>();
-
-        ScheduleVO firstVO = date_list.get(0);
-        ScheduleVO lastVO = date_list.get(date_list.size() - 1);
-
-        int startDay = Integer.parseInt(firstVO.getSday().split("-")[2]);
-        int endDay = Integer.parseInt(lastVO.getSday().split("-")[2]);
-
-        int start = 0 + (page - 1) * 10;
-        int end = date_len + (page - 1) * 10;
-        if (end > date_list.size()) {
-        	end =  date_list.size();
-        }
-
-        if (date_list.size() >= date_len) {
-            date_list = date_list.subList(start, end);
-        } else {
-            date_list = addDateData(date_list);
-        }
-
         map.put("date_list", date_list);
+        
         return map;
     }
-
-    private List<ScheduleVO> addDateData(List<ScheduleVO> list) {
-        List<ScheduleVO> date_list = list;
-
-        StringTokenizer st = new StringTokenizer(date_list.get(date_list.size() - 1).getSday(), "-");
-        int year = Integer.parseInt(st.nextToken());
-        int month = Integer.parseInt(st.nextToken());
-        int day = Integer.parseInt(st.nextToken());
-
-        YearMonth ym = YearMonth.of(year, month);
-        int lastDay = ym.lengthOfMonth();
-        int count = 0;
-
-        for (int i = day + 1; i <= lastDay; i++) {
-            ScheduleVO vo = new ScheduleVO();
-            vo.setSday("--일정 없음");
-            date_list.add(vo);
-            count++;
-
-            if (date_list.size() == date_len) {
-                break;
-            }
-        }
-
-        if (count < date_len - date_list.size()) {
-            // 달이 바뀌거나 연도가 바뀌어서 일자가 다 못 들어간거임
-            // 중간 중간 값이 없을 수도 있으니 available로
-        }
-
-        return date_list;
-    }
-
+    
     private Map<String, Object> getMovieList(String date, Integer region, String theater) {
         Map<String, Object> map = new HashMap<>();
 
@@ -236,5 +190,81 @@ public class BookingServiceImpl implements BookingService {
         map.put("page", page);
 
         return map;
+    }
+    
+    private List<ScheduleVO> beautifulDateList(List<ScheduleVO> date_list, int page) {
+    	String firstDay = date_list.get(0).getSday();
+        StringTokenizer st = new StringTokenizer(firstDay, "-");
+        int fYear = Integer.parseInt(st.nextToken());
+        int fMonth = Integer.parseInt(st.nextToken());
+        int fDay = Integer.parseInt(st.nextToken());
+        
+        String lastDay = date_list.get(date_list.size() - 1).getSday();
+        st = new StringTokenizer(lastDay, "-");
+        int lYear = Integer.parseInt(st.nextToken());
+        int lMonth = Integer.parseInt(st.nextToken());
+        int lDay = Integer.parseInt(st.nextToken());
+        
+		/*
+		 * while (true) { if (countDay == lastDay && date_list.size() >= date_len) {
+		 * break; }
+		 * 
+		 * break; }
+		 */
+        
+		/*
+		 * for (;date_list.size() == date_len;) {
+		 *  fday를 1씩 증가하면서 lday와 같아질 때까지
+		 * }
+		 */
+
+        YearMonth ym = YearMonth.of(fYear, fMonth);
+        int firstLastDay = ym.lengthOfMonth();
+        
+        if (fYear < lYear) {
+        	
+        }
+        
+        int start = 0 + (page - 1) * 10;
+        int end = date_len + (page - 1) * 10;
+        if (end > date_list.size()) {
+        	end =  date_list.size();
+        }
+        
+        if (date_list.size() >= date_len) {
+            date_list = date_list.subList(start, end);
+        } else {
+        }
+        
+        return date_list;
+    }
+
+    private List<ScheduleVO> addDateData(List<ScheduleVO> date_list) {
+        StringTokenizer st = new StringTokenizer(date_list.get(date_list.size() - 1).getSday(), "-");
+        int year = Integer.parseInt(st.nextToken());
+        int month = Integer.parseInt(st.nextToken());
+        int day = Integer.parseInt(st.nextToken());
+
+        YearMonth ym = YearMonth.of(year, month);
+        int lastDay = ym.lengthOfMonth();
+        int count = 0;
+
+        for (int i = day + 1; i <= lastDay; i++) {
+            ScheduleVO vo = new ScheduleVO();
+            vo.setSday("--일정 없음");
+            date_list.add(vo);
+            count++;
+
+            if (date_list.size() == date_len) {
+                break;
+            }
+        }
+
+        if (count < date_len - date_list.size()) {
+            // 달이 바뀌거나 연도가 바뀌어서 일자가 다 못 들어간거임
+            // 중간 중간 값이 없을 수도 있으니 available로
+        }
+
+        return date_list;
     }
 }

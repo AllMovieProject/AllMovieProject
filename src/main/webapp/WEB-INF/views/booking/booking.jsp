@@ -67,6 +67,63 @@
 	border-left: thin solid #32a1ce;
 	height: 480px;
 }
+
+.schedule_info {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+}
+
+.time {
+	width: 120px;
+	font-size: 18px;
+	font-weight: bold;
+}
+
+.time span {
+	font-size: 13px;
+	font-weight: normal;
+	color: #666;
+	margin-left: 4px;
+}
+
+.movie_info {
+	flex: 1;
+	padding-left: 10px;
+}
+
+.movie_info .title {
+	font-size: 15px;
+	font-weight: 600;
+}
+
+.movie_info .type {
+	font-size: 13px;
+	color: #777;
+	margin-top: 2px;
+}
+
+.theater_info {
+	width: 160px;
+	text-align: right;
+	font-size: 13px;
+	color: #444;
+}
+
+.seat_count {
+	width: 90px;
+	text-align: right;
+	font-size: 14px;
+}
+
+.seat_count .remain {
+	color: #0a84ff;
+	font-weight: bold;
+}
+
+.seat_count .total {
+	color: #777;
+}
 </style>
 </head>
 <body>
@@ -96,7 +153,7 @@
 							<tr>
 								<td class="pageBtn">&lt;</td>
 								<td v-for="dvo in store.datas.date_list" class="booking_data"
-									:class="{' table-active': store.booking_date === dvo.sday }"
+									:class="{'table-active': store.booking_date === dvo.sday }"
 									@click="store.dateUpdate(dvo.sday)" :key="dvo.sday">{{
 									dvo.sday.split('-')[2] }} 일</td>
 								<td class="pageBtn">&gt;</td>
@@ -177,7 +234,7 @@
 									<tbody>
 										<tr v-for="svo in store.datas.schedule_list"
 											:key="svo.schedule_id">
-											<td @click="store.seatPage(form)">
+											<td class="booking_data" @click="store.seatPage(form)">
 												<div class="schedule_list">
 													<input type="hidden" name="id" :value="svo.schedule_id" />
 
@@ -231,6 +288,8 @@
         
         onMounted(() => {
         	store.bookingListData()
+        	store.booking_date = '${today}'
+        	store.user_id = '${sessionScope.userId}'
         })
         
         return {

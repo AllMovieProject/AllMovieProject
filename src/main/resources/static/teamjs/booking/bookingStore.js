@@ -7,12 +7,14 @@ const initialState = () => ({
 	booking_region: 0,
 	booking_theater: '',
 	datas: {
+		today: '',
 		date_list: [],
 		movie_list: [],
 		region_list: [],
 		theater_list: [],
     schedule_list: []
-	}
+	},
+	user_id: ''
 })
 
 const useBookingStore = defineStore('booking', {
@@ -42,6 +44,7 @@ const useBookingStore = defineStore('booking', {
 		},
 
 		movieUpdate(movie) {
+			console.log(this.user_id)
 			if (this.booking_movie === movie) {
 				this.booking_movie = 0
 			} else {
@@ -73,6 +76,10 @@ const useBookingStore = defineStore('booking', {
     
     seatPage(form) {
 			// if sessionId가 null이면 alert 아이디 입력해주세요 return
+			if (this.user_id === '') {
+				alert('')
+			}
+			
 			form.submit()
     }
 	}

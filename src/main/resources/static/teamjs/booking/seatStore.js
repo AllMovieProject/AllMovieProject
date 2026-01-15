@@ -37,27 +37,39 @@ const useSeatStore = defineStore('seat', {
       }
     },
 		
-		seatValidation(rindex, cindex) {
-      const no = this.col_len * rindex + cindex
+		async seatValidation(rindex, cindex) {
+			const no = this.col_len * rindex + cindex
+			
+			if (rindex == 'booking') {
+				
+			}
+			
       // 좌석 재클릭 취소시에 처리도 해야 함
       console.log(no)
       console.log(this.schedule_id)
 			console.log(this.datas.seat_id[no].seat_id)
-      this.seatListData(this.schedule_id)
+      await this.seatListData(this.schedule_id)
       
-      // 안되넹 0으로 뜸 reservation_flag 기다리거나 해야 할 듯
       console.log(this.datas.seat_id[no].reservation_flag)
+			
+			// for문 돌리기
       if (this.datas.seat_id[no].reservation_flag === 1) {
         alert('이미 선점된 좌석입니다')
+				this.checked_seat = []
         return
-      }
-      
-      this.checked_seat.push(no)
+      } else {
+				this.checked_seat.push(no)
+			}
 		},
 		
 		booking() {
 			// 결제 버튼 클릭할때 validation 한 번 더 호출
-      
+			this.seatValidation('booking', 0)
+			// 페이지 이동할 때 로그인 여부 체크 포함 this.schedule_id와 this.checked_seat 넘기는데 이거 dto로 만들어야 할 듯
+		},
+		
+		reset() {
+			
 		}
 	}
 })
