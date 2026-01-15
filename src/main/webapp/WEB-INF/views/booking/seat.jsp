@@ -15,6 +15,9 @@
 	border-color: gray;
 }
 
+.seat_info {
+}
+
 .seat_count {
   padding: 20px 10px;
   font-family: sans-serif;
@@ -25,6 +28,8 @@
   justify-content: space-between;
   align-items: center;
   margin-bottom: 15px;
+  margin-top: 10px;
+  margin-left: 15px;
 }
 
 .people-header h3 {
@@ -48,6 +53,7 @@
   padding: 10px;
   display: flex;
   gap: 40px;
+  margin-left: 15px;
 }
 
 .people-item {
@@ -94,22 +100,21 @@
 	width: 37px;
 	height: 37px;
 	border-radius: 5px;
-	margin-left: 21px;
 }
 
 .available_seat {
-	width: 33px;
-	height: 33px;
+	width: 35px;
+	height: 35px;
 	background-color: #d1cfcf;
 	border-radius: 5px;
-	margin: 5px 10px;
+	margin: 5px 7px;
 	cursor: pointer;
 }
 
 .booked_seat {
-	width: 33px;
-	height: 33px;
-	margin: 5px 10px;
+	width: 35px;
+	height: 35px;
+	margin: 5px 7px;
 	border-radius: 5px;
 	background-color: #b5b5b5;
 	color: #fff;
@@ -149,7 +154,7 @@
 		<div class="container">
 			<div class="row">
 				<div class="col-lg-12 seat_container">
-					<div class="seat_count">
+					<div class="seat_info col-lg-8">
 						<div class="people-header">
 							<h3>관람인원선택</h3>
 							<button class="reset-btn">⟳ 초기화</button>
@@ -183,13 +188,11 @@
 								</div>
 							</div>
 						</div>
-					</div>
-
-					<div class="seat_list">
-						<table class="">
+					
+						<table>
 							<tr>
-								<td v-for="(col, index) in store.datas.seat_col" :key="index">
-									<div class="col_info">{{ col.seat_col }}</div>
+								<td class="col_info" v-for="(col, index) in store.datas.seat_col" :key="index">
+									<div>{{ col.seat_col }}</div>
 								</td>
 							</tr>
 						</table>
@@ -199,14 +202,17 @@
 								<td v-for="(col, cindex) in store.datas.seat_col" :key="cindex">
 
 									<div v-if="store.seatAvailable(rindex, cindex) === 0"
-										class="available_seat"
-										@click="store.seatValidation(rindex, cindex)"></div>
+										class="available_seat text-center"
+										@click="store.seatValidation(rindex, cindex)">{{ cindex + 1 }}</div>
 
 									<div class="booked_seat"
 										v-if="store.seatAvailable(rindex, cindex) === 1">X</div>
 								</td>
 							</tr>
 						</table>
+					</div>
+					<div class="booking_info col-lg-4">
+					
 					</div>
 				</div>
 			</div>

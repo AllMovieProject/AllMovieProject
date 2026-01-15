@@ -41,7 +41,7 @@
 							<ul>
 								<li><a href="/" class="seach-switch"><span
 										class="icon_search"></span></a></li>
-								<li><a href="member/login"><span class="icon_profile"></span></a>
+								<li><a href="/member/login"><span class="icon_profile"></span></a>
 									<ul class="dropdown">
 										<li><a href="/member/login">로그인</a></li>
 										<li><a href="/member/join">회원 가입</a></li>
