@@ -28,14 +28,14 @@
             <div class="row">
                 <div class="col-lg-6">
                     <div class="login__form">
-                        <h3>Login</h3>
-                        <form action="#">
+                        <h3>로그인</h3>
+                        <form method="post" action="/member/login_process">
                             <div class="input__item">
-                                <input type="text" placeholder="Email address">
+                                <input type="text" name="userid" placeholder="아이디">
                                 <span class="icon_mail"></span>
                             </div>
                             <div class="input__item">
-                                <input type="text" placeholder="Password">
+                                <input type="password" name="userpwd" placeholder="비밀번호">
                                 <span class="icon_lock"></span>
                             </div>
                             <button type="submit" class="site-btn">Login Now</button>

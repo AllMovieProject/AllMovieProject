@@ -44,7 +44,6 @@ const useBookingStore = defineStore('booking', {
 		},
 
 		movieUpdate(movie) {
-			console.log(this.user_id)
 			if (this.booking_movie === movie) {
 				this.booking_movie = 0
 			} else {
@@ -75,12 +74,12 @@ const useBookingStore = defineStore('booking', {
 		},
     
     seatPage(form) {
-			// if sessionId가 null이면 alert 아이디 입력해주세요 return
-			if (this.user_id === '') {
-				alert('')
+			if (this.user_id === null || this.user_id === '') {
+				alert('로그인 후 사용해 주세요')
+				return
+			} else {
+				form.submit()
 			}
-			
-			form.submit()
     }
 	}
 })

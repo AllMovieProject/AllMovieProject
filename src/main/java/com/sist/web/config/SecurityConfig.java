@@ -58,7 +58,7 @@ public class SecurityConfig {
     @Bean
     public AuthenticationManager authenticationManager(HttpSecurity http, BCryptPasswordEncoder passwordEncoder) throws Exception {
         AuthenticationManagerBuilder builder = http.getSharedObject(AuthenticationManagerBuilder.class);
-        builder.userDetailsService(jdbcUserDetailsManager()).passwordEncoder(passwordEncoder);
+        builder.userDetailsService(jdbcUserDetailsManager()).passwordEncoder(passwordEncoder());
         return builder.build();
     }
     
@@ -72,7 +72,7 @@ public class SecurityConfig {
                 """);
         
         manager.setAuthoritiesByUsernameQuery("""
-                SELECT userid as username, userpwd as password, enabled
+                SELECT userid as username, authority
                 FROM authority WHERE userid = ?
                 """);
         

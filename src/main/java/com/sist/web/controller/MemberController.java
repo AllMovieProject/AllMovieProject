@@ -1,5 +1,6 @@
 package com.sist.web.controller;
 
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,6 +16,7 @@ import lombok.RequiredArgsConstructor;
 @Controller
 @RequiredArgsConstructor
 public class MemberController {
+	private final BCryptPasswordEncoder encoder;
 	private final MemberService mService;
 
 	@GetMapping("/member/join")
@@ -25,6 +27,7 @@ public class MemberController {
 	
 	@PostMapping("/member/join_ok")
 	public String member_join_ok(@ModelAttribute("vo") MemberVO vo) {
+		vo.setUserpwd(encoder.encode(vo.getUserpwd()));
 		mService.memberInsert(vo);
 		mService.memberAuthorityInsert(vo.getUserid());
 		return "redirect:/";
