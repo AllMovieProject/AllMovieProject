@@ -46,7 +46,6 @@ const useBookingStore = defineStore('booking', {
 				this.booking_movie = 0
 			} else {
 				this.booking_movie = movie
-				this.booking_region = 0
 			}
 
 			this.bookingListData()
