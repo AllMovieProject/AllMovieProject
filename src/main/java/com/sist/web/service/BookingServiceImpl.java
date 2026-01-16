@@ -47,9 +47,6 @@ public class BookingServiceImpl implements BookingService {
     }
     
     private Map<String, Object> getDateList(Integer movie, String theater, Integer page) {
-        if (page == null) {
-            page = 1;
-        }
         Map<String, Object> map = new HashMap<>();
 
         map.put("movie", movie);

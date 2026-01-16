@@ -8,6 +8,7 @@ import org.apache.ibatis.annotations.Update;
 import org.springframework.stereotype.Repository;
 
 import com.sist.web.vo.ScheduleSeatVO;
+import com.sist.web.vo.ScheduleVO;
 import com.sist.web.vo.SeatVO;
 
 @Mapper
@@ -38,10 +39,13 @@ public interface SeatMapper {
 		  + "ORDER BY se.seat_row ASC, se.seat_col ASC")
 	public List<ScheduleSeatVO> seatIdListData(int id);
 	
+	public ScheduleVO bookingDataInfo(int id);
+	
 	// 결제가 되면
 	@Update("UPDATE schedule_seat SET reservation_flag = 1 "
 		  + "WHERE seat_id = #{id}")
 	public void scheduleIdFlagUpdate();
 	
 	// 아이디 얻어서 예매 테이블 추가와 취소
+	
 }

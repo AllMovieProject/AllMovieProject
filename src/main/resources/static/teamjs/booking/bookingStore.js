@@ -76,7 +76,7 @@ const useBookingStore = defineStore('booking', {
     seatPage(form) {
 			if (this.user_id === null || this.user_id === '') {
 				alert('로그인 후 사용해 주세요')
-				return
+				location.href = '/booking'
 			} else {
 				form.submit()
 			}

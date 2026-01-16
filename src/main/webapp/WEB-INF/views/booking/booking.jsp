@@ -36,6 +36,12 @@
 	overflow-y: auto;
 }
 
+.movie_rating {
+	width: 20px;
+	height: 20px;
+	margin-bottom: 5px;
+}
+
 .theater_region {
 	width: 12%;
 	color: black;
@@ -157,7 +163,6 @@
 									@click="store.dateUpdate(dvo.sday)" :key="dvo.sday">{{
 									dvo.sday.split('-')[2] }} 일</td>
 								<td class="pageBtn">&gt;</td>
-								<td class="booking_data">달력</td>
 							</tr>
 						</table>
 					</div>
@@ -181,7 +186,10 @@
 									<tr v-for="mvo in store.datas.movie_list" :key="mvo.movie_id">
 										<td class="booking_data"
 											:class="{' table-active': store.booking_movie === mvo.movie_id }"
-											@click="store.movieUpdate(mvo.movie_id)">{{ mvo.title }}</td>
+											@click="store.movieUpdate(mvo.movie_id)">
+											<img :src="'/teamimg/booking/movie/' + mvo.rating + '.png'" class="movie_rating">
+											{{ mvo.title }}
+										</td>
 									</tr>
 									<tr>
 										<td></td>
