@@ -19,6 +19,12 @@ public class ProductServiceImpl implements ProductService {
 
 	@Override
 	public String productInsert(ProductFormDTO dto) {
+		if (dto.getIsCombo().equals("Y")) {
+			// TODO for List
+		} else {
+			// TODO once
+		}
+		
 //		@Insert("INSERT INTO product_item(item_id, item_name, item_size, item_price, base_item_id) "
 //			  + "VALUES(seq_item_id.nextval, #{item_name}, #{item_size}, #{item_price}, #{base_item_id})")
 		ProductItemVO piVO = new ProductItemVO();
@@ -35,11 +41,15 @@ public class ProductServiceImpl implements ProductService {
 		
 //		StoreProductVO spVO = new StoreProductVO(product_id, dto.getProductName(), dto.getImage(), item_id, 
 //				dto.getPrice(), dto.getDiscountPrice(), dto.getProductDesc(), dto.getIsCombo());
-//		mapper.storeProductInsert(spVO);
+		StoreProductVO spVO = new StoreProductVO();
+		mapper.storeProductInsert(spVO);
 
 //		@Insert("INSERT INTO product_combo(combo_id, product_id, item_id, is_upgrade, upgrade_price, item_quantity) "
 //			  + "VALUES(seq_combo_id.nextval, #{product_id}, #{item_id}, #{is_upgrade}, #{upgrade_price}, #{item_quantity})")
 //		ProductComboVO pcVO = new ProductComboVO(combo_id, product_id, item_id, is_upgrade, upgrade_price, dto.quantity)
+		ProductComboVO pcVO = new ProductComboVO();
+		pcVO.setProduct_id(spVO.getProduct_id());
+		
 //		mapper.productComboInsert(pcVO);
 		return null;
 	}
