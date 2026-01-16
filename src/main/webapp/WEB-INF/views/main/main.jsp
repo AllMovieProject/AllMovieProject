@@ -23,6 +23,9 @@
 <link rel="stylesheet" href="/css/slicknav.min.css" type="text/css">
 <link rel="stylesheet" href="/css/style.css" type="text/css">
 
+<!-- Team Css Styles -->
+<link rel="stylesheet" href="/teamcss/booking-style.css" type="text/css">
+
 <script src="https://unpkg.com/vue@3.3.4/dist/vue.global.js"></script>
 <script src="https://unpkg.com/vue-demi"></script>
 <script src="https://unpkg.com/pinia@2.1.7/dist/pinia.iife.prod.js"></script>

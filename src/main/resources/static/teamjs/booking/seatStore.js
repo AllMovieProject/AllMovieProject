@@ -32,7 +32,6 @@ const useSeatStore = defineStore('seat', {
 			
 			this.datas = res.data
 			this.col_len = this.datas.col_list.length
-			console.log(this.datas.booking_info)
 		},
     
     seatAvailable(rindex, cindex) {
@@ -88,7 +87,7 @@ const useSeatStore = defineStore('seat', {
 			this.total_price = 0
 			this.checked_seat = []
 			
-			this.seatListData()
+			this.seatListData(this.schedule_id)
 		},
 		
 	}
