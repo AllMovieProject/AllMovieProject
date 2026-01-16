@@ -1,68 +1,67 @@
-const { createApp } = Vue;
-const { createPinia, defineStore } = Pinia;
+const { defineStore } = Pinia;
 
 // Pinia Store 정의
-const useProductStore = defineStore("product", {
+const useProductStore = defineStore('product', {
 	state: () => ({
-		isCombo: "N",
+		isCombo: 'N',
 		categories: [],
 		isBase: true,
-		itemName: "",
-		size: "",
+		itemName: '',
+		size: '',
 		basePrice: 0,
 		addPrice: 0,
-		baseItemId: "",
+		baseItemId: '',
 		baseItemPrice: 0,
-		comboCategory: "",
-		selectedComboItemId: "",
+		comboCategory: '',
+		selectedComboItemId: '',
 		comboQuantity: 1,
 		comboIsUpgrade: true,
 		comboUpgradePrice: 500,
 		comboItemList: [],
 		discountPrice: 0,
-		productName: "",
-		productDesc: "",
-		image: "",
+		productName: '',
+		productDesc: '',
+		image: '',
 
 		// 더미 데이터 (실제로는 서버에서 가져옴)
 		allItems: [
 			{
 				id: 1,
-				categoryId: "1",
-				name: "기본팝콘",
-				size: "M",
+				categoryId: '1',
+				name: '기본팝콘',
+				size: 'M',
 				price: 5500,
 				isBase: true,
 			},
 			{
 				id: 2,
-				categoryId: "1",
-				name: "기본팝콘",
-				size: "L",
+				categoryId: '1',
+				name: '기본팝콘',
+				size: 'L',
 				price: 6000,
 				isBase: true,
 			},
 			{
 				id: 3,
-				categoryId: "2",
-				name: "셀프탄산",
-				size: "M",
+				categoryId: '2',
+				name: '셀프탄산',
+				size: 'M',
 				price: 3000,
 				isBase: true,
 			},
 			{
 				id: 4,
-				categoryId: "2",
-				name: "셀프탄산",
-				size: "L",
+				categoryId: '2',
+				name: '셀프탄산',
+				size: 'L',
 				price: 3500,
 				isBase: true,
 			},
 			{
 				id: 5,
-				categoryId: "4",
-				name: "나초",
-				size: "",
+				categoryId: '4',
+				name: '나초',
+				size: '',
 				price: 4500,
 				isBase: true,
 			},
@@ -98,7 +97,7 @@ const useProductStore = defineStore("product", {
 
 		// 계산된 최종 가격
 		calculatedPrice() {
-			if (this.isCombo === "N") {
+			if (this.isCombo === 'N') {
 				// 단품
 				if (this.isBase) {
 					return this.basePrice || 0; // 기본 식품 가격
@@ -120,32 +119,30 @@ const useProductStore = defineStore("product", {
 			// 폼 전환 시 초기화
 			this.categories = [];
 			this.isBase = true;
-			this.itemName = "";
-			this.size = "";
+			this.itemName = '';
+			this.size = '';
 			this.basePrice = 0;
 			this.addPrice = 0;
-			this.baseItemId = "";
+			this.baseItemId = '';
 			this.baseItemPrice = 0;
-			this.comboCategory = "";
-			this.selectedComboItemId = "";
+			this.comboCategory = '';
+			this.selectedComboItemId = '';
 			this.comboItemList = [];
 			this.discountPrice = 0;
 		},
 
 		updateBaseItemPrice() {
-			const selected = this.allItems.find(
-				(item) => item.id == this.baseItemId,
-			);
+			const selected = this.allItems.find((item) => item.id == this.baseItemId);
 			this.baseItemPrice = selected ? selected.price : 0;
 		},
 
 		updateComboItems() {
-			this.selectedComboItemId = "";
+			this.selectedComboItemId = '';
 		},
 
 		addComboItem() {
 			if (!this.selectedComboItemId) {
-				alert("식품을 선택하세요");
+				alert('식품을 선택하세요');
 				return;
 			}
 
@@ -154,10 +151,10 @@ const useProductStore = defineStore("product", {
 			);
 			if (selected) {
 				const categoryNames = {
-					1: "팝콘",
-					2: "음료",
-					3: "탄산",
-					4: "스낵",
+					1: '팝콘',
+					2: '음료',
+					3: '탄산',
+					4: '스낵',
 				};
 
 				this.comboItemList.push({
@@ -169,14 +166,12 @@ const useProductStore = defineStore("product", {
 					price: selected.price,
 					quantity: this.comboQuantity,
 					isUpgrade: this.comboIsUpgrade,
-					upgradePrice: this.comboIsUpgrade
-						? this.comboUpgradePrice
-						: 0,
+					upgradePrice: this.comboIsUpgrade ? this.comboUpgradePrice : 0,
 				});
 
 				// 초기화
-				this.comboCategory = "";
-				this.selectedComboItemId = "";
+				this.comboCategory = '';
+				this.selectedComboItemId = '';
 				this.comboQuantity = 1;
 				this.comboIsUpgrade = true;
 				this.comboUpgradePrice = 500;
@@ -190,22 +185,22 @@ const useProductStore = defineStore("product", {
 		submitForm() {
 			// 유효성 검사
 			if (!this.productName) {
-				alert("판매 식품 이름을 입력하세요");
+				alert('판매 식품 이름을 입력하세요');
 				return;
 			}
 
-			if (this.isCombo === "N") {
+			if (this.isCombo === 'N') {
 				if (this.categories.length === 0 || !this.itemName) {
-					alert("필수 항목을 입력하세요");
+					alert('필수 항목을 입력하세요');
 					return;
 				}
 				if (this.isBase && this.basePrice <= 0) {
-					alert("식품 가격을 입력하세요");
+					alert('식품 가격을 입력하세요');
 					return;
 				}
 			} else {
 				if (this.comboItemList.length === 0) {
-					alert("콤보 구성을 추가하세요");
+					alert('콤보 구성을 추가하세요');
 					return;
 				}
 			}
@@ -218,7 +213,7 @@ const useProductStore = defineStore("product", {
 				price: this.calculatedPrice,
 			};
 
-			if (this.isCombo === "N") {
+			if (this.isCombo === 'N') {
 				formData.categories = this.categories;
 				formData.itemName = this.itemName;
 				formData.size = this.size;
@@ -231,7 +226,7 @@ const useProductStore = defineStore("product", {
 				formData.discountPrice = this.discountPrice;
 			}
 
-			console.log("전송 데이터:", formData);
+			console.log('전송 데이터:', formData);
 
 			// 실제로는 서버로 전송
 			// fetch('/api/product/add', {
@@ -240,7 +235,7 @@ const useProductStore = defineStore("product", {
 			//     body: JSON.stringify(formData)
 			// })
 
-			alert("식품이 추가되었습니다!");
+			alert('식품이 추가되었습니다!');
 		},
 	},
 });
