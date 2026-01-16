@@ -22,11 +22,15 @@ public class ProductServiceImpl implements ProductService {
 //		@Insert("INSERT INTO product_item(item_id, item_name, item_size, item_price, base_item_id) "
 //			  + "VALUES(seq_item_id.nextval, #{item_name}, #{item_size}, #{item_price}, #{base_item_id})")
 		ProductItemVO piVO = new ProductItemVO();
+		piVO.setItem_name(dto.getItemName());
+		
 		mapper.productItemInsert(piVO);
 		
 //		@Insert("INSERT INTO product_item_category(item_category_id, item_id, category_id) "
 //			  + "VALUES(seq_item_category_id.nextval, #{item_id}, #{category_id})")
 		ProductItemCategoryVO picVO = new ProductItemCategoryVO();
+		picVO.setItem_id(piVO.getItem_id());
+		picVO.setCategory_id(1);
 		mapper.productItemCategoryInsert(picVO);
 		
 //		StoreProductVO spVO = new StoreProductVO(product_id, dto.getProductName(), dto.getImage(), item_id, 

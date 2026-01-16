@@ -41,3 +41,6 @@ legend { font-weight: bold; padding: 0 10px; }
     color: #27ae60; 
     margin: 10px 0;
 }
+label, legend, small {
+	color: white;
+}
