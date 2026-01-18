@@ -1,9 +1,14 @@
 package com.sist.web.mapper;
 
+import java.util.List;
+
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.SelectKey;
 
+import com.sist.web.vo.ProductCategoryVO;
 import com.sist.web.vo.ProductComboVO;
 import com.sist.web.vo.ProductItemCategoryVO;
 import com.sist.web.vo.ProductItemVO;
@@ -11,6 +16,27 @@ import com.sist.web.vo.StoreProductVO;
 
 @Mapper
 public interface ProductMapper {
+	
+	@Select("SELECT category_id, category_name FROM product_category ORDER BY category_id")
+	public List<ProductCategoryVO> productCategoryList();
+	
+	@Select("<script> "
+		  + "SELECT pi.item_id, item_name, item_size, item_price, base_item_id, add_price "
+		  + "FROM product_item pi "
+		  + "JOIN product_item_category pic ON pi.item_id = pic.item_id "
+		  + "<where> "
+		  	+ "<choose> "
+		  	  + "<when test='base_item_id == null'> "
+		  		+ "base_item_id IS NULL "
+		  	  + "</when> "
+		  	  + "<when test='base_item_id == 1'> "
+		  		+ "base_item_id IS NOT NULL "
+		  	  + "</when> "
+		  	+ "</choose> "
+		  + "</where> "
+		  + "AND category_id = #{category_id} "
+		  + "</script>")
+	public List<ProductItemVO> productItemList(@Param("category_id") int category_id, @Param("base_item_id") Integer base_item_id);
 	
 	@SelectKey(keyProperty = "item_id", resultType = int.class, before = false,
 	           statement = "SELECT seq_item_id.currval FROM dual")

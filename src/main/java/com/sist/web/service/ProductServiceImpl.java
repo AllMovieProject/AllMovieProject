@@ -1,9 +1,12 @@
 package com.sist.web.service;
 
+import java.util.List;
+
 import org.springframework.stereotype.Service;
 
 import com.sist.web.dto.ProductFormDTO;
 import com.sist.web.mapper.ProductMapper;
+import com.sist.web.vo.ProductCategoryVO;
 import com.sist.web.vo.ProductComboVO;
 import com.sist.web.vo.ProductItemCategoryVO;
 import com.sist.web.vo.ProductItemVO;
@@ -18,8 +21,24 @@ public class ProductServiceImpl implements ProductService {
 	private final ProductMapper mapper;
 
 	@Override
+	public List<ProductCategoryVO> productCategoryList() {
+		return mapper.productCategoryList();
+	}
+
+	@Override
+	public List<ProductItemVO> productItemList(int category_id, boolean is_base) {
+		List<ProductItemVO> list = null;
+		Integer base_item_id = null;
+		if (!is_base) {
+			base_item_id = 1;
+		}
+		list = mapper.productItemList(category_id, base_item_id);
+		return list;
+	}
+
+	@Override
 	public String productInsert(ProductFormDTO dto) {
-		if (dto.getIsCombo().equals("Y")) {
+		if (dto.getProductVO().getIs_combo().equals("Y")) {
 			// TODO for List
 		} else {
 			// TODO once
@@ -28,7 +47,7 @@ public class ProductServiceImpl implements ProductService {
 //		@Insert("INSERT INTO product_item(item_id, item_name, item_size, item_price, base_item_id) "
 //			  + "VALUES(seq_item_id.nextval, #{item_name}, #{item_size}, #{item_price}, #{base_item_id})")
 		ProductItemVO piVO = new ProductItemVO();
-		piVO.setItem_name(dto.getItemName());
+		
 		
 		mapper.productItemInsert(piVO);
 		
