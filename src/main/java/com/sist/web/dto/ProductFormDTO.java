@@ -1,14 +1,20 @@
 package com.sist.web.dto;
 
-import java.util.List;
+import com.sist.web.vo.ProductCategoryVO;
+import com.sist.web.vo.ProductComboVO;
+import com.sist.web.vo.ProductItemCategoryVO;
+import com.sist.web.vo.ProductItemVO;
+import com.sist.web.vo.StoreProductVO;
 
 import lombok.Data;
 
 @Data
 public class ProductFormDTO {
 	
-	private int price, basePrice, addPrice, discountPrice;
-	private String isCombo, productName, productDesc, image, itemName, size, isBase;
-	private List<String> categories, comboItems;
+	private ProductCategoryVO categoryVO;
+	private ProductItemVO itemVO;
+	private ProductItemCategoryVO itemCategoryVO;
+	private ProductComboVO comboVO;
+	private StoreProductVO productVO;
 
 }

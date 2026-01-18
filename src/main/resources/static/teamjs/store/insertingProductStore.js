@@ -3,25 +3,38 @@ const { defineStore } = Pinia;
 // Pinia Store 정의
 const useProductStore = defineStore('product', {
 	state: () => ({
-		isCombo: 'N',
 		categories: [],
-		isBase: true,
-		itemName: '',
-		size: '',
-		basePrice: 0,
-		addPrice: 0,
-		baseItemId: '',
-		baseItemPrice: 0,
-		comboCategory: '',
-		selectedComboItemId: '',
-		comboQuantity: 1,
-		comboIsUpgrade: true,
-		comboUpgradePrice: 500,
+		product_item: {
+			item_id: 0,
+			item_name: '',
+			item_size: '',
+			item_price: 5500,
+			base_item_id: 0,
+			add_price: 1000
+		},
+		product_item_category: [],
+		product_combo: {
+			combo_id: 0,
+			product_id: 0,
+			item_id: 0,
+			is_upgrade: 'Y',
+			upgrade_price: 0,
+			item_quantity: 1
+		},
+		store_product: {
+			product_id: 0,
+			product_name: '',
+			product_image: '',
+			item_id: 0,
+			product_price: 0,
+			discount: 0,
+			description: '',
+			is_combo: 'N'
+		},
+		productList: [],
+		is_base: true,
+		selectedComboItemId: 0,
 		comboItemList: [],
-		discountPrice: 0,
-		productName: '',
-		productDesc: '',
-		image: '',
 
 		// 더미 데이터 (실제로는 서버에서 가져옴)
 		allItems: [
@@ -67,7 +80,7 @@ const useProductStore = defineStore('product', {
 			},
 		],
 	}),
-
+/*
 	getters: {
 		// 기본 식품 목록 (옵션용)
 		baseItems() {
@@ -113,8 +126,31 @@ const useProductStore = defineStore('product', {
 			}
 		},
 	},
-
+*/
 	actions: {
+		async productCategoryList() {
+			const { data } = await api.get('/product/manager/category')
+			console.log(data)
+			this.categories = data
+		},
+		
+		async productItemList() {
+			console.log(this.product_item_category)
+			if (this.product_item_category.length === 0)
+				return
+			if (this.product_item_category.includes(2) && this.product_item_category.includes(3))
+				this.product_item_category = [2]
+			
+			const { data } = await api.get('/product/manager/items', {
+				params: {
+					category_id: this.product_item_category[0],
+					is_base: this.is_base
+				}
+			})
+			console.log(data)
+			this.productList = data
+		},
+		/*
 		resetForm() {
 			// 폼 전환 시 초기화
 			this.categories = [];
@@ -130,7 +166,7 @@ const useProductStore = defineStore('product', {
 			this.comboItemList = [];
 			this.discountPrice = 0;
 		},
-
+		
 		updateBaseItemPrice() {
 			const selected = this.allItems.find((item) => item.id == this.baseItemId);
 			this.baseItemPrice = selected ? selected.price : 0;
@@ -236,6 +272,6 @@ const useProductStore = defineStore('product', {
 			// })
 
 			alert('식품이 추가되었습니다!');
-		},
+		},*/
 	},
 });
