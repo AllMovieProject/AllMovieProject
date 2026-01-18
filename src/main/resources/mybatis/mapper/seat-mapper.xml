@@ -29,7 +29,7 @@
 	</resultMap>
 
 
-	<select id="bookingDataInfo" resultMap="infoMap"
+	<select id="schduleInfoData" resultMap="infoMap"
 		parameterType="int">
 		SELECT DISTINCT m.title, m.movie_type, m.rating, m.poster_url, t.theater_name,
 		sc.screen_name, s.schedule_id, TO_CHAR(s.start_time, 'YYYY.MM.DD') as sday,

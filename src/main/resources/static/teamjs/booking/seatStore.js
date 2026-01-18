@@ -1,94 +1,234 @@
 const { defineStore } = Pinia
 
 const initialState = () => ({
-	schedule_id: 0,
-	datas: {
-		row_list: [],
-		col_list: [],
-		seatseatId_list: [],
-		booking_info: {}
-	},
-	col_len: 0,
-	schedule_info: [],
-	seatId_list: 0,
-	adult_count: 0,
-	teen_count: 0,
-	prefer_count: 0,
-	total_price: 0,
-  checked_seat: [],
-	user_id: ''
+  switch: true,
+  
+  schedule_id: 0,
+  user_id: '',
+  datas: {
+    row_list: [],
+    col_list: [],
+    seatId_list: []
+  },
+  col_len: 0,
+
+  info: {
+    schedule_info: {},
+    price_info: {},
+  },
+
+  adult_count: 0,
+  teen_count: 0,
+  prefer_count: 0,
+
+  selected_adult: 0,
+  selected_teen: 0,
+  selected_prefer: 0,
+
+  total_info: '',
+  total_count: null,
+  total_price: 0,
+  selected_seats: [],
+  
+  reservation_seat: 0
 })
 
 const useSeatStore = defineStore('seat', {
-	state: initialState,
-	
-	actions: {
-		async seatListData(schedule_id) {
-			this.schedule_id = schedule_id
-			
-			const res = await api.post('/seat/data', {
+  state: initialState,
+
+  actions: {
+    async seatListData(schedule_id) {
+      this.schedule_id = schedule_id
+
+      const res = await api.post('/seat/data', {
         schedule_id: this.schedule_id
-			})
-			
-			this.datas = res.data
-			this.col_len = this.datas.col_list.length
-		},
-    
-    seatAvailable(rindex, cindex) {
-      const no = this.col_len * rindex + cindex
-      
-      if (this.datas.seatId_list[no].reservation_flag === 0) {
-        return 0
-      } else {
-        return 1
-      }
-			
+      })
+
+      this.datas = res.data
+      this.col_len = this.datas.col_list.length
     },
-		
-		paymentPage(form) {
-			if (this.user_id === null || this.user_id === '') {
-				alert('로그인 후 사용해 주세요')
-				return
-			} else {
-				//this.seatValidation('booking', 0)
-				form.submit()
-			}
-			// 페이지 이동할 때 로그인 여부 체크 포함 this.schedule_id와 this.checked_seat 넘기는데 이거 dto로 만들어야 할 듯
-		},
 
-		async seatValidation(rindex, cindex) {
-			const no = this.col_len * rindex + cindex
-			
-			if (rindex == 'booking') {
-			}
-			
-		  // 좌석 재클릭 취소시에 처리도 해야 함
-		  console.log(no)
-		  console.log(this.schedule_id)
-			console.log(this.datas.seatId_list[no].seatId_list)
-		  await this.seatListData(this.schedule_id)
-		  
-		  console.log(this.datas.seatId_list[no].reservation_flag)
-			
-			// for문 돌리기
-		  if (this.datas.seatId_list[no].reservation_flag === 1) {
-		    alert('이미 선점된 좌석입니다')
-				this.reset()
-		    return
-		  } else {
-				this.checked_seat.push(no)
-			}
-		},
+    findSeatAvailable(rindex, cindex) {
+      const no = this.col_len * rindex + cindex
 
-		reset() {
-			this.adult_count = 0
-			this.teen_count = 0
-			this.prefer_count = 0
-			this.total_price = 0
-			this.checked_seat = []
-			
-			this.seatListData(this.schedule_id)
-		},
-		
-	}
+      return this.datas.seatId_list[no].reservation_flag === 0
+    },
+
+    findSeatChecked(rindex, cindex) {
+      const no = this.col_len * rindex + cindex
+      const seatId = this.datas.seatId_list?.[no]?.seat_id
+
+      for (let i = 0; i < this.selected_seats.length; i++) {
+        if (this.selected_seats?.[i] === seatId) {
+          return true
+        }
+      }
+
+      return false
+    },
+
+    async bookingScheduleInfoData(schedule_id) {
+      const res = await api.post('/seat/booking_info', {
+        schedule_id: schedule_id
+      })
+
+      this.info = res.data
+    },
+
+    async paymentPage() {
+      if (this.user_id === null || this.user_id === '') {
+        alert('로그인 후 사용해 주세요')
+        location.href = '/booking'
+        return
+      } else if (this.total_count !== this.selected_seats.length) {
+        return
+      } else {
+        /*for (let i = 0; i < this.selected_seats.length; i++) {
+          const isBooked = this.seatValidation(this.selected_seats[i])
+          if (isBooked) {
+            alert('이미 선점된 좌석입니다')
+            this.reset()
+            return
+          }
+        }*/
+        
+        const res = await api.post('/seat/booking_seat', {
+          schedule_id: this.schedule_id,
+          user_id: this.user_id,
+          selected_seats: this.selected_seats
+        })
+        
+        this.reservation_seatId = res.data
+        this.switch = !this.switch
+      }
+    },
+    
+    async seatPage() {
+      // 좌석 1로 인서트한거 돌려두어야 
+      this.reset()
+      this.switch = !this.switch
+    },
+    
+    async paymentCheck() {
+      
+    },
+
+    seatCounter(seperator) {
+      if (seperator === 'adult--' && this.adult_count > 0) {
+        this.adult_count -= 1
+        this.total_count -= 1
+        this.popSeatId()
+      } else if (seperator === 'adult++' && this.adult_count < 6 && this.total_count < 6) {
+        this.adult_count += 1
+        this.total_count += 1
+      } else if (seperator === 'teen--' && this.teen_count > 0) {
+        this.teen_count -= 1
+        this.total_count -= 1
+        this.popSeatId()
+      } else if (seperator === 'teen++' && this.teen_count < 6 && this.total_count < 6) {
+        this.teen_count += 1
+        this.total_count += 1
+      } else if (seperator === 'prefer--' && this.prefer_count > 0) {
+        this.prefer_count -= 1
+        this.total_count -= 1
+        this.popSeatId()
+      } else if (seperator === 'prefer++' && this.prefer_count < 6 && this.total_count < 6) {
+        this.prefer_count += 1
+        this.total_count += 1
+      } else if (this.total_count === 6) {
+        alert('좌석은 최대 6개 선택 가능합니다')
+        return
+      }
+    },
+
+    async selectSeat(rindex, cindex) {
+      const no = this.col_len * rindex + cindex
+      for (let i = 0; i < this.selected_seats.length; i++) {
+        if (this.selected_seats[i] === this.datas.seatId_list?.[no]?.seat_id) {
+          this.selected_seats.splice(i, 1)
+          return
+        }
+      }
+      
+      if (this.total_count === null) {
+        alert('좌석 수량을 골라주세요')
+        return
+      }
+
+      const isBooked = await this.seatValidation(no)
+
+      if (isBooked) {
+        alert('이미 선점된 좌석입니다')
+        this.reset()
+      } else {
+        this.pushSeatId(no)
+      }
+
+    },
+
+    async seatValidation(no) {
+      await this.seatListData(this.schedule_id)
+
+      return this.datas.seatId_list?.[no]?.reservation_flag === 1
+    },
+
+    reset() {
+      this.adult_count = 0
+      this.teen_count = 0
+      this.prefer_count = 0
+      this.total_count = null
+
+      this.selected_adult = 0
+      this.selected_teen = 0
+      this.selected_prefer = 0
+      this.total_price = 0
+      this.selected_seats = []
+
+      this.seatListData(this.schedule_id)
+    },
+
+    pushSeatId(no) {
+      if (this.total_count === this.selected_seats.length) {
+        alert('좌석 선택이 완료되었습니다')
+        return
+      }
+
+      this.selected_seats.push(this.datas.seatId_list[no].seat_id)
+
+      let aCount = this.adult_count
+      let tCount = this.teen_count
+      let pCount = this.prefer_count
+
+      this.selected_adult = 0
+      this.selected_teen = 0
+      this.selected_prefer = 0
+      this.total_price = 0
+
+      for (let i = 0; i < this.selected_seats.length; i++) {
+        if (aCount === 0) {
+          if (tCount === 0) {
+            if (pCount === 0) {
+              return
+            }
+            pCount--
+            this.selected_prefer++
+            this.total_price += this.info.price_info.prefer_price
+          } else {
+            tCount--
+            this.selected_teen++
+            this.total_price += this.info.price_info.teen_price
+          }
+        } else {
+          aCount--
+          this.selected_adult++
+          this.total_price += this.info.price_info.adult_price
+        }
+      }
+    },
+
+    popSeatId() {
+      // confirm 함수 이용
+    }
+
+  }
 })

@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.sist.web.dto.BookingRequestDTO;
+import com.sist.web.dto.SeatBookingDTO;
 import com.sist.web.service.BookingService;
 import com.sist.web.service.SeatService;
 import com.sist.web.vo.ScheduleVO;
@@ -49,5 +50,33 @@ public class BookingRestController {
         }
 
         return new ResponseEntity<>(map, HttpStatus.OK);
+    }
+    
+    @PostMapping("/seat/booking_info")
+    public ResponseEntity<Map<String, Object>> bookingInfoData(@RequestBody ScheduleVO vo) {
+        Map<String, Object> map = new HashMap<>();
+        
+        try {
+            map = sService.bookingInfoData(vo.getSchedule_id());
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+
+        return new ResponseEntity<>(map, HttpStatus.OK);
+    }
+    
+    @PostMapping("/seat/booking_seat")
+    public ResponseEntity<Integer> bookingSeatData(@RequestBody SeatBookingDTO dto) {
+        Integer schedule_seatId = 0;
+        
+        try {
+            schedule_seatId = sService.seatBooking(dto);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+
+        return new ResponseEntity<>(schedule_seatId, HttpStatus.OK);
     }
 }

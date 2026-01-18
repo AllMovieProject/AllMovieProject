@@ -7,25 +7,8 @@
 <title>Insert title here</title>
 </head>
 <body>
-	<!-- Normal Breadcrumb Begin -->
-	<section class="normal-breadcrumb set-bg"
-		data-setbg="/img/normal-breadcrumb.jpg">
-		<div class="container">
-			<div class="row">
-				<div class="col-lg-12 text-center">
-					<div class="normal__breadcrumb__text">
-						<h2>영화 좌석 선택</h2>
-						<p>좌석을 골라주세요</p>
-					</div>
-				</div>
-			</div>
-		</div>
-	</section>
-	<!-- Normal Breadcrumb End -->
-
-	<!-- Signup Section Begin -->
 	<section class="seat spad">
-		<div class="container">
+		<div class="container" v-show="store.switch">
 			<div class="row">
 				<div class="col-lg-12 seat_container">
 					<div class="seat_info">
@@ -38,27 +21,27 @@
 							<div class="people-item">
 								<span class="label">성인</span>
 								<div class="counter">
-									<button @click="seatCount('adult--')">-</button>
+									<button @click="store.seatCounter('adult--')">-</button>
 									<span class="count">{{ store.adult_count }}</span>
-									<button @click="seatCount('adult++')">+</button>
+									<button @click="store.seatCounter('adult++')">+</button>
 								</div>
 							</div>
 
 							<div class="people-item">
 								<span class="label">청소년</span>
 								<div class="counter">
-									<button @click="seatCount('adult--')">-</button>
+									<button @click="store.seatCounter('teen--')">-</button>
 									<span class="count">{{ store.teen_count }}</span>
-									<button @click="seatCount('adult--')">+</button>
+									<button @click="store.seatCounter('teen++')">+</button>
 								</div>
 							</div>
 
 							<div class="people-item">
 								<span class="label">우대</span>
 								<div class="counter">
-									<button @click="seatCount('adult--')">-</button>
+									<button @click="store.seatCounter('prefer--')">-</button>
 									<span class="count">{{ store.prefer_count }}</span>
-									<button @click="seatCount('adult--')">+</button>
+									<button @click="store.seatCounter('prefer++')">+</button>
 								</div>
 							</div>
 						</div>
@@ -73,88 +56,161 @@
 								<td>{{ row.seat_row }}</td>
 								<td v-for="(col, cindex) in store.datas.col_list" :key="cindex">
 
-									<div v-if="store.seatAvailable(rindex, cindex) === 0"
+									<div v-if="store.findSeatAvailable(rindex, cindex)"
 										class="available_seat text-center"
-										@click="store.seatValidation(rindex, cindex)">{{ cindex
-										+ 1 }}</div>
+										:class="{ selected_seat: store.findSeatChecked(rindex, cindex) }"
+										@click="store.selectSeat(rindex, cindex)">{{ cindex + 1
+										}}</div>
 
 									<div class="booked_seat"
-										v-if="store.seatAvailable(rindex, cindex) === 1">X</div>
+										v-if="!store.findSeatAvailable(rindex, cindex)">X</div>
 								</td>
 							</tr>
 						</table>
 					</div>
 					<div class="booking_info">
-						<form action="/booking/payment" method="post" ref="form">
-							<input type="hidden" name="schedule_id"
-								:value="store.schedule_id"> <input type="hidden"
-								name="user_id" :value="store.user_id"> <input
-								type="hidden" name="checked_list" :value="store.chcked_list">
 
-							<div class="movie-header">
-								<img
-									:src="'/teamimg/booking/movie/' + store.datas.booking_info?.mvo?.rating + '.png'"
-									class="movie_rating">
-								<div class="movie-title">
-									<div class="title">{{
-										store.datas.booking_info?.mvo?.title }}</div>
-									<div class="type">{{
-										store.datas.booking_info?.mvo?.movie_type }}</div>
+						<div class="movie-header">
+							<img
+								:src="'/teamimg/booking/movie/' + store.info.schedule_info?.mvo?.rating + '.png'"
+								class="movie_rating">
+							<div class="movie-title">
+								<div class="title">&nbsp;{{
+									store.info.schedule_info?.mvo?.title }}</div>
+								<div class="type">&nbsp;{{
+									store.info.schedule_info?.mvo?.movie_type }}</div>
+							</div>
+						</div>
+
+						<div class="movie-body">
+							<div class="movie-info">
+								<div>{{ store.info.schedule_info?.tvo?.theater_name }}</div>
+								<div>{{ store.info.schedule_info?.scvo?.screen_name }}</div>
+								<div>{{ store.info.schedule_info?.sday }}</div>
+								<div class="time">{{ store.info.schedule_info?.starttime
+									}} ~ {{ store.info.schedule_info?.endtime }}</div>
+							</div>
+
+							<div class="poster">
+								<img :src="store.info.schedule_info?.mvo?.poster_url"
+									class="movie_poster">
+							</div>
+						</div>
+
+						<div class="seat-area">
+							<div class="seat-guide">
+								<div>
+									<span class="box select"></span> 선택
+								</div>
+								<div>
+									<span class="box reserved">X</span> 예매완료
+								</div>
+								<div>
+									<span class="box disabled"></span> 선택불가
+								</div>
+								<div>
+									<span class="box normal"></span> 일반
 								</div>
 							</div>
 
-							<div class="movie-body">
-								<div class="movie-info">
-									<div>{{ store.datas.booking_info?.tvo?.theater_name }}</div>
-									<div>{{ store.datas.booking_info?.scvo?.screen_name }}</div>
-									<div>{{ store.datas.booking_info?.sday }}</div>
-									<div class="time">{{ store.datas.booking_info?.starttime
-										}} ~ {{ store.datas.booking_info?.endtime }}</div>
-								</div>
-
-								<div class="poster">
-									<img :src="store.datas.booking_info?.mvo?.poster_url"
-										class="movie_poster">
-								</div>
+							<div class="seat-map">
+								<div class="selected_info"></div>
+								<div class="selected_info"></div>
+								<div class="selected_info"></div>
+								<div class="selected_info"></div>
+								<div class="selected_info"></div>
+								<div class="selected_info"></div>
 							</div>
+						</div>
 
-							<div class="seat-area">
-								<div class="seat-guide">
-									<div>
-										<span class="box select"></span> 선택
-									</div>
-									<div>
-										<span class="box reserved">X</span> 예매완료
-									</div>
-									<div>
-										<span class="box disabled"></span> 선택불가
-									</div>
-									<div>
-										<span class="box normal"></span> 일반
-									</div>
-								</div>
+						<div class="selected_count">
+							<span v-if="store.selected_adult !== 0">성인
+								{{store.selected_adult}}&nbsp;</span> <span
+								v-if="store.selected_teen !== 0">청소년
+								{{store.selected_teen}}&nbsp;</span> <span
+								v-if="store.selected_prefer !== 0">우대
+								{{store.selected_prefer}}</span>
+						</div>
 
-								<div class="seat-map">
-									<div class="selected_seat"></div>
-									<div class="selected_seat"></div>
-									<div class="selected_seat"></div>
-									<div class="selected_seat"></div>
-									<div class="selected_seat"></div>
-									<div class="selected_seat"></div>
-								</div>
-							</div>
+						<div class="price">
+							<span>최종결제금액</span> <strong>{{ store.total_price }} 원</strong>
+						</div>
 
-							<div class="price">
-								<span>최종결제금액</span> <strong>{{ store.total_price }} 원</strong>
-							</div>
-
-							<div class="buttons">
-								<button class="prev" onclick="javascript:history.back()">이전</button>
-								<button class="next" ref="form" @click="store.paymentPage(form)">다음</button>
-							</div>
-						</form>
+						<div class="buttons">
+							<a href="/booking" class="btn prev">이전</a>
+							<button type="button" ref="form"
+								@click="store.paymentPage()"
+								:class="store.total_count !== store.selected_seats.length ? 'next_inactive' : 'next_active'">
+								다음</button>
+						</div>
 					</div>
 				</div>
+			</div>
+		</div>
+
+		<div class="payment-wrap" v-if="!store.switch">
+			<!-- 좌측: 예매정보 -->
+			<div class="payment-left">
+				<h2 class="page-title">결제하기</h2>
+
+				<div class="booking-info">
+					<img class="poster"
+						:src="store.info.schedule_info?.mvo?.poster_url" alt="poster">
+
+					<div class="info-text">
+						<h3 class="movie-title">${store.info.schedule_info.mvo.title }</h3>
+						<p>${store.info.schedule_info.mvo.title }&nbsp;<span
+								class="time">{{ store.info.schedule_info?.starttime }} ~
+								{{ store.info.schedule_info?.endtime }}</span>
+						</p>
+						<p>{{ store.info.schedule_info?.tvo?.theater_name }} / {{
+							store.info.schedule_info?.scvo?.screen_name }}</p>
+						<p>
+							<span v-if="store.selected_adult !== 0">성인
+								{{store.selected_adult}}&nbsp;</span> <span
+								v-if="store.selected_teen !== 0">청소년
+								{{store.selected_teen}}&nbsp;</span> <span
+								v-if="store.selected_prefer !== 0">우대
+								{{store.selected_prefer}}</span>
+						</p>
+					</div>
+				</div>
+
+				<div class="booking-guide">
+					<p>&nbsp;※ 결제 완료 후 예매 내역은 마이페이지에서 확인하실 수 있습니다.</p>
+					<p>&nbsp;※ 상영 시작 후에는 환불이 불가합니다.</p>
+				</div>
+
+			</div>
+
+			<!-- 우측: 결제금액 -->
+			<div class="payment-right">
+				<div class="price-box">
+					<h3>결제금액</h3>
+
+					<ul class="price-list">
+						<li><span v-if="store.selected_adult !== 0">성인
+								{{store.selected_adult}}</span> <span v-if="store.selected_adult !== 0">{{
+								store.info.price_info.adult_price * store.selected_adult }}</span></li>
+						<li><span v-if="store.selected_teen !== 0">청소년
+								{{store.selected_teen}}</span>  <span v-if="store.selected_teen !== 0">{{
+                store.info.price_info.teen_price * store.selected_teen }}</span></li>
+
+						<li><span v-if="store.selected_prefer !== 0">우대
+								{{store.selected_prefer}}</span>  <span v-if="store.selected_prefer !== 0">{{
+                store.info.price_info.prefer_price * store.selected_prefer }}</span></li>
+					</ul>
+
+					<div class="total_price">
+						<span>최종결제금액</span> <strong>{{ store.total_price }}원</strong>
+					</div>
+				</div>
+
+				<div class="payment-actions">
+					<button class="prev" @click="store.seatPage()">이전</button>
+					<button class="next" @click="store.payment()">결제</button>
+				</div>
+
 			</div>
 		</div>
 	</section>
@@ -171,6 +227,7 @@ const seatApp = createApp({
 		
 		onMounted(() => {
 			store.seatListData(${id})
+			store.bookingScheduleInfoData(${id})
 			store.user_id = '${sessionScope.userid}'
 		})
 		
@@ -182,7 +239,7 @@ const seatApp = createApp({
 })
 
 seatApp.use(createPinia())
-seatApp.mount(".seat_container")
+seatApp.mount(".seat")
 </script>
 </body>
 </html>

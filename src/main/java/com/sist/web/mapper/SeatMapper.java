@@ -2,11 +2,14 @@ package com.sist.web.mapper;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
 import org.springframework.stereotype.Repository;
 
+import com.sist.web.dto.SeatBookingDTO;
+import com.sist.web.vo.MoviePriceVO;
 import com.sist.web.vo.ScheduleSeatVO;
 import com.sist.web.vo.ScheduleVO;
 import com.sist.web.vo.SeatVO;
@@ -39,13 +42,17 @@ public interface SeatMapper {
 		  + "ORDER BY se.seat_row ASC, se.seat_col ASC")
 	public List<ScheduleSeatVO> seatIdListData(int id);
 	
-	public ScheduleVO bookingDataInfo(int id);
+	public ScheduleVO schduleInfoData(int id);
+	
+	@Select("SELECT * FROM movie_price WHERE schedule_id = #{id}")
+	public MoviePriceVO priceInfoData(int id);
 	
 	// 결제가 되면
 	@Update("UPDATE schedule_seat SET reservation_flag = 1 "
 		  + "WHERE seat_id = #{id}")
 	public void scheduleIdFlagUpdate();
 	
-	// 아이디 얻어서 예매 테이블 추가와 취소
+	@Insert("INSERT INTO scheuld_seat VALUES(#{schedule_seat_id}, #{schedule_id}, #{seat_id}, 1")
+	public int seatBooking(SeatBookingDTO dto);
 	
 }

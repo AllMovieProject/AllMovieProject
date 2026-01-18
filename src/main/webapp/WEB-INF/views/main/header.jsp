@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
+<%@ taglib prefix="sec"
+	uri="http://www.springframework.org/security/tags"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -31,7 +32,10 @@
 									</ul></li>
 								<li><a href="/store/list">매점</a></li>
 								<li><a href="./blog.html">이벤트 및 공지사항</a></li>
-								<li><a href="#">마이페이지</a></li>
+								<sec:authorize access="isAuthenticated()">
+									<li><a href="/mypage">마이페이지</a></li>
+                  <li>${sessionScope.userid }님 로그인</li>
+                </sec:authorize>
 							</ul>
 						</nav>
 					</div>
@@ -42,20 +46,21 @@
 							<ul>
 								<li><a href="/" class="seach-switch"><span
 										class="icon_search"></span></a></li>
-                <sec:authorize access="!isAuthenticated()">
-								<li><a href="/member/login"><span class="icon_profile"></span></a>
-									<ul class="dropdown">
-										<li><a href="/member/login">로그인</a></li>
-										<li><a href="/member/join">회원 가입</a></li>
-									</ul></li>
+								<sec:authorize access="!isAuthenticated()">
+									<li><a href="/member/login"><span class="icon_profile"></span></a>
+										<ul class="dropdown">
+											<li><a href="/member/login">로그인</a></li>
+											<li><a href="/member/join">회원 가입</a></li>
+										</ul></li>
 								</sec:authorize>
 								<sec:authorize access="isAuthenticated()">
-							  <li><a href="/mypage"><span class="icon_profile"></span></a>
-                  <ul class="dropdown">
-                    <li><a href="/member/logout">로그아웃</a></li>
-                    <li><a href="/mypage">마이페이지</a></li>
-                  </ul></li>
-                </sec:authorize>
+									<li><a href="/mypage/ticket"><span class="icon_profile"></span></a>
+										<ul class="dropdown">
+											<li><a href="/member/logout">로그아웃</a></li>
+											<li><a href="/mypage/ticket">예매 내역</a></li>
+                      <li><a href="/mypage">마이페이지</a></li>
+										</ul></li>
+								</sec:authorize>
 							</ul>
 						</nav>
 					</div>
