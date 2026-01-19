@@ -1,6 +1,5 @@
 package com.sist.web.dto;
 
-import com.sist.web.vo.ProductCategoryVO;
 import com.sist.web.vo.ProductComboVO;
 import com.sist.web.vo.ProductItemCategoryVO;
 import com.sist.web.vo.ProductItemVO;
@@ -11,10 +10,10 @@ import lombok.Data;
 @Data
 public class ProductFormDTO {
 	
-	private ProductCategoryVO categoryVO;
-	private ProductItemVO itemVO;
-	private ProductItemCategoryVO itemCategoryVO;
-	private ProductComboVO comboVO;
-	private StoreProductVO productVO;
+	private ProductItemVO productItem;
+	private ProductItemCategoryVO productItemCategory;
+	private ProductComboVO productCombo;
+	private StoreProductVO storeProduct;
+	private boolean isBase;
 
 }

@@ -26,51 +26,49 @@ public class ProductServiceImpl implements ProductService {
 	}
 
 	@Override
-	public List<ProductItemVO> productItemList(int category_id, boolean is_base) {
+	public List<ProductItemVO> productItemList(int category_id, boolean isBase) {
 		List<ProductItemVO> list = null;
-		Integer base_item_id = null;
-		if (!is_base) {
-			base_item_id = 1;
-		}
-		list = mapper.productItemList(category_id, base_item_id);
+		list = mapper.productItemList(category_id, isBase);
 		return list;
 	}
 
 	@Override
 	public String productInsert(ProductFormDTO dto) {
-		if (dto.getProductVO().getIs_combo().equals("Y")) {
-			// TODO for List
+		if (dto.getStoreProduct().getIs_combo().equals("N")) {
+			// TODO 단품
+			/*
+			 * isBase:true
+			 * productItem:
+				 * add_price:0
+				 * base_item_id:"0"
+				 * item_id:null
+				 * item_name:"단순팝콘"
+				 * item_price:5500
+				 * item_size:"M"
+			 * productItemCategory:
+			 	* category_id:1
+			 * storeProduct:
+				 * is_combo:"N"
+				 * product_desc:"단순팝콘(M)"
+				 * product_image:"/img/popcorn.png"
+				 * product_name:"단순팝콘(M)"
+				 * product_price:5500
+			 */
+			ProductItemVO itemVO = dto.getProductItem();
+			ProductItemCategoryVO categoryVO = dto.getProductItemCategory();
+			StoreProductVO productVO = dto.getStoreProduct();
+		
+			mapper.productItemInsert(itemVO);
+			int item_id = itemVO.getItem_id();
+			categoryVO.setItem_id(item_id);
+			mapper.productItemCategoryInsert(categoryVO);
+			productVO.setItem_id(item_id);
+			mapper.storeProductInsert(productVO);
 		} else {
-			// TODO once
+			// TODO 콤보
+			//mapper.productComboInsert(pcVO);
 		}
-		
-//		@Insert("INSERT INTO product_item(item_id, item_name, item_size, item_price, base_item_id) "
-//			  + "VALUES(seq_item_id.nextval, #{item_name}, #{item_size}, #{item_price}, #{base_item_id})")
-		ProductItemVO piVO = new ProductItemVO();
-		
-		
-		mapper.productItemInsert(piVO);
-		
-//		@Insert("INSERT INTO product_item_category(item_category_id, item_id, category_id) "
-//			  + "VALUES(seq_item_category_id.nextval, #{item_id}, #{category_id})")
-		ProductItemCategoryVO picVO = new ProductItemCategoryVO();
-		picVO.setItem_id(piVO.getItem_id());
-		picVO.setCategory_id(1);
-		mapper.productItemCategoryInsert(picVO);
-		
-//		StoreProductVO spVO = new StoreProductVO(product_id, dto.getProductName(), dto.getImage(), item_id, 
-//				dto.getPrice(), dto.getDiscountPrice(), dto.getProductDesc(), dto.getIsCombo());
-		StoreProductVO spVO = new StoreProductVO();
-		mapper.storeProductInsert(spVO);
-
-//		@Insert("INSERT INTO product_combo(combo_id, product_id, item_id, is_upgrade, upgrade_price, item_quantity) "
-//			  + "VALUES(seq_combo_id.nextval, #{product_id}, #{item_id}, #{is_upgrade}, #{upgrade_price}, #{item_quantity})")
-//		ProductComboVO pcVO = new ProductComboVO(combo_id, product_id, item_id, is_upgrade, upgrade_price, dto.quantity)
-		ProductComboVO pcVO = new ProductComboVO();
-		pcVO.setProduct_id(spVO.getProduct_id());
-		
-//		mapper.productComboInsert(pcVO);
-		return null;
+		return "yes";
 	}
 
 }
