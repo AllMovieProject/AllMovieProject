@@ -37,7 +37,10 @@ public class BoardController {
 	}
 	
 	@GetMapping("/board/detail")
-	public String board_detail(Model model) {
+	public String board_detail(@RequestParam("bno") int bno, Model model) {
+		BoardVO vo = bService.boardDetailData(bno);
+		
+		model.addAttribute("vo", vo);
 		model.addAttribute("main_jsp", "../board/detail.jsp");
 		return "main/main";
 	}
