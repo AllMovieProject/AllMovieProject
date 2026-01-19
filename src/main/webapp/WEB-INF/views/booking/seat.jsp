@@ -21,27 +21,27 @@
 							<div class="people-item">
 								<span class="label">성인</span>
 								<div class="counter">
-									<button @click="store.seatCounter('adult--')">-</button>
+									<button @click="store.seatMinusCounter('adult--')">-</button>
 									<span class="count">{{ store.adult_count }}</span>
-									<button @click="store.seatCounter('adult++')">+</button>
+									<button @click="store.seatPlusCounter('adult++')">+</button>
 								</div>
 							</div>
 
 							<div class="people-item">
 								<span class="label">청소년</span>
 								<div class="counter">
-									<button @click="store.seatCounter('teen--')">-</button>
+									<button @click="store.seatMinusCounter('teen--')">-</button>
 									<span class="count">{{ store.teen_count }}</span>
-									<button @click="store.seatCounter('teen++')">+</button>
+									<button @click="store.seatPlusCounter('teen++')">+</button>
 								</div>
 							</div>
 
 							<div class="people-item">
 								<span class="label">우대</span>
 								<div class="counter">
-									<button @click="store.seatCounter('prefer--')">-</button>
+									<button @click="store.seatMinusCounter('prefer--')">-</button>
 									<span class="count">{{ store.prefer_count }}</span>
-									<button @click="store.seatCounter('prefer++')">+</button>
+									<button @click="store.seatPlusCounter('prefer++')">+</button>
 								</div>
 							</div>
 						</div>
@@ -137,7 +137,7 @@
 						</div>
 
 						<div class="buttons">
-							<a href="/booking" class="btn prev">이전</a>
+							<button class="prev" onclick="javascript:location.href = '/booking'">이전</button>
 							<button type="button" ref="form"
 								@click="store.paymentPage()"
 								:class="store.total_count !== store.selected_seats.length ? 'next_inactive' : 'next_active'">
@@ -208,7 +208,7 @@
 
 				<div class="payment-actions">
 					<button class="prev" @click="store.seatPage()">이전</button>
-					<button class="next" @click="store.payment()">결제</button>
+					<button class="next" @click="store.paymentCheck()">결제</button>
 				</div>
 
 			</div>

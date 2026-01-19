@@ -1,12 +1,11 @@
 package com.sist.web.dto;
 
-import com.sist.web.vo.ScheduleSeatVO;
+import java.util.List;
 
 import lombok.Data;
 
 @Data
 public class SeatBookingDTO {
-    private int schedule_id;
-    private String user_id;
-    private ScheduleSeatVO ssvo;
+    private Integer schedule_id;
+    private List<Integer> selected_seats;
 }

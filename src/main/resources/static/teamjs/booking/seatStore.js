@@ -2,7 +2,7 @@ const { defineStore } = Pinia
 
 const initialState = () => ({
   switch: true,
-  
+
   schedule_id: 0,
   user_id: '',
   datas: {
@@ -29,7 +29,7 @@ const initialState = () => ({
   total_count: null,
   total_price: 0,
   selected_seats: [],
-  
+
   reservation_seat: 0
 })
 
@@ -91,47 +91,36 @@ const useSeatStore = defineStore('seat', {
             return
           }
         }*/
-        
-        const res = await api.post('/seat/booking_seat', {
+        await api.post('/seat/booking_seat', {
           schedule_id: this.schedule_id,
-          user_id: this.user_id,
           selected_seats: this.selected_seats
         })
-        
-        this.reservation_seatId = res.data
+
         this.switch = !this.switch
       }
     },
-    
+
     async seatPage() {
-      // 좌석 1로 인서트한거 돌려두어야 
+      await api.post('/seat/booking_cancel', {
+        schedule_id: this.schedule_id,
+        selected_seats: this.selected_seats
+      })
+
       this.reset()
       this.switch = !this.switch
     },
-    
+
     async paymentCheck() {
-      
+
     },
 
-    seatCounter(seperator) {
-      if (seperator === 'adult--' && this.adult_count > 0) {
-        this.adult_count -= 1
-        this.total_count -= 1
-        this.popSeatId()
-      } else if (seperator === 'adult++' && this.adult_count < 6 && this.total_count < 6) {
+    seatPlusCounter(seperator) {
+      if (seperator === 'adult++' && this.adult_count < 6 && this.total_count < 6) {
         this.adult_count += 1
         this.total_count += 1
-      } else if (seperator === 'teen--' && this.teen_count > 0) {
-        this.teen_count -= 1
-        this.total_count -= 1
-        this.popSeatId()
       } else if (seperator === 'teen++' && this.teen_count < 6 && this.total_count < 6) {
         this.teen_count += 1
         this.total_count += 1
-      } else if (seperator === 'prefer--' && this.prefer_count > 0) {
-        this.prefer_count -= 1
-        this.total_count -= 1
-        this.popSeatId()
       } else if (seperator === 'prefer++' && this.prefer_count < 6 && this.total_count < 6) {
         this.prefer_count += 1
         this.total_count += 1
@@ -141,15 +130,41 @@ const useSeatStore = defineStore('seat', {
       }
     },
 
+    seatMinusCounter(seperator) {
+      if (this.selected_seats.length === this.total_count) {
+        if (confirm('선택하신 좌석을 모두 취소하고 다시 선택하시겠습니까?')) {
+          this.reset()
+          return
+        } else {
+          return
+        }
+      }
+      if (seperator === 'adult--' && this.adult_count > 0) {
+        this.adult_count -= 1
+        this.total_count -= 1
+      } else if (seperator === 'teen--' && this.teen_count > 0) {
+        this.teen_count -= 1
+        this.total_count -= 1
+      } else if (seperator === 'prefer--' && this.prefer_count > 0) {
+        this.prefer_count -= 1
+        this.total_count -= 1
+      }
+
+      if (this.total_count === 0) {
+        this.total_count = null
+      }
+    },
+
     async selectSeat(rindex, cindex) {
       const no = this.col_len * rindex + cindex
       for (let i = 0; i < this.selected_seats.length; i++) {
         if (this.selected_seats[i] === this.datas.seatId_list?.[no]?.seat_id) {
           this.selected_seats.splice(i, 1)
+          this.priceCounter()
           return
         }
       }
-      
+
       if (this.total_count === null) {
         alert('좌석 수량을 골라주세요')
         return
@@ -194,7 +209,10 @@ const useSeatStore = defineStore('seat', {
       }
 
       this.selected_seats.push(this.datas.seatId_list[no].seat_id)
+      this.priceCounter()
+    },
 
+    priceCounter() {
       let aCount = this.adult_count
       let tCount = this.teen_count
       let pCount = this.prefer_count
@@ -224,10 +242,6 @@ const useSeatStore = defineStore('seat', {
           this.total_price += this.info.price_info.adult_price
         }
       }
-    },
-
-    popSeatId() {
-      // confirm 함수 이용
     }
 
   }
