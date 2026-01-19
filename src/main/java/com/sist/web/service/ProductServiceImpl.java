@@ -34,36 +34,25 @@ public class ProductServiceImpl implements ProductService {
 
 	@Override
 	public String productInsert(ProductFormDTO dto) {
-		if (dto.getStoreProduct().getIs_combo().equals("N")) {
-			// TODO 단품
-			/*
-			 * isBase:true
-			 * productItem:
-				 * add_price:0
-				 * base_item_id:"0"
-				 * item_id:null
-				 * item_name:"단순팝콘"
-				 * item_price:5500
-				 * item_size:"M"
-			 * productItemCategory:
-			 	* category_id:1
-			 * storeProduct:
-				 * is_combo:"N"
-				 * product_desc:"단순팝콘(M)"
-				 * product_image:"/img/popcorn.png"
-				 * product_name:"단순팝콘(M)"
-				 * product_price:5500
-			 */
+		if (dto.getStoreProduct().getIs_combo().equals("N")) { // 단품
 			ProductItemVO itemVO = dto.getProductItem();
 			ProductItemCategoryVO categoryVO = dto.getProductItemCategory();
 			StoreProductVO productVO = dto.getStoreProduct();
 		
 			mapper.productItemInsert(itemVO);
-			int item_id = itemVO.getItem_id();
+			int item_id = itemVO.getItem_id(); // selectKey에서 대입된 item_id 가져오기
+			
 			categoryVO.setItem_id(item_id);
 			mapper.productItemCategoryInsert(categoryVO);
-			productVO.setItem_id(item_id);
-			mapper.storeProductInsert(productVO);
+			if (categoryVO.getCategory_id() == 3) { // 탄산(3)은 음료(2)도 추가
+				categoryVO.setCategory_id(2);
+				mapper.productItemCategoryInsert(categoryVO);
+			}
+			
+			if (dto.isBase()) { // 기본 식품이 경우에만 추가
+				productVO.setItem_id(item_id);
+				mapper.storeProductInsert(productVO);
+			}
 		} else {
 			// TODO 콤보
 			//mapper.productComboInsert(pcVO);

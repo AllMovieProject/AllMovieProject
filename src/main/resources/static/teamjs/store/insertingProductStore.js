@@ -1,42 +1,39 @@
 const { defineStore } = Pinia;
 
-// Pinia Store 정의
-const useProductStore = defineStore('product', {
-	state: () => ({
-		categories: [],
-		productItem: {
-			item_id: null,
+const productItem = {item_id: null,
 			item_name: '',
 			item_size: '',
 			item_price: 5500,
 			base_item_id: null,
-			add_price: 0
-		},
+			add_price: 0}
+const productCombo = 			{
+						combo_id: null,
+						product_id: null,
+						item_id: null,
+						is_upgrade: 'Y',
+						upgrade_price: 0,
+						item_quantity: 1
+					}
+const storeProduct = {
+								product_id: null,
+								product_name: '',
+								product_image: '',
+								item_id: null,
+								product_price: 0,
+								discount: 0,
+								description: '',
+								is_combo: 'N'
+							}
+
+const useProductStore = defineStore('product', {
+	state: () => ({
+		categories: [],
+		productItem: productItem,
 		productItemCategory: 1,
-		productCombo: {
-			combo_id: null,
-			product_id: null,
-			item_id: null,
-			is_upgrade: 'Y',
-			upgrade_price: 0,
-			item_quantity: 1
-		},
-		storeProduct: {
-			product_id: null,
-			product_name: '',
-			product_image: '',
-			item_id: null,
-			product_price: 0,
-			discount: 0,
-			description: '',
-			is_combo: 'N'
-		},
+		productCombo: productCombo,
+		storeProduct: storeProduct,
 		productList: [],
 		isBase: true,
-		selectedComboItem: {
-			item_id: 0,
-			category_id: 0
-		},
 		comboItemList: []
 	}),
 
@@ -87,13 +84,28 @@ const useProductStore = defineStore('product', {
 	},
 
 	actions: {
-		async productCategoryList() {
-			const { data } = await api.get('/product/manager/category')
-			console.log(data)
-			this.categories = data
+		resetForm() {
+			this.productItem= productItem,
+			this.productItemCategory= 1,
+			this.productCombo= productCombo,
+			this.storeProduct= storeProduct,
+			this.productList= [],
+			this.isBase= true,
+			this.comboItemList= []
+			
+			this.updateComboItems()
 		},
 		
-		async productItemList() {			
+		async productCategoryList() {
+			const { data } = await api.get('/product/manager/category')
+			this.categories = data
+			console.log(data)
+		},
+		
+		async productItemList() {
+			if (this.isBase)
+				return
+			
 			const { data } = await api.get('/product/manager/items', {
 				params: {
 					category_id: this.productItemCategory,
@@ -103,30 +115,22 @@ const useProductStore = defineStore('product', {
 			console.log(data)
 			this.productList = data
 		},
-		/*
-		resetForm() {
-			// 폼 전환 시 초기화
-			this.categories = [];
-			this.isBase = true;
-			this.itemName = '';
-			this.size = '';
-			this.basePrice = 0;
-			this.addPrice = 0;
-			this.baseItemId = '';
-			this.baseItemPrice = 0;
-			this.comboCategory = '';
-			this.selectedComboItemId = '';
-			this.comboItemList = [];
-			this.discountPrice = 0;
-		},
-		*/
+		
 		updateBaseItemPrice() {
-			const selected = this.productList.find(item => item.item_id === this.base_item_id);
+			const selected = this.productList.find(item => item.item_id === this.productItem.base_item_id);
 			this.productItem.item_price = selected ? selected.item_price : 0;
+			this.productItem.item_size = selected ? selected.item_size : ''
 		},
 		
-		updateComboItems() {
-			this.selectedComboItem.item_id = 0;
+		async updateComboItems() {
+			const { data } = await api.get('/product/manager/items', { // TODO item말고 storeProduct로 가져오기
+				params: {
+					category_id: this.productItemCategory,
+					isBase: this.isBase
+				}
+			})
+			console.log(data)
+			this.productList = data
 		},
 		
 		toggleIsUpgrade() {
@@ -134,26 +138,27 @@ const useProductStore = defineStore('product', {
 		},
 
 		addComboItem() {
-			if (!this.selectedComboItem) {
+			if (!this.productCombo.item_id) {
 				alert('식품을 선택하세요');
 				return;
 			}
 
 			const selectedItem = this.productList.find(
-				(item) => item.item_id === this.selectedComboItem.item_id,
+				(item) => item.item_id === this.productCombo.item_id,
 			)
 			
 			if (selectedItem) {
-				this.comboItemList.push(selectedItem)
+				this.comboItemList.push({
+					productItem: selectedItem,
+					productItemCategory: { category_id: this.productItemCategory },
+					productCombo: this.productCombo
+				})
 				
-
 				// 초기화
-				this.comboCategory = '';
-				this.selectedComboItemId = '';
-				this.comboQuantity = 1;
-				this.comboIsUpgrade = true;
-				this.comboUpgradePrice = 500;
+				this.productItemCategory = 1
+				this.productCombo = productCombo
 			}
+			console.log(this.comboItemList)
 		},
 
 		removeComboItem(index) {
@@ -205,10 +210,10 @@ const useProductStore = defineStore('product', {
 
 			console.log('전송 데이터:', formData);
 
-			await api.post('/product/manager/insert', formData)
+			/*await api.post('/product/manager/insert', formData)
 							 .then(res => {
 				console.log(res)
-			})
+			})*/
 
 			alert('식품이 추가되었습니다!');
 		},

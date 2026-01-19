@@ -45,8 +45,6 @@ public interface ProductMapper {
 		  + "VALUES(seq_item_category_id.nextval, #{item_id}, #{category_id})")
 	public void productItemCategoryInsert(ProductItemCategoryVO vo);
 	
-	@SelectKey(keyProperty = "product_id", resultType = int.class, before = false,
-	           statement = "SELECT seq_product_id.currval FROM dual")
 	@Insert("INSERT INTO store_product(product_id, product_name, product_image, item_id, "
 		  + "product_price, discount, description, is_combo) "
 		  + "VALUES(seq_product_id.nextval, #{product_name}, #{product_image}, "

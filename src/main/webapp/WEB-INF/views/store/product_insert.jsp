@@ -48,7 +48,7 @@
 						</fieldset>
 	
 						<div class="form-group">
-							<label><input type="checkbox" v-model="store.isBase" @change="store.productItemList()">기본 옵션</label>
+							<label><input type="checkbox" v-model="store.isBase" @change="store.productItemList">기본 옵션</label>
 						</div>
 	
 						<!-- 기본 옵션이 아닐 때 기본 식품 선택 -->
@@ -96,7 +96,7 @@
 							<div id="comboList">
 								<div class="form-group">
 									<label>식품 카테고리</label>
-									<select v-model="store.selectedComboItem.category_id" @change="store.updateComboItems">
+									<select v-model="store.productItemCategory" @change="store.updateComboItems">
 										<option value="">선택하세요</option>
 										<option v-for="c in store.categories" :key="c.category_id" 
 											:value="c.category_id">{{ c.category_name }}</option>
@@ -105,7 +105,7 @@
 	
 								<div class="form-group">
 									<label>식품 이름</label>
-									<select v-model="store.selectedComboItem.item_id">
+									<select v-model="store.productCombo.item_id">
 										<option value="">선택하세요</option>
 										<option v-for="item in store.productList" :key="item.item_id" :value="item.item_id">
 											{{ item.item_name }} {{ item.item_size ? '(' + item.item_size + ')' : '' }} - {{ item.item_price.toLocaleString() }}원
@@ -119,7 +119,7 @@
 								</div>
 	
 								<div class="form-group">
-									<label><input type="checkbox" checked @change="store.toggleIsUpgrade()"> 사이즈 업그레이드 가능</label>
+									<label><input type="checkbox" checked @change="store.toggleIsUpgrade"> 사이즈 업그레이드 가능</label>
 								</div>
 	
 								<div v-if="store.productCombo.is_upgrade === 'Y'" class="form-group">
@@ -127,18 +127,18 @@
 									<input type="number" v-model.number="store.productCombo.upgrade_price" placeholder="500" min="0" step="100"> 원
 								</div>
 	
-								<button type="button" <%-- @click="store.addComboItem" --%>>추가</button>
+								<button type="button" @click="store.addComboItem">추가</button>
 							</div>
 	
 							<!-- 추가된 콤보 아이템 목록 -->
 							<div v-if="store.comboItemList.length > 0" style="margin-top: 20px;">
 								<h4>구성 목록</h4>
-								<!-- <div v-for="(item, index) in store.comboItemList" :key="index" class="combo-item">
+								<div v-for="(item, index) in store.comboItemList" :key="index" class="combo-item">
 									<div style="flex: 1;">
-										<div><strong>{{ item.categoryName }} - {{ item.name }} {{ item.size ? '(' + item.size + ')' : ''
+										<div><strong>{{ store.categories.find(i => i.category_id === this.productItemCategory.category_id).category_name }} - {{ item.name }} {{ item.size ? '(' + item.size + ')' : ''
 												}}</strong></div>
 										<div style="font-size: 14px; color: #666;">
-											수량: {{ item.quantity }}개 | 가격: {{ item.price.toLocaleString() }}원
+											수량: {{ item.productCombo.quantity }}개 | 가격: {{ item.price.toLocaleString() }}원
 											<span v-if="item.isUpgrade">
 												| 업그레이드 가능 (+{{ item.upgradePrice.toLocaleString() }}원)
 											</span>
@@ -146,7 +146,7 @@
 										</div>
 									</div>
 									<button type="button" @click="store.removeComboItem(index)">삭제</button>
-								</div> -->
+								</div> -
 							</div>
 						</fieldset>
 	
@@ -157,19 +157,21 @@
 					</div>
 	
 					<!-- 공통 필드 -->
-					<div class="form-group">
-						<label>판매 식품 이름</label>
-						<input type="text" v-model="store.storeProduct.product_name" placeholder="판매 식품 이름">
-					</div>
-	
-					<div class="form-group">
-						<label>판매 식품 설명</label>
-						<input type="text" v-model="store.storeProduct.description" placeholder="판매 식품 설명">
-					</div>
-	
-					<div class="form-group">
-						<label>판매 식품 이미지</label>
-						<input type="text" v-model="store.storeProduct.product_image" placeholder="판매 식품 이미지 URL">
+					<div v-if="store.isBase">
+						<div class="form-group">
+							<label>판매 식품 이름</label>
+							<input type="text" v-model="store.storeProduct.product_name" placeholder="판매 식품 이름">
+						</div>
+		
+						<div class="form-group">
+							<label>판매 식품 설명</label>
+							<input type="text" v-model="store.storeProduct.description" placeholder="판매 식품 설명">
+						</div>
+		
+						<div class="form-group">
+							<label>판매 식품 이미지</label>
+							<input type="text" v-model="store.storeProduct.product_image" placeholder="판매 식품 이미지 URL">
+						</div>
 					</div>
 	
 					<div class="form-group">
