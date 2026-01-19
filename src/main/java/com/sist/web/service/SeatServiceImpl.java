@@ -17,8 +17,7 @@ import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
-public class SeatServiceImpl implements SeatService {
-	
+public class SeatServiceImpl implements SeatService {	
 	private final SeatMapper mapper;
 
 	@Override
@@ -50,12 +49,31 @@ public class SeatServiceImpl implements SeatService {
     }
 
     @Override
-    public Integer seatBooking(SeatBookingDTO dto) {
+    public void seatBooking(SeatBookingDTO dto) {
         int schedule_id = dto.getSchedule_id();
-        dto.getUser_id();
-        Integer schedule_seatId = mapper.seatBooking(dto);
+        List<Integer> list = dto.getSelected_seats();
         
-        return schedule_seatId;
+        ScheduleSeatVO ssvo = new ScheduleSeatVO();
+        ssvo.setSchedule_id(schedule_id);
+        
+        for(Integer seat_id : list) {
+            ssvo.setSeat_id(seat_id);
+            mapper.scheduleSeatFlagUp(ssvo);
+        }
+    }
+
+    @Override
+    public void seatBookingCancel(SeatBookingDTO dto) {
+        int schedule_id = dto.getSchedule_id();
+        List<Integer> list = dto.getSelected_seats();
+        
+        ScheduleSeatVO ssvo = new ScheduleSeatVO();
+        ssvo.setSchedule_id(schedule_id);
+        
+        for(Integer seat_id : list) {
+            ssvo.setSeat_id(seat_id);
+            mapper.scheduleSeatFlagDown(ssvo);
+        }
     }
 
 }

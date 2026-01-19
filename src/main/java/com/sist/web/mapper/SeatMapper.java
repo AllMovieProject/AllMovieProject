@@ -10,11 +10,13 @@ import org.springframework.stereotype.Repository;
 
 import com.sist.web.dto.SeatBookingDTO;
 import com.sist.web.vo.MoviePriceVO;
+import com.sist.web.vo.ReservationSeatVO;
 import com.sist.web.vo.ScheduleSeatVO;
 import com.sist.web.vo.ScheduleVO;
 import com.sist.web.vo.SeatVO;
 
 @Mapper
+@Repository
 public interface SeatMapper {
 
 	@Select("SELECT DISTINCT se.seat_row "
@@ -47,12 +49,11 @@ public interface SeatMapper {
 	@Select("SELECT * FROM movie_price WHERE schedule_id = #{id}")
 	public MoviePriceVO priceInfoData(int id);
 	
-	// 결제가 되면
 	@Update("UPDATE schedule_seat SET reservation_flag = 1 "
-		  + "WHERE seat_id = #{id}")
-	public void scheduleIdFlagUpdate();
+		  + "WHERE schedule_id = #{schedule_id} AND seat_id = #{seat_id}")
+	public void scheduleSeatFlagUp(ScheduleSeatVO vo);
 	
-	@Insert("INSERT INTO scheuld_seat VALUES(#{schedule_seat_id}, #{schedule_id}, #{seat_id}, 1")
-	public int seatBooking(SeatBookingDTO dto);
-	
+	@Update("UPDATE schedule_seat SET reservation_flag = 0 "
+	      + "WHERE schedule_id = #{schedule_id} AND seat_id = #{seat_id}")
+	public void scheduleSeatFlagDown(ScheduleSeatVO vo);
 }

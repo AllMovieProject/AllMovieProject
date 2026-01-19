@@ -67,16 +67,20 @@ public class BookingRestController {
     }
     
     @PostMapping("/seat/booking_seat")
-    public ResponseEntity<Integer> bookingSeatData(@RequestBody SeatBookingDTO dto) {
-        Integer schedule_seatId = 0;
-        
+    public void bookingSeat(@RequestBody SeatBookingDTO dto) {
         try {
-            schedule_seatId = sService.seatBooking(dto);
+            sService.seatBooking(dto);
         } catch (Exception e) {
             e.printStackTrace();
-            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
-
-        return new ResponseEntity<>(schedule_seatId, HttpStatus.OK);
+    }
+    
+    @PostMapping("/seat/booking_cancel")
+    public void bookingSeatCancel(@RequestBody SeatBookingDTO dto) {
+        try {
+            sService.seatBookingCancel(dto);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }
