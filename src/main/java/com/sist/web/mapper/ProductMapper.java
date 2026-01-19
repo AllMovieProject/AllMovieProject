@@ -26,22 +26,19 @@ public interface ProductMapper {
 		  + "JOIN product_item_category pic ON pi.item_id = pic.item_id "
 		  + "<where> "
 		  	+ "<choose> "
-		  	  + "<when test='base_item_id == null'> "
+		  	  + "<when test='isBase == false'> "
 		  		+ "base_item_id IS NULL "
-		  	  + "</when> "
-		  	  + "<when test='base_item_id == 1'> "
-		  		+ "base_item_id IS NOT NULL "
 		  	  + "</when> "
 		  	+ "</choose> "
 		  + "</where> "
 		  + "AND category_id = #{category_id} "
 		  + "</script>")
-	public List<ProductItemVO> productItemList(@Param("category_id") int category_id, @Param("base_item_id") Integer base_item_id);
+	public List<ProductItemVO> productItemList(@Param("category_id") int category_id, @Param("isBase") boolean isBase);
 	
 	@SelectKey(keyProperty = "item_id", resultType = int.class, before = false,
 	           statement = "SELECT seq_item_id.currval FROM dual")
-	@Insert("INSERT INTO product_item(item_id, item_name, item_size, item_price, base_item_id) " +
-	        "VALUES(seq_item_id.nextval, #{item_name}, #{item_size}, #{item_price}, #{base_item_id})")
+	@Insert("INSERT INTO product_item(item_id, item_name, item_size, item_price, base_item_id, add_price) " +
+	        "VALUES(seq_item_id.nextval, #{item_name}, #{item_size}, #{item_price}, #{base_item_id, jdbcType=INTEGER}, #{add_price})")
 	public void productItemInsert(ProductItemVO vo);
 	
 	@Insert("INSERT INTO product_item_category(item_category_id, item_id, category_id) "

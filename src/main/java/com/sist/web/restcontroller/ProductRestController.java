@@ -32,8 +32,8 @@ public class ProductRestController {
 	}
 	
 	@GetMapping("/manager/items")
-	public ResponseEntity<List<ProductItemVO>> manager_items(@RequestParam("category_id") int category_id, @RequestParam("is_base") boolean is_base) {
-		List<ProductItemVO> list = pService.productItemList(category_id, is_base);
+	public ResponseEntity<List<ProductItemVO>> manager_items(@RequestParam("category_id") int category_id, @RequestParam("isBase") boolean isBase) {
+		List<ProductItemVO> list = pService.productItemList(category_id, isBase);
 		return new ResponseEntity<>(list, HttpStatus.OK);
 	}
 	

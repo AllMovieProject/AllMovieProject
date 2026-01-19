@@ -14,8 +14,8 @@
 			<div class="row">
 				<div class="col-lg-12">
 					<div class="breadcrumb__links">
-						<a href="./index.html"><i class="fa fa-home"></i> Home</a>
-						<a href="./categories.html">재고관리</a>
+						<a href="/"><i class="fa fa-home"></i> Home</a>
+						<a href="/store/product_insert">재고관리</a>
 					</div>
 				</div>
 			</div>
@@ -31,46 +31,45 @@
 					<!-- 단품/콤보 선택 -->
 					<div class="form-group">
 						<label>상품 유형</label>
-						<select v-model="store.store_product.is_combo" @change="store.resetForm">
+						<select v-model="store.storeProduct.is_combo" @change="store.resetForm">
 							<option value="N">단품</option>
 							<option value="Y">콤보</option>
 						</select>
 					</div>
 	
 					<!-- 단품 폼 -->
-					<div v-show="store.store_product.is_combo === 'N'" id="singleProductForm">
+					<div class="form-group" v-show="store.storeProduct.is_combo === 'N'" id="singleProductForm">
 						<fieldset>
 							<legend>식품 카테고리</legend>
-							<label v-for="(c, i) in store.categories" :key="i">
-								<input type="checkbox" :value="c.category_id" v-model="store.product_item_category" 
-									@change="store.productItemList()">{{ c.category_name }}
-							</label>
+							<select v-model="store.productItemCategory">
+								<option v-for="c in store.categories" :key="c.category_id" 
+									:value="c.category_id">{{ c.category_name }}</option>
+							</select>
 						</fieldset>
 	
 						<div class="form-group">
-							<label><input type="checkbox" v-model="store.is_base" @change="store.productItemList()">기본 옵션</label>
-							<p style="color: red" v-if="!store.is_base && store.product_item_category.length === 0">카테고리를 선택하세요</p>
+							<label><input type="checkbox" v-model="store.isBase" @change="store.productItemList()">기본 옵션</label>
 						</div>
 	
 						<!-- 기본 옵션이 아닐 때 기본 식품 선택 -->
-						<div v-if="!store.is_base" class="form-group">
+						<div v-if="!store.isBase" class="form-group">
 							<label>기본 식품 선택</label>
-							<select v-model="store.product_item.base_item_id" <%-- @change="store.updateBaseItemPrice" --%>>
-								<option value="0">선택하세요</option>
-								<!-- <option v-for="item in store.baseItems" :key="item.id" :value="item.id">
-									{{ item.name }} {{ item.size ? '(' + item.size + ')' : '' }} - {{ item.price.toLocaleString() }}원
-								</option> -->
+							<select v-model="store.productItem.base_item_id" @change="store.updateBaseItemPrice">
+								<option value="">선택하세요</option>
+								<option v-for="item in store.productList" :key="item.item_id" :value="item.item_id">
+									{{ item.item_name }} {{ item.item_size ? '(' + item.item_size + ')' : '' }} - {{ item.item_price.toLocaleString() }}원
+								</option>
 							</select>
 						</div>
 	
 						<div class="form-group">
 							<label>식품 이름</label>
-							<input type="text" v-model="store.product_item.item_name" placeholder="식품 이름">
+							<input type="text" v-model="store.productItem.item_name" placeholder="식품 이름">
 						</div>
 	
 						<div class="form-group">
 							<label>사이즈</label>
-							<select v-model="store.product_item.item_size">
+							<select v-model="store.productItem.item_size">
 								<option value="">없음</option>
 								<option value="M">M</option>
 								<option value="L">L</option>
@@ -78,37 +77,35 @@
 						</div>
 	
 						<!-- 기본 옵션일 때 가격 입력 -->
-						<div v-if="store.is_base" class="form-group">
+						<div v-if="store.isBase" class="form-group">
 							<label>식품 가격</label>
-							<input type="number" v-model.number="store.product_item.item_price" min="0" step="500"> 원
+							<input type="number" v-model.number="store.productItem.item_price" min="0" step="500"> 원
 						</div>
 	
 						<!-- 옵션일 때 추가 금액 -->
-						<div v-if="!store.is_base" class="form-group">
+						<div v-if="!store.isBase" class="form-group">
 							<label>추가 금액</label>
-							<input type="number" v-model.number="store.product_item.add_price" min="0" step="500"> 원
+							<input type="number" v-model.number="store.productItem.add_price" min="0" step="500"> 원
 						</div>
 					</div>
 	
 					<!-- 콤보 폼 -->
-					<div v-show="store.store_product.is_combo === 'Y'" id="comboProductForm">
+					<div v-show="store.storeProduct.is_combo === 'Y'" id="comboProductForm">
 						<fieldset>
 							<legend>콤보 구성</legend>
 							<div id="comboList">
 								<div class="form-group">
 									<label>식품 카테고리</label>
-									<select v-model="store.categories" <%-- @change="store.updateComboItems" --%>>
+									<select v-model="store.selectedComboItem.category_id" @change="store.updateComboItems">
 										<option value="">선택하세요</option>
-										<option value="1">팝콘</option>
-										<option value="2">음료</option>
-										<option value="3">탄산</option>
-										<option value="4">스낵</option>
+										<option v-for="c in store.categories" :key="c.category_id" 
+											:value="c.category_id">{{ c.category_name }}</option>
 									</select>
 								</div>
 	
 								<div class="form-group">
 									<label>식품 이름</label>
-									<select v-model="store.selectedComboItemId">
+									<select v-model="store.selectedComboItem.item_id">
 										<option value="">선택하세요</option>
 										<option v-for="item in store.productList" :key="item.item_id" :value="item.item_id">
 											{{ item.item_name }} {{ item.item_size ? '(' + item.item_size + ')' : '' }} - {{ item.item_price.toLocaleString() }}원
@@ -118,16 +115,16 @@
 	
 								<div class="form-group">
 									<label>수량</label>
-									<input type="number" v-model.number="store.product_combo.item_quantity" min="1" style="width: 80px"> 개
+									<input type="number" v-model.number="store.productCombo.item_quantity" min="1" style="width: 80px"> 개
 								</div>
 	
 								<div class="form-group">
-									<label><input type="checkbox" v-model="store.product_combo.is_upgrade"> 사이즈 업그레이드 가능</label>
+									<label><input type="checkbox" checked @change="store.toggleIsUpgrade()"> 사이즈 업그레이드 가능</label>
 								</div>
 	
-								<div v-if="store.product_combo.is_upgrade === 'Y'" class="form-group">
+								<div v-if="store.productCombo.is_upgrade === 'Y'" class="form-group">
 									<label>업그레이드 추가금액 (M→L)</label>
-									<input type="number" v-model.number="store.product_combo.upgrade_price" placeholder="500" min="0" step="100"> 원
+									<input type="number" v-model.number="store.productCombo.upgrade_price" placeholder="500" min="0" step="100"> 원
 								</div>
 	
 								<button type="button" <%-- @click="store.addComboItem" --%>>추가</button>
@@ -155,36 +152,36 @@
 	
 						<div class="form-group">
 							<label>할인 금액</label>
-							<input type="number" v-model.number="store.store_product.discount_price" placeholder="500" min="0" step="500"> 원
+							<input type="number" v-model.number="store.storeProduct.discount_price" placeholder="500" min="0" step="500"> 원
 						</div>
 					</div>
 	
 					<!-- 공통 필드 -->
 					<div class="form-group">
 						<label>판매 식품 이름</label>
-						<input type="text" v-model="store.store_product.product_name" placeholder="판매 식품 이름">
+						<input type="text" v-model="store.storeProduct.product_name" placeholder="판매 식품 이름">
 					</div>
 	
 					<div class="form-group">
 						<label>판매 식품 설명</label>
-						<input type="text" v-model="store.store_product.product_desc" placeholder="판매 식품 설명">
+						<input type="text" v-model="store.storeProduct.description" placeholder="판매 식품 설명">
 					</div>
 	
 					<div class="form-group">
 						<label>판매 식품 이미지</label>
-						<input type="text" v-model="store.store_product.product_image" placeholder="판매 식품 이미지 URL">
+						<input type="text" v-model="store.storeProduct.product_image" placeholder="판매 식품 이미지 URL">
 					</div>
 	
 					<div class="form-group">
 						<label>판매 가격</label>
 						<div class="price-display"><!-- {{ (store.calculatedPrice || 0).toLocaleString() }} -->원</div>
-						<small v-if="store.store_product.is_combo === 'N' && store.is_base">
+						<small v-if="store.storeProduct.is_combo === 'N' && store.isBase">
 							(기본 식품 가격)
 						</small>
-						<!-- <small v-if="store.store_product.is_combo === 'N' && !store.is_base && store.baseItemPrice > 0">
+						<!-- <small v-if="store.storeProduct.is_combo === 'N' && !store.isBase && store.baseItemPrice > 0">
 							(기본: {{ (store.baseItemPrice || 0).toLocaleString() }}원 + 추가: {{ (store.addPrice || 0).toLocaleString() }}원)
 						</small>
-						<small v-if="store.store_product.is_combo === 'Y' && store.comboItemList.length > 0">
+						<small v-if="store.storeProduct.is_combo === 'Y' && store.comboItemList.length > 0">
 							(합계: {{ (store.comboTotalPrice || 0).toLocaleString() }}원 - 할인: {{ (store.discountPrice ||
 							0).toLocaleString() }}원)
 						</small> -->
