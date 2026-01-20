@@ -31,7 +31,7 @@
 										<li><a href="./anime-details.html">영화 목록</a></li>
 									</ul></li>
 								<li><a href="/store/list">매점</a></li>
-								<li><a href="./blog.html">이벤트 및 공지사항</a></li>
+								<li><a href="/board/list">이벤트 및 공지사항</a></li>
 								<sec:authorize access="isAuthenticated()">
 									<li><a href="/mypage">마이페이지</a></li>
                   <li>${sessionScope.userid }님 로그인</li>

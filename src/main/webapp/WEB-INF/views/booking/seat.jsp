@@ -5,11 +5,12 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<script type="text/javascript" src="https://cdn.iamport.kr/js/iamport.payment-1.2.0.js"></script>
 </head>
 <body>
 	<section class="seat spad">
-		<div class="container" v-show="store.switch">
-			<div class="row">
+		<div class="container">
+			<div class="row" v-show="store.switch">
 				<div class="col-lg-12 seat_container">
 					<div class="seat_info">
 						<div class="people-header">
@@ -146,9 +147,8 @@
 					</div>
 				</div>
 			</div>
-		</div>
-
-		<div class="payment-wrap" v-if="!store.switch">
+			
+			<div class="payment-wrap" v-if="!store.switch">
 			<!-- 좌측: 예매정보 -->
 			<div class="payment-left">
 				<h2 class="page-title">결제하기</h2>
@@ -212,6 +212,7 @@
 				</div>
 
 			</div>
+		</div>
 		</div>
 	</section>
 	<script src="/teamjs/commons.js"></script>

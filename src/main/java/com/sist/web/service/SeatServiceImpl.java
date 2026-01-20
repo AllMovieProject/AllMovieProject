@@ -13,6 +13,7 @@ import com.sist.web.vo.ScheduleSeatVO;
 import com.sist.web.vo.ScheduleVO;
 import com.sist.web.vo.SeatVO;
 
+import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 
 @Service
@@ -75,5 +76,16 @@ public class SeatServiceImpl implements SeatService {
             mapper.scheduleSeatFlagDown(ssvo);
         }
     }
+
+	@Override
+	public void bookingComplete(SeatBookingDTO dto, HttpSession session) {
+		// 트랜잭셔널 처리하기
+        int schedule_id = dto.getSchedule_id();
+        List<Integer> list = dto.getSelected_seats();
+        String id = (String) session.getAttribute("userid");
+        
+		mapper.bookingInsert(null);
+		mapper.bookingSeatInsert(null);
+	}
 
 }

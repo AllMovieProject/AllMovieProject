@@ -83,4 +83,13 @@ public class BookingRestController {
             e.printStackTrace();
         }
     }
+    
+    @PostMapping("/booking/complete")
+    public void bookingComplete(@RequestBody SeatBookingDTO dto) {
+        try {
+            sService.bookingComplete(dto);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 }

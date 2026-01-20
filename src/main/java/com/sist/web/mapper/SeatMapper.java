@@ -9,8 +9,9 @@ import org.apache.ibatis.annotations.Update;
 import org.springframework.stereotype.Repository;
 
 import com.sist.web.dto.SeatBookingDTO;
+import com.sist.web.vo.BookingSeatVO;
+import com.sist.web.vo.BookingVO;
 import com.sist.web.vo.MoviePriceVO;
-import com.sist.web.vo.ReservationSeatVO;
 import com.sist.web.vo.ScheduleSeatVO;
 import com.sist.web.vo.ScheduleVO;
 import com.sist.web.vo.SeatVO;
@@ -56,4 +57,10 @@ public interface SeatMapper {
 	@Update("UPDATE schedule_seat SET reservation_flag = 0 "
 	      + "WHERE schedule_id = #{schedule_id} AND seat_id = #{seat_id}")
 	public void scheduleSeatFlagDown(ScheduleSeatVO vo);
+	
+	@Insert("INSERT INTO reservation VALUES(#{booking_id}, #{schedule_id}, 0, #{user_id}")
+	public void bookingInsert(BookingVO vo);
+	
+	@Insert("INSERT INTO reservation_seat VALUES(#{booking_seat_id}, #{booking_id}, #{seat_id})")
+	public void bookingSeatInsert(BookingSeatVO vo);
 }
