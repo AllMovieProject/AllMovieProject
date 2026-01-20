@@ -8,13 +8,15 @@ package com.sist.web.vo;
 	HCONTENT	CLOB
 	HRTYPE		NUMBER
 	HREGDATE	DATE
+	ID			VARCHAR2(20 BYTE)
+	HHIT		NUMBER
  */
 import java.util.*;
 
 import lombok.Data;
 @Data
 public class HelpDeskVO {
-	private int hno, hcate1, hcate2, hmtype, hrtype;
-	private String hsubject, hcontent;
+	private int hno, hcate1, hcate2, hmtype, hrtype, hhit;
+	private String hsubject, hcontent, id;
 	private Date hregdate;
 }
