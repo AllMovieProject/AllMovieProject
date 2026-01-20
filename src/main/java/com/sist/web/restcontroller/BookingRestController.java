@@ -15,6 +15,7 @@ import com.sist.web.service.BookingService;
 import com.sist.web.service.SeatService;
 import com.sist.web.vo.ScheduleVO;
 
+import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 
 @RestController
@@ -85,9 +86,9 @@ public class BookingRestController {
     }
     
     @PostMapping("/booking/complete")
-    public void bookingComplete(@RequestBody SeatBookingDTO dto) {
+    public void bookingComplete(@RequestBody SeatBookingDTO dto, HttpSession session) {
         try {
-            sService.bookingComplete(dto);
+            sService.bookingComplete(dto, session);
         } catch (Exception e) {
             e.printStackTrace();
         }

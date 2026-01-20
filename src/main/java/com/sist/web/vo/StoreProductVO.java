@@ -9,7 +9,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class StoreProductVO {
 	
-	private int product_id, item_id, product_price, discount;
+	private int product_id, product_price, discount;
+	private Integer item_id;
 	private String product_name, product_image, description, is_combo;
 
 }

@@ -38,10 +38,11 @@
 					</div>
 	
 					<!-- 단품 폼 -->
-					<div class="form-group" v-show="store.storeProduct.is_combo === 'N'" id="singleProductForm">
+					<div class="form-group" v-if="store.storeProduct.is_combo === 'N'" id="singleProductForm">
 						<fieldset>
 							<legend>식품 카테고리</legend>
 							<select v-model="store.productItemCategory">
+								<option value="">선택하세요</option>
 								<option v-for="c in store.categories" :key="c.category_id" 
 									:value="c.category_id">{{ c.category_name }}</option>
 							</select>
@@ -57,7 +58,7 @@
 							<select v-model="store.productItem.base_item_id" @change="store.updateBaseItemPrice">
 								<option value="">선택하세요</option>
 								<option v-for="item in store.productList" :key="item.item_id" :value="item.item_id">
-									{{ item.item_name }} {{ item.item_size ? '(' + item.item_size + ')' : '' }} - {{ item.item_price.toLocaleString() }}원
+									{{ item.item_name }} {{ item.item_size ? '(' + item.item_size + ')' : '' }} - {{ item.item_price?.toLocaleString() }}원
 								</option>
 							</select>
 						</div>
@@ -90,13 +91,13 @@
 					</div>
 	
 					<!-- 콤보 폼 -->
-					<div v-show="store.storeProduct.is_combo === 'Y'" id="comboProductForm">
+					<div v-if="store.storeProduct.is_combo === 'Y'" id="comboProductForm">
 						<fieldset>
 							<legend>콤보 구성</legend>
 							<div id="comboList">
 								<div class="form-group">
 									<label>식품 카테고리</label>
-									<select v-model="store.productItemCategory" @change="store.updateComboItems">
+									<select v-model="store.productItemCategory" @change="store.storeProductList">
 										<option value="">선택하세요</option>
 										<option v-for="c in store.categories" :key="c.category_id" 
 											:value="c.category_id">{{ c.category_name }}</option>
@@ -108,7 +109,7 @@
 									<select v-model="store.productCombo.item_id">
 										<option value="">선택하세요</option>
 										<option v-for="item in store.productList" :key="item.item_id" :value="item.item_id">
-											{{ item.item_name }} {{ item.item_size ? '(' + item.item_size + ')' : '' }} - {{ item.item_price.toLocaleString() }}원
+											{{ item.product_name }} - {{ item.product_price?.toLocaleString() }}원
 										</option>
 									</select>
 								</div>
@@ -133,26 +134,25 @@
 							<!-- 추가된 콤보 아이템 목록 -->
 							<div v-if="store.comboItemList.length > 0" style="margin-top: 20px;">
 								<h4>구성 목록</h4>
-								<div v-for="(item, index) in store.comboItemList" :key="index" class="combo-item">
+								<div v-for="(item, idx) in store.comboItemList" :key="idx" class="combo-item">
 									<div style="flex: 1;">
-										<div><strong>{{ store.categories.find(i => i.category_id === this.productItemCategory.category_id).category_name }} - {{ item.name }} {{ item.size ? '(' + item.size + ')' : ''
-												}}</strong></div>
+										<div><strong>{{ item.productItem.product_name }}</strong></div>
 										<div style="font-size: 14px; color: #666;">
-											수량: {{ item.productCombo.quantity }}개 | 가격: {{ item.price.toLocaleString() }}원
-											<span v-if="item.isUpgrade">
-												| 업그레이드 가능 (+{{ item.upgradePrice.toLocaleString() }}원)
+											수량: {{ item.productCombo.item_quantity }}개 | 가격: {{ (item.productItem.product_price * item.productCombo.item_quantity).toLocaleString() }}원
+											<span v-if="item.productCombo.is_upgrade">
+												| 업그레이드 가능 (+{{ item.productCombo.upgrade_price.toLocaleString() }}원)
 											</span>
 											<span v-else> | 사이즈 고정</span>
 										</div>
 									</div>
-									<button type="button" @click="store.removeComboItem(index)">삭제</button>
-								</div> -
+									<button type="button" @click="store.removeComboItem(idx)">삭제</button>
+								</div>
 							</div>
 						</fieldset>
 	
 						<div class="form-group">
 							<label>할인 금액</label>
-							<input type="number" v-model.number="store.storeProduct.discount_price" placeholder="500" min="0" step="500"> 원
+							<input type="number" v-model.number="store.storeProduct.discount" placeholder="500" min="0" step="500"> 원
 						</div>
 					</div>
 	
@@ -176,7 +176,7 @@
 	
 					<div class="form-group">
 						<label>판매 가격</label>
-						<div class="price-display"><!-- {{ (store.calculatedPrice || 0).toLocaleString() }} -->원</div>
+						<div class="price-display"> {{ (store.calculatedPrice || 0).toLocaleString() }} 원</div>
 						<small v-if="store.storeProduct.is_combo === 'N' && store.isBase">
 							(기본 식품 가격)
 						</small>

@@ -17,7 +17,7 @@ import lombok.RequiredArgsConstructor;
 @Service
 @RequiredArgsConstructor
 public class ProductServiceImpl implements ProductService {
-	
+
 	private final ProductMapper mapper;
 
 	@Override
@@ -58,6 +58,11 @@ public class ProductServiceImpl implements ProductService {
 			//mapper.productComboInsert(pcVO);
 		}
 		return "yes";
+	}
+	
+	@Override
+	public List<StoreProductVO> storeProductListData(int category_id) {
+		return mapper.storeProductListData(category_id);
 	}
 
 }
