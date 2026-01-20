@@ -58,9 +58,12 @@ public interface SeatMapper {
 	      + "WHERE schedule_id = #{schedule_id} AND seat_id = #{seat_id}")
 	public void scheduleSeatFlagDown(ScheduleSeatVO vo);
 	
-	@Insert("INSERT INTO reservation VALUES(#{booking_id}, #{schedule_id}, 0, #{user_id}")
+	@Select("SELECT booking_id_seq.NEXTVAL FROM DUAL")
+	public int bookingIdSequenceData();
+	
+	@Insert("INSERT INTO booking(booking_id, schedule_id, member_id) VALUES(#{booking_id}, #{schedule_id}, #{member_id})")
 	public void bookingInsert(BookingVO vo);
 	
-	@Insert("INSERT INTO reservation_seat VALUES(#{booking_seat_id}, #{booking_id}, #{seat_id})")
+	@Insert("INSERT INTO booking_seat(booking_seat_id, booking_id, seat_id) VALUES(bookingseat_id_seq.NEXTVAL, #{booking_id}, #{seat_id})")
 	public void bookingSeatInsert(BookingSeatVO vo);
 }

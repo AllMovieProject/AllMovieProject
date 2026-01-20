@@ -1,5 +1,7 @@
 package com.sist.web.service;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -8,12 +10,13 @@ import org.springframework.stereotype.Service;
 
 import com.sist.web.dto.SeatBookingDTO;
 import com.sist.web.mapper.SeatMapper;
+import com.sist.web.vo.BookingSeatVO;
+import com.sist.web.vo.BookingVO;
 import com.sist.web.vo.MoviePriceVO;
 import com.sist.web.vo.ScheduleSeatVO;
 import com.sist.web.vo.ScheduleVO;
 import com.sist.web.vo.SeatVO;
 
-import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 
 @Service
@@ -56,7 +59,7 @@ public class SeatServiceImpl implements SeatService {
         
         ScheduleSeatVO ssvo = new ScheduleSeatVO();
         ssvo.setSchedule_id(schedule_id);
-        
+
         for(Integer seat_id : list) {
             ssvo.setSeat_id(seat_id);
             mapper.scheduleSeatFlagUp(ssvo);
@@ -78,14 +81,30 @@ public class SeatServiceImpl implements SeatService {
     }
 
 	@Override
-	public void bookingComplete(SeatBookingDTO dto, HttpSession session) {
-		// 트랜잭셔널 처리하기
+	public void bookingComplete(SeatBookingDTO dto) {
         int schedule_id = dto.getSchedule_id();
         List<Integer> list = dto.getSelected_seats();
-        String id = (String) session.getAttribute("userid");
+        String id = dto.getUser_id();
         
-		mapper.bookingInsert(null);
-		mapper.bookingSeatInsert(null);
+        BookingVO bvo = new BookingVO();
+        Date date = new Date();
+        SimpleDateFormat df = new SimpleDateFormat("yyMMdd");
+        String today = df.format(date);
+        int seq = mapper.bookingIdSequenceData();
+        String booking_id = today + "-" + String.format("%07d", seq);
+        
+        bvo.setBooking_id(booking_id);
+        bvo.setSchedule_id(schedule_id);
+        bvo.setMember_id(id);
+        mapper.bookingInsert(bvo);
+        
+        BookingSeatVO bsvo = new BookingSeatVO();
+        bsvo.setBooking_id(booking_id);
+        
+        for(int seat_id : list) {
+            bsvo.setSeat_id(seat_id);
+            mapper.bookingSeatInsert(bsvo);
+        }
 	}
 
 }

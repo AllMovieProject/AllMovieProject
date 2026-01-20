@@ -135,16 +135,16 @@ const useSeatStore = defineStore('seat', {
 
 			if (error_msg) {
 				alert('결제 성공하셨습니다')
-				/*api.post('/booking/complete', {
+				api.post('/booking/complete', {
 					schedule_id: this.schedule_id,
 					selected_seats: this.selected_seats,
-					
-				})*/
-				// 이미 schedule_seat는 업데이트 했으므로 reservation_seat와 reservation만 업데이트 하면 된다
+					user_id: this.user_id
+				})
+        
 				location.href = '/'
 			} else {
-			  alert('결제 성공')
-			}
+        alert('오류 발생')
+      }
 		},
 
 		seatPlusCounter(seperator) {
@@ -167,8 +167,6 @@ const useSeatStore = defineStore('seat', {
 			if (this.selected_seats.length === this.total_count) {
 				if (confirm('선택하신 좌석을 모두 취소하고 다시 선택하시겠습니까?')) {
 					this.reset()
-					return
-				} else {
 					return
 				}
 			}
