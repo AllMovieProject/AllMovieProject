@@ -41,7 +41,7 @@
 					<div class="form-group" v-if="store.storeProduct.is_combo === 'N'" id="singleProductForm">
 						<fieldset>
 							<legend>식품 카테고리</legend>
-							<select v-model="store.productItemCategory">
+							<select v-model="store.productItemCategory" @change="store.productItemList">
 								<option value="">선택하세요</option>
 								<option v-for="c in store.categories" :key="c.category_id" 
 									:value="c.category_id">{{ c.category_name }}</option>

@@ -14,6 +14,6 @@ public class ProductFormDTO {
 	private ProductItemCategoryVO productItemCategory;
 	private ProductComboVO productCombo;
 	private StoreProductVO storeProduct;
-	private boolean isBase;
+	private boolean base;
 
 }

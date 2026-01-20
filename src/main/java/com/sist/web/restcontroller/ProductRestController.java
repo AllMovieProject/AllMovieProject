@@ -79,7 +79,7 @@ public class ProductRestController {
 	public ResponseEntity<String> manager_insert_combo(@RequestBody ComboFormDTO dto) {
 		String res = "";
 		try {
-//			res = pService.productInsert(dto);
+			res = pService.productComboInsert(dto);
 		} catch (Exception e) {
 			e.printStackTrace();
 			return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);

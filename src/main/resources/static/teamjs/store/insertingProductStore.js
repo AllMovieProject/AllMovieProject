@@ -30,10 +30,10 @@ const storeProduct = {
 const useProductStore = defineStore('product', {
 	state: () => ({
 		categories: [],
-		productItem: productItem,
+		productItem: { ...productItem },
 		productItemCategory: '',
-		productCombo: productCombo,
-		storeProduct: storeProduct,
+		productCombo: { ...productCombo },
+		storeProduct: { ...storeProduct	},
 		productList: [],
 		isBase: true,
 		comboItemList: [],
@@ -68,10 +68,13 @@ const useProductStore = defineStore('product', {
 
 	actions: {
 		resetForm() {
-			this.productItem = productItem
+			this.productItem = { ...productItem }
 			this.productItemCategory = ''
-			this.productCombo = productCombo
-			this.storeProduct = storeProduct
+			this.productCombo = { ...productCombo }
+			this.storeProduct = {
+				...storeProduct, 
+				is_combo: this.storeProduct.is_combo
+			}
 			this.productList = []
 			this.isBase = true
 			this.comboItemList = []
@@ -84,7 +87,12 @@ const useProductStore = defineStore('product', {
 		},
 
 		async productItemList() {
-			if (this.isBase || !this.productItemCategory) return
+			if (this.isBase) {
+				this.productItem = { ...productItem }
+			}
+			if (this.isBase || !this.productItemCategory) {
+				return
+			}
 
 			const { data } = await api.get('/product/manager/item-list', {
 				params: {
@@ -134,7 +142,7 @@ const useProductStore = defineStore('product', {
 
 			if (selectedItem) {
 				this.comboItemList.push({
-					productItem: selectedItem,
+					productItem: { ...selectedItem },
 					productCombo: {
 						is_upgrade: this.productCombo.is_upgrade,
 						item_id: selectedItem.item_id,
@@ -145,7 +153,7 @@ const useProductStore = defineStore('product', {
 				})
 
 				// 초기화
-				this.productCombo = productCombo
+				this.productCombo = { ...productCombo }
 			}
 			console.log(this.comboItemList)
 		},
@@ -179,8 +187,12 @@ const useProductStore = defineStore('product', {
 				formData.productItemCategory = {
 					category_id: this.productItemCategory,
 				}
-				formData.productItem = this.productItem	// TODO 기본 식품은 add_price 0으로 , 탄산은 음료도 같이
-				formData.isBase = this.isBase
+				formData.productItem = this.productItem
+				formData.base = this.isBase
+				
+				await api.post('/product/manager/insert-item', formData).then((res) => {
+					console.log(res)
+				})
 			} else {
 				// 콤보
 				formData.storeProduct = {
@@ -192,14 +204,13 @@ const useProductStore = defineStore('product', {
 					discount: this.storeProduct.discount,
 				}
 				formData.productComboList = this.comboItemList
+				
+				await api.post('/product/manager/insert-combo', formData).then((res) => {
+					console.log(res)
+				})
 			}
 
 			console.log('전송 데이터:', formData)
-
-			await api.post('/product/manager/insert-item', formData).then((res) => {
-				console.log(res)
-			})
-
 			alert('식품이 추가되었습니다!')
 		},
 	},
