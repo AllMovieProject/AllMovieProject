@@ -13,6 +13,7 @@ import com.sist.web.dto.BookingRequestDTO;
 import com.sist.web.dto.SeatBookingDTO;
 import com.sist.web.service.BookingService;
 import com.sist.web.service.SeatService;
+import com.sist.web.vo.ScheduleSeatVO;
 import com.sist.web.vo.ScheduleVO;
 
 import lombok.RequiredArgsConstructor;
@@ -64,6 +65,20 @@ public class BookingRestController {
         }
 
         return new ResponseEntity<>(map, HttpStatus.OK);
+    }
+    
+    @PostMapping("/seat/validation")
+    public ResponseEntity<String> seatValidation(@RequestBody ScheduleSeatVO vo) {
+    	String res = "";
+    	
+        try {
+        	res = sService.seatValidation(vo);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+
+        return new ResponseEntity<>(res, HttpStatus.OK);
     }
     
     @PostMapping("/seat/booking_seat")

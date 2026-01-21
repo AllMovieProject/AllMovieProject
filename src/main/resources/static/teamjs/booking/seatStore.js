@@ -26,10 +26,11 @@ const initialState = () => ({
 	selected_teen: 0,
 	selected_prefer: 0,
 
-	total_info: '',
 	total_count: null,
 	total_price: 0,
+	
 	selected_seats: [],
+	selected_info: [],
 
 	reservation_seat: 0
 })
@@ -57,10 +58,10 @@ const useSeatStore = defineStore('seat', {
 
 		findSeatChecked(rindex, cindex) {
 			const no = this.col_len * rindex + cindex
-			const seatId = this.datas.seatId_list?.[no]?.seat_id
+			const seatId = this.datas.seatId_list[no].seat_id
 
 			for (let i = 0; i < this.selected_seats.length; i++) {
-				if (this.selected_seats?.[i] === seatId) {
+				if (this.selected_seats[i] === seatId) {
 					return true
 				}
 			}
@@ -84,14 +85,10 @@ const useSeatStore = defineStore('seat', {
 			} else if (this.total_count !== this.selected_seats.length) {
 				return
 			} else {
-				/*for (let i = 0; i < this.selected_seats.length; i++) {
-					const isBooked = this.seatValidation(this.selected_seats[i])
-					if (isBooked) {
-						alert('이미 선점된 좌석입니다')
-						this.reset()
-						return
-					}
-				}*/
+				for (let i = 0; i < this.selected_seats.length; i++) {
+					this.seatValidation(this.selected_seats[i])
+				}
+				
 				await api.post('/seat/booking_seat', {
 					schedule_id: this.schedule_id,
 					selected_seats: this.selected_seats
@@ -113,23 +110,21 @@ const useSeatStore = defineStore('seat', {
 
 		async paymentCheck() {
 			IMP.init("imp68206770")
-			
+
 			const data = {
-			  pg: 'html5_inicis',                           // PG사
-			  pay_method: 'card',                           // 결제수단
-			  merchant_uid: `mid_${new Date().getTime()}`,  // 주문번호
-			  amount: 1000,                                 // 결제금액
-			  name: '아임포트 결제 데이터 분석',                  // 주문명
-			  buyer_name: '홍길동',                           // 구매자 이름
-			  buyer_tel: '01012341234',                     // 구매자 전화번호
-			  buyer_email: 'example@example',               // 구매자 이메일
-			  buyer_addr: '신사동 661-16',                    // 구매자 주소
-			  buyer_postcode: '06018',                      // 구매자 우편번호
+				pg: 'html5_inicis',                           // PG사
+				pay_method: 'card',                           // 결제수단
+				merchant_uid: `mid_${new Date().getTime()}`,  // 주문번호
+				amount: 1000,                                 // 결제금액
+				name: '아임포트 결제 데이터 분석',                  // 주문명
+				buyer_name: '홍길동',                           // 구매자 이름
+				buyer_tel: '01012341234',                     // 구매자 전화번호
+				buyer_email: 'example@example',               // 구매자 이메일
 			}
-			
+
 			IMP.request_pay(data, this.callback);
 		},
-		
+
 		async callback(response) {
 			const { error_msg } = response
 
@@ -140,14 +135,74 @@ const useSeatStore = defineStore('seat', {
 					selected_seats: this.selected_seats,
 					user_id: this.user_id
 				})
-        
+
 				location.href = '/'
 			} else {
-        alert('오류 발생')
-      }
+				alert('오류 발생')
+			}
 		},
 
-		seatPlusCounter(seperator) {
+		async selectSeat(row, rindex, cindex) {
+			if (this.total_count === null) {
+				alert('좌석 수량을 골라주세요')
+				return
+			}
+			
+			const no = this.col_len * rindex + cindex
+			for (let i = 0; i < this.selected_seats.length; i++) {
+				if (this.selected_seats[i] === this.datas.seatId_list?.[no]?.seat_id) {
+					this.selected_seats.splice(i, 1)
+					this.selected_info.splice(i, 1)
+					this.priceCounter()
+					return
+				}
+			}
+			
+			this.pushSeatId(no, row, cindex)
+		},
+
+		async seatValidation(seat_id) {
+			const res = await api.post('/seat/validation', {
+				schedule_id: this.schedule_id,
+				seat_id: seat_id
+			})
+			
+			if (res.data === 'booked') {
+				alert('이미 선점된 좌석입니다')
+				this.reset()
+				return
+			}
+		},
+
+		pushSeatId(no, row, cindex) {
+			if (this.total_count === this.selected_seats.length) {
+				alert('좌석 선택이 완료되었습니다')
+				return
+			}
+			this.seatValidation(this.datas.seatId_list[no].seat_id)
+
+			this.selected_seats.push(this.datas.seatId_list[no].seat_id)
+			this.selected_info.push(row + (cindex + 1))
+			this.priceCounter()
+		},
+
+		reset() {
+			this.adult_count = 0
+			this.teen_count = 0
+			this.prefer_count = 0
+			this.total_count = null
+
+			this.selected_adult = 0
+			this.selected_teen = 0
+			this.selected_prefer = 0
+			this.total_price = 0
+			this.selected_seats = []
+			this.selected_info = []
+
+			this.seatListData(this.schedule_id)
+		},
+
+		plusCounter(seperator) {
 			if (seperator === 'adult++' && this.adult_count < 6 && this.total_count < 6) {
 				this.adult_count += 1
 				this.total_count += 1
@@ -163,7 +218,7 @@ const useSeatStore = defineStore('seat', {
 			}
 		},
 
-		seatMinusCounter(seperator) {
+		minusCounter(seperator) {
 			if (this.selected_seats.length === this.total_count) {
 				if (confirm('선택하신 좌석을 모두 취소하고 다시 선택하시겠습니까?')) {
 					this.reset()
@@ -184,63 +239,6 @@ const useSeatStore = defineStore('seat', {
 			if (this.total_count === 0) {
 				this.total_count = null
 			}
-		},
-
-		async selectSeat(rindex, cindex) {
-			const no = this.col_len * rindex + cindex
-			for (let i = 0; i < this.selected_seats.length; i++) {
-				if (this.selected_seats[i] === this.datas.seatId_list?.[no]?.seat_id) {
-					this.selected_seats.splice(i, 1)
-					this.priceCounter()
-					return
-				}
-			}
-
-			if (this.total_count === null) {
-				alert('좌석 수량을 골라주세요')
-				return
-			}
-
-			const isBooked = await this.seatValidation(no)
-
-			if (isBooked) {
-				alert('이미 선점된 좌석입니다')
-				this.reset()
-			} else {
-				this.pushSeatId(no)
-			}
-
-		},
-
-		async seatValidation(no) {
-			await this.seatListData(this.schedule_id)
-
-			return this.datas.seatId_list?.[no]?.reservation_flag === 1
-		},
-
-		reset() {
-			this.adult_count = 0
-			this.teen_count = 0
-			this.prefer_count = 0
-			this.total_count = null
-
-			this.selected_adult = 0
-			this.selected_teen = 0
-			this.selected_prefer = 0
-			this.total_price = 0
-			this.selected_seats = []
-
-			this.seatListData(this.schedule_id)
-		},
-
-		pushSeatId(no) {
-			if (this.total_count === this.selected_seats.length) {
-				alert('좌석 선택이 완료되었습니다')
-				return
-			}
-
-			this.selected_seats.push(this.datas.seatId_list[no].seat_id)
-			this.priceCounter()
 		},
 
 		priceCounter() {

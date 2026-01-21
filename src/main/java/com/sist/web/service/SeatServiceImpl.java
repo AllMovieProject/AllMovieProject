@@ -52,6 +52,17 @@ public class SeatServiceImpl implements SeatService {
         return map;
     }
 
+	@Override
+	public String seatValidation(ScheduleSeatVO vo) {
+		String res = "booked";
+		
+		if (mapper.seatValidation(vo) == 0) {
+			res = "bookable";
+		}
+		
+		return res;
+	}
+
     @Override
     public void seatBooking(SeatBookingDTO dto) {
         int schedule_id = dto.getSchedule_id();
