@@ -21,7 +21,7 @@
 /*---------------------
   Booking CSS
 -----------------------*/
-.booking_container {
+.booking_row {
 	background-color: white;
 	width: 100%;
 	height: 600px;
@@ -148,7 +148,7 @@
 /*---------------------
   Seat CSS
 -----------------------*/
-.seat_container {
+.seat_row {
 	background-color: white;
 	width: 100%;
 	height: 600px;
@@ -416,6 +416,9 @@
 	background: #555;
 	border-radius: 5px;
 }
+.selected_info.selected {
+	background: #7a5cff;
+}
 
 .selected_count {
 	height: 50px;
@@ -473,18 +476,20 @@
   Payment CSS
 -----------------------*/
 /* 전체 래퍼 */
-.payment-wrap {
-	max-width: 1100px;
-	min-height: calc(100vh - 200px);
-	margin: 40px auto;
-	display: flex;
-	gap: 32px;
+.payment_row {
+	background-color: white;
+	width: 100%;
+	height: 600px;
+	border-style: solid;
+	border-width: 1px;
+	border-color: gray;
+	position: relative;
 }
 
 /* 좌측 */
 .payment-left {
-	background: white;
 	flex: 1;
+	float: left;
 }
 
 .page-title {
@@ -516,18 +521,10 @@
 	margin-bottom: 8px;
 }
 
-.booking-guide {
-	margin-top: 40px;
-	padding-top: 20px;
-	border-top: 1px solid #ddd;
-	color: #777;
-	font-size: 14px;
-	line-height: 1.6;
-}
-
 /* 우측 */
 .payment-right {
 	width: 320px;
+	float: right;
 }
 
 .price-box {
@@ -581,4 +578,68 @@
 	font-size: 16px;
 	border: none;
 	cursor: pointer;
+}
+
+.agree-wrap {
+	padding: 20px;
+	font-family: sans-serif;
+	color: #333;
+}
+
+.agree-title {
+	display: flex;
+	align-items: center;
+	gap: 10px;
+	font-size: 10px;
+	margin-bottom: 10px;
+}
+
+.agree-title.mt {
+	margin-top: 25px;
+}
+
+.check-circle {
+	width: 14px;
+	height: 14px;
+	border-radius: 50%;
+	border: 2px solid #bbb;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	font-size: 14px;
+	color: #bbb;
+}
+
+.agree-box {
+	border: 1px solid #ddd;
+	border-radius: 6px;
+	overflow: hidden;
+}
+
+.agree-item {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	padding: 8px 11px;
+	border-bottom: 1px solid #eee;
+	font-size: 14px;
+}
+
+.agree-item:last-child {
+	border-bottom: none;
+}
+
+.agree-item button {
+	border: 1px solid #ccc;
+	padding: 2px 5px;
+	border-radius: 1px;
+	font-size: 6px;
+	cursor: pointer;
+}
+
+.policy-text {
+	margin-top: 10px;
+	font-size: 5px;
+	color: #666;
+	line-height: 1.6;
 }
