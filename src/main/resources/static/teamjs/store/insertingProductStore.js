@@ -37,6 +37,7 @@ const useProductStore = defineStore('product', {
 		productList: [],
 		isBase: true,
 		comboItemList: [],
+		productImageFile: null
 	}),
 
 	getters: {
@@ -161,6 +162,11 @@ const useProductStore = defineStore('product', {
 		removeComboItem(index) {
 			this.comboItemList.splice(index, 1)
 		},
+		
+		onFileChange(event) {
+			const file = event.target.files[0]
+			this.productImageFile = file
+		},
 
 		async submitForm() {
 			// 유효성 검사
@@ -173,44 +179,50 @@ const useProductStore = defineStore('product', {
 				return
 			}
 
-			const formData = {}
+			const formData = new FormData()
 
-			if (this.storeProduct.is_combo === 'N') {
-				// 단품
-				formData.storeProduct = {
-					is_combo: this.storeProduct.is_combo,
-					product_name: this.storeProduct.product_name,
-					description: this.storeProduct.description,
-					product_image: this.storeProduct.product_image,
-					product_price: this.calculatedPrice,
+			if (this.storeProduct.is_combo === 'N') { // 단품
+				this.storeProduct.product_price = this.calculatedPrice
+				const productForm = {
+				    storeProduct: this.storeProduct,
+				    productItemCategory: { category_id: this.productItemCategory },
+				    productItem: this.productItem,
+				    base: this.isBase
+				};
+
+				formData.append(
+				    "data", 
+				    new Blob([JSON.stringify(productForm)], { type: "application/json" })
+				);
+
+				if (this.productImageFile) {
+				    formData.append("image", this.productImageFile);
 				}
-				formData.productItemCategory = {
-					category_id: this.productItemCategory,
-				}
-				formData.productItem = this.productItem
-				formData.base = this.isBase
 				
 				await api.post('/product/manager/insert-item', formData).then((res) => {
 					console.log(res)
 				})
-			} else {
-				// 콤보
-				formData.storeProduct = {
-					is_combo: this.storeProduct.is_combo,
-					product_name: this.storeProduct.product_name,
-					description: this.storeProduct.description,
-					product_image: this.storeProduct.product_image,
-					product_price: this.comboTotalPrice - this.storeProduct.discount,
-					discount: this.storeProduct.discount,
+			} else { // 콤보
+				this.storeProduct.product_price = this.comboTotalPrice - this.storeProduct.discount
+				const productForm = {
+				    storeProduct: this.storeProduct,
+						productComboList: this.comboItemList.map(item => item.productCombo)
+				};
+
+				formData.append(
+				    "data", 
+				    new Blob([JSON.stringify(productForm)], { type: "application/json" })
+				);
+
+				if (this.productImageFile) {
+				    formData.append("image", this.productImageFile);
 				}
-				formData.productComboList = this.comboItemList
 				
 				await api.post('/product/manager/insert-combo', formData).then((res) => {
 					console.log(res)
 				})
 			}
 
-			console.log('전송 데이터:', formData)
 			alert('식품이 추가되었습니다!')
 		},
 	},

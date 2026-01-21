@@ -5,11 +5,14 @@ import java.util.List;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.sist.web.dto.ComboFormDTO;
 import com.sist.web.dto.ProductFormDTO;
@@ -18,6 +21,7 @@ import com.sist.web.vo.ProductCategoryVO;
 import com.sist.web.vo.ProductItemVO;
 import com.sist.web.vo.StoreProductVO;
 
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 
 @RestController
@@ -28,7 +32,7 @@ public class ProductRestController {
 	private final ProductService pService;
 	
 	@GetMapping("/manager/category")
-	public ResponseEntity<List<ProductCategoryVO>> manager_category() {
+	public ResponseEntity<List<ProductCategoryVO>> managerCategory() {
 		List<ProductCategoryVO> list = null;
 		try {
 			list = pService.productCategoryList();
@@ -40,7 +44,7 @@ public class ProductRestController {
 	}
 	
 	@GetMapping("/manager/item-list")
-	public ResponseEntity<List<ProductItemVO>> manager_items(@RequestParam("category_id") int category_id, @RequestParam("isBase") boolean isBase) {
+	public ResponseEntity<List<ProductItemVO>> managerItems(@RequestParam("category_id") int category_id, @RequestParam("isBase") boolean isBase) {
 		List<ProductItemVO> list = null;
 		try {
 			list = pService.productItemList(category_id, isBase);
@@ -52,7 +56,7 @@ public class ProductRestController {
 	}
 	
 	@GetMapping("/manager/product-list")
-	public ResponseEntity<List<StoreProductVO>> manager_product_list(@RequestParam("category_id") int category_id) {
+	public ResponseEntity<List<StoreProductVO>> managerProductList(@RequestParam("category_id") int category_id) {
 		List<StoreProductVO> list = null;
 		try {
 			list = pService.storeProductListData(category_id);
@@ -64,10 +68,11 @@ public class ProductRestController {
 	}
 	
 	@PostMapping("/manager/insert-item")
-	public ResponseEntity<String> manager_insert_item(@RequestBody ProductFormDTO dto) {
+	public ResponseEntity<String> managerInsertItem(@RequestPart("data") ProductFormDTO dto,
+	        @RequestPart(value = "image", required = false) MultipartFile productImageFile) {
 		String res = "";
 		try {
-			res = pService.productInsert(dto);
+			res = pService.productInsert(dto, productImageFile);
 		} catch (Exception e) {
 			e.printStackTrace();
 			return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
@@ -76,10 +81,11 @@ public class ProductRestController {
 	}
 	
 	@PostMapping("/manager/insert-combo")
-	public ResponseEntity<String> manager_insert_combo(@RequestBody ComboFormDTO dto) {
+	public ResponseEntity<String> managerInsertCombo(@RequestPart("data") ComboFormDTO dto,
+	        @RequestPart(value = "image", required = false) MultipartFile productImageFile) {
 		String res = "";
 		try {
-			res = pService.productComboInsert(dto);
+			res = pService.productComboInsert(dto, productImageFile);
 		} catch (Exception e) {
 			e.printStackTrace();
 			return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);

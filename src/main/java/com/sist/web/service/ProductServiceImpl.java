@@ -1,8 +1,15 @@
 package com.sist.web.service;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.sist.web.dto.ComboFormDTO;
 import com.sist.web.dto.ProductFormDTO;
@@ -20,6 +27,9 @@ import lombok.RequiredArgsConstructor;
 public class ProductServiceImpl implements ProductService {
 
 	private final ProductMapper mapper;
+	
+	@Value("${file.upload-dir}")
+	private String uploadDir;
 
 	@Override
 	public List<ProductCategoryVO> productCategoryList() {
@@ -34,7 +44,7 @@ public class ProductServiceImpl implements ProductService {
 	}
 
 	@Override
-	public String productInsert(ProductFormDTO dto) { // 단품
+	public String productInsert(ProductFormDTO dto, MultipartFile productImageFile) throws IOException { // 단품
 		ProductItemVO itemVO = dto.getProductItem();
 		ProductItemCategoryVO categoryVO = dto.getProductItemCategory();
 		StoreProductVO productVO = dto.getStoreProduct();
@@ -48,7 +58,9 @@ public class ProductServiceImpl implements ProductService {
 			categoryVO.setCategory_id(2);
 			mapper.productItemCategoryInsert(categoryVO);
 		}
-		System.out.println("isBase:" + dto.isBase());
+		
+		saveFile(productVO, productImageFile);
+		
 		if (dto.isBase()) { // 기본 식품이 경우에만 추가
 			productVO.setItem_id(item_id);
 			System.out.println(productVO.getItem_id());
@@ -58,18 +70,62 @@ public class ProductServiceImpl implements ProductService {
 	}
 
 	@Override
-	public String productComboInsert(ComboFormDTO dto) { // 콤보
+	public String productComboInsert(ComboFormDTO dto, MultipartFile productImageFile) throws IOException { // 콤보
 		StoreProductVO productVO = dto.getStoreProduct();
 		List<ProductComboVO> comboListVO = dto.getProductComboList();
 		
 		// TODO INSERT productVO => product_id 가져오기
+		saveFile(productVO, productImageFile);
+		mapper.storeProductInsert(productVO);
 		// TODO INSERT comboListVO => product_id 넣어서
+		for (ProductComboVO vo : comboListVO) {
+			System.out.println(vo.getIs_upgrade());
+			mapper.productComboInsert(vo);
+		}
 		return "yes";
 	}
 	
 	@Override
 	public List<StoreProductVO> storeProductListData(int category_id) {
 		return mapper.storeProductListData(category_id);
+	}
+	
+	public StoreProductVO saveFile(StoreProductVO vo, MultipartFile productImageFile) throws IOException {
+		File dir = new File(uploadDir);
+		if (!dir.exists()) {
+			dir.mkdirs();
+		}
+		
+		String filename = "";
+		boolean checked = false;
+		if (productImageFile.isEmpty()) {
+			checked = false; // 파일이 없는 상태
+		} else {
+			String oname = productImageFile.getOriginalFilename();
+			File f = new File(uploadDir + "/" + oname);
+			if (f.exists()) {
+				int count = 1;
+				String name = oname.substring(0, oname.lastIndexOf("."));
+				String ext = oname.substring(oname.lastIndexOf("."));
+				while (f.exists()) {
+					String newname = name + " (" + count + ")" + ext;
+					f = new File(uploadDir + "/" + newname);
+					count++;
+				}
+			}
+			filename = f.getName();
+			checked = true; // 파일이 존재하는 상태
+			
+			Path path = Paths.get(uploadDir, f.getName());
+			Files.copy(productImageFile.getInputStream(), path);
+		}
+		
+		if (checked) {
+			vo.setProduct_image(filename);
+		} else {
+			vo.setProduct_image("");
+		}
+		return vo;
 	}
 
 }

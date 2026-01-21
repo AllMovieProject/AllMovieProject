@@ -49,8 +49,7 @@ public interface ProductMapper {
 	           statement = "SELECT seq_product_id.currval FROM dual")
 	@Insert("INSERT INTO store_product(product_id, product_name, product_image, item_id, "
 		  + "product_price, discount, description, is_combo) "
-		  + "VALUES(seq_product_id.nextval, #{product_name}, #{product_image}, "
-		  + "(SELECT NVL(base_item_id, item_id) item_id FROM product_item WHERE item_id = #{item_id}), "
+		  + "VALUES(seq_product_id.nextval, #{product_name}, #{product_image}, #{item_id, jdbcType=INTEGER}, "
 		  + "#{product_price}, #{discount}, #{description}, #{is_combo})")
 	public void storeProductInsert(StoreProductVO vo);
 

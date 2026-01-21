@@ -1,10 +1,12 @@
 server:
   port: 8000
+
 spring:
   mvc:
    view:
      prefix: /WEB-INF/views/
      suffix: .jsp
+
   datasource:
     url: jdbc:oracle:thin:@//211.238.142.22:1521/XE
     username: sist3
@@ -17,6 +19,20 @@ spring:
       idle-timeout: 3000
       max-lifetime: 1800000 
       connection-timeout: 30000
+
+  servlet:
+    multipart:
+      enabled: true
+      max-file-size: 100MB
+      max-request-size: 100MB
+
+# 개발
+file:
+  upload-dir: C:/upload
+# 배포
+# file:
+#   upload-dir: /var/upload
+
 mybatis:
   type-aliases-package: com.sist.web.vo
   mapper-locations: mybatis/mapper/*.xml

@@ -170,7 +170,7 @@
 		
 						<div class="form-group">
 							<label>판매 식품 이미지</label>
-							<input type="text" v-model="store.storeProduct.product_image" placeholder="판매 식품 이미지 URL">
+							<input type="file" @change="store.onFileChange" accept="image/*" style="color: white">
 						</div>
 					</div>
 	
