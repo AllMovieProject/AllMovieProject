@@ -203,14 +203,14 @@
                 </table>
 
                 <div class="product__pagination">
-								    <a href="/board/list?page=${curpage>1?curpage-1:curpage}">
-								        ◀
-								    </a>
-								    ${curpage} / ${totalpage}
-								    <a href="/board/list?page=${curpage<totalpage?curpage+1:curpage}">
-								        ▶
-								    </a>
-								</div>
+				    <a href="/board/list?page=${curpage>1?curpage-1:curpage}">
+				        ◀
+				    </a>
+				    ${curpage} / ${totalpage}
+				    <a href="/board/list?page=${curpage<totalpage?curpage+1:curpage}">
+				        ▶
+				    </a>
+				</div>
 
             </div>
         </div>

@@ -32,7 +32,7 @@ public class HelpdeskController {
 		model.addAttribute("list", list);
 		model.addAttribute("curpage", curpage);
 		model.addAttribute("totalpage", totalpage);
-		model.addAttribute("today", new SimpleDateFormat("yyyy-mm-dd").format(new Date()));
+		model.addAttribute("today", new SimpleDateFormat("yyyy-MM-dd").format(new Date()));
 				
 		model.addAttribute("main_jsp", "../helpdesk/list.jsp");
 		return "main/main";
