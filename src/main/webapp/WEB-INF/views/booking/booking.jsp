@@ -10,8 +10,7 @@
 	<!-- Booking Section Begin -->
 	<section class="booking spad">
 		<div class="container">
-			<div class="row">
-				<div class="col-lg-12 booking_container">
+				<div class="col-lg-12 booking_row">
 					<div class="booking_date text-center">
 						<table class="table table-bordered">
 							<tr>
@@ -138,7 +137,6 @@
 					</div>
 				</div>
 			</div>
-		</div>
 	</section>
 	<!-- Booking Section End -->
 	<script src="/teamjs/commons.js"></script>
@@ -166,7 +164,7 @@
     })
     
     bookingApp.use(createPinia())
-    bookingApp.mount(".booking_container")
+    bookingApp.mount(".booking_row")
   </script>
 </body>
 </html>

@@ -8,7 +8,6 @@ import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
 import org.springframework.stereotype.Repository;
 
-import com.sist.web.dto.SeatBookingDTO;
 import com.sist.web.vo.BookingSeatVO;
 import com.sist.web.vo.BookingVO;
 import com.sist.web.vo.MoviePriceVO;
@@ -49,6 +48,9 @@ public interface SeatMapper {
 	
 	@Select("SELECT * FROM movie_price WHERE schedule_id = #{id}")
 	public MoviePriceVO priceInfoData(int id);
+	
+	@Select("SELECT reservation_flag FROM schedule_seat WHERE schedule_id = #{schedule_id} AND seat_id = #{seat_id}")
+	public int seatValidation(ScheduleSeatVO vo);
 	
 	@Update("UPDATE schedule_seat SET reservation_flag = 1 "
 		  + "WHERE schedule_id = #{schedule_id} AND seat_id = #{seat_id}")
