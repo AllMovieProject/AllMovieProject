@@ -12,7 +12,7 @@ const initialState = () => ({
 		movie_list: [],
 		region_list: [],
 		theater_list: [],
-    schedule_list: []
+		schedule_list: []
 	},
 	user_id: ''
 })
@@ -31,16 +31,15 @@ const useBookingStore = defineStore('booking', {
 			})
 
 			this.datas = res.data
+			//this.first_date = res.data.date_list[0].sday 항상 세팅이 아니라 영화 선택시 해당 일자가 포함되지 않을경우도 있으니
+			// 그런 경우에만 저장해주고 포함된경우 날짜를 바꾸지 않기
 		},
 
 		dateUpdate(date) {
-			if (this.booking_date === date) {
-				this.booking_date = ''
-			} else {
+			if (this.booking_date !== date) {
 				this.booking_date = date
+				this.bookingListData()
 			}
-
-			this.bookingListData()
 		},
 
 		movieUpdate(movie) {
@@ -72,14 +71,14 @@ const useBookingStore = defineStore('booking', {
 
 			this.bookingListData()
 		},
-    
-    seatPage(form) {
+
+		seatPage(form) {
 			if (this.user_id === null || this.user_id === '') {
 				alert('로그인 후 사용해 주세요')
-        return
+				return
 			} else {
 				form.submit()
 			}
-    }
+		}
 	}
 })

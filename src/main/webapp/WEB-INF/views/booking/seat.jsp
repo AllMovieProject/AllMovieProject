@@ -114,7 +114,7 @@
 							</div>
 						</div>
 
-						<div class="seat-map">
+						<div class="seat-map text-center">
 							<div class="selected_info" :class="store.selected_info[0] !== undefined ? 'selected' : ''">{{store.selected_info[0]}}</div>
 							<div class="selected_info" :class="store.selected_info[1] !== undefined ? 'selected' : ''">{{store.selected_info[1]}}</div>
 							<div class="selected_info" :class="store.selected_info[2] !== undefined ? 'selected' : ''">{{store.selected_info[2]}}</div>

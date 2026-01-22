@@ -152,7 +152,6 @@
         
         onMounted(() => {
         	store.bookingListData()
-        	//store.booking_date = '${today}'
         	store.user_id = '${sessionScope.userid}'
         })
         

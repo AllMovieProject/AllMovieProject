@@ -17,22 +17,7 @@ public class BookingController {
     @GetMapping("/booking")
     public String booking_main(Model model) {
         model.addAttribute("main_jsp", "../booking/booking.jsp");
-        model.addAttribute("today", getToday());
         return "main/main";
-    }
-
-    private String getToday() {
-        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
-        Date date = new Date();
-        String today = df.format(date);
-        StringTokenizer st = new StringTokenizer(today, "-");
-
-        int year = Integer.parseInt(st.nextToken());
-        int month = Integer.parseInt(st.nextToken());
-        int day = Integer.parseInt(st.nextToken());
-
-        today = String.format("%04d-%02d-%02d", year, month, day);
-        return today;
     }
 
     @PostMapping("/booking/seat")

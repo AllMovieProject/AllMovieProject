@@ -1,7 +1,10 @@
 package com.sist.web.service;
 
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.time.YearMonth;
+import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -179,28 +182,49 @@ public class BookingServiceImpl implements BookingService {
             list.add(bDate);
         }
 
-        map.put("list", list);
-        map.put("year", year);
-        map.put("month", month);
-        map.put("day", dayNow);
-        map.put("booking_date", booking_date);
-        map.put("page", page);
-
         return map;
     }
     
     private List<ScheduleVO> beautifulDateList(List<ScheduleVO> date_list, int page) {
+    	DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+    	
     	String firstDay = date_list.get(0).getSday();
-        StringTokenizer st = new StringTokenizer(firstDay, "-");
-        int fYear = Integer.parseInt(st.nextToken());
-        int fMonth = Integer.parseInt(st.nextToken());
-        int fDay = Integer.parseInt(st.nextToken());
-        
         String lastDay = date_list.get(date_list.size() - 1).getSday();
-        st = new StringTokenizer(lastDay, "-");
-        int lYear = Integer.parseInt(st.nextToken());
-        int lMonth = Integer.parseInt(st.nextToken());
-        int lDay = Integer.parseInt(st.nextToken());
+        
+        LocalDate startDate = LocalDate.parse(firstDay, dateTimeFormatter);
+        LocalDate lastDate = LocalDate.parse(lastDay, dateTimeFormatter);
+
+        long differenceInDays = ChronoUnit.DAYS.between(startDate, lastDate);
+        
+        System.out.println(firstDay);
+        System.out.println(lastDay);
+        System.out.println(differenceInDays + "------------------------------------------------");
+        // 22 ~ 25 의 차이는 3으로 나옴 그래서 + 1 해줘야 함
+        // startday 문자열 변환 + vo 에 available 추가
+        StringTokenizer st = new StringTokenizer(firstDay, "-");
+        int year = Integer.parseInt(st.nextToken());
+        int month = Integer.parseInt(st.nextToken());
+        int day = Integer.parseInt(st.nextToken());
+        
+        YearMonth ym = YearMonth.of(year, month);
+        int last = ym.lengthOfMonth();
+        
+		for(int i = 0; i <= differenceInDays; i++) {
+			
+			if ((last == day) && month != 12) {
+				month++;
+				ym = YearMonth.of(year, month);
+				last = ym.lengthOfMonth();
+			} else {
+				year++;
+				month = 1;
+				ym = YearMonth.of(year, month);
+				last = ym.lengthOfMonth();
+			}
+			String bDate = String.format("%04d-%02d-%02d", year, month, day);
+			// vo에 입력 availble_flag도 0,1
+			
+		}
         
 		/*
 		 * while (true) { if (countDay == lastDay && date_list.size() >= date_len) {
@@ -215,23 +239,20 @@ public class BookingServiceImpl implements BookingService {
 		 * }
 		 */
 
-        YearMonth ym = YearMonth.of(fYear, fMonth);
-        int firstLastDay = ym.lengthOfMonth();
-        
-        if (fYear < lYear) {
-        	
-        }
-        
-        int start = 0 + (page - 1) * 10;
-        int end = date_len + (page - 1) * 10;
-        if (end > date_list.size()) {
-        	end =  date_list.size();
-        }
-        
-        if (date_list.size() >= date_len) {
-            date_list = date_list.subList(start, end);
-        } else {
-        }
+		/*
+		 * YearMonth ym = YearMonth.of(fYear, fMonth); int firstLastDay =
+		 * ym.lengthOfMonth();
+		 * 
+		 * if (fYear < lYear) {
+		 * 
+		 * }
+		 * 
+		 * int start = 0 + (page - 1) * 10; int end = date_len + (page - 1) * 10; if
+		 * (end > date_list.size()) { end = date_list.size(); }
+		 * 
+		 * if (date_list.size() >= date_len) { date_list = date_list.subList(start,
+		 * end); } else { }
+		 */
         
         return date_list;
     }
