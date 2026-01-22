@@ -87,79 +87,66 @@
 }
 </style>
 </head>
-
 <body>
-
-<div class="product__page__content container">
-
+  <div class="product__page__content container">
     <div class="board-layout">
-
-        <!-- 사이드바 -->
-        <div class="board-side">
-            <h5>고객센터</h5>
-            <ul>
-                <li><a href="/board/list">공지사항</a></li>
-                <li class="active"><a href="/helpdesk/list">1:1 문의</a></li>
-                <li><a href="/groupvisit/list">대관 / 단체 문의</a></li>
-            </ul>
+      <!-- 사이드바 -->
+      <div class="board-side">
+        <h5>고객센터</h5>
+        <ul>
+          <li><a href="/board/list">공지사항</a></li>
+          <li class="active"><a href="/helpdesk/list">1:1 문의</a></li>
+          <li><a href="/groupvisit/list">대관 / 단체 문의</a></li>
+        </ul>
+      </div>
+      <!-- 콘텐츠 -->
+      <div class="board-content">
+        <div class="row mb-3">
+          <div class="col-lg-8">
+            <h4>1:1 문의</h4>
+          </div>
+          <div class="col-lg-4 text-right">
+            <a href="/helpdesk/insert" class="btn btn-sm btn-danger">문의하기</a>
+          </div>
         </div>
-
-        <!-- 콘텐츠 -->
-        <div class="board-content">
-
-            <div class="row mb-3">
-                <div class="col-lg-8">
-                    <h4>1:1 문의</h4>
-                </div>
-                <div class="col-lg-4 text-right">
-                    <a href="/helpdesk/insert" class="btn btn-sm btn-danger">문의하기</a>
-                </div>
-            </div>
-
-            <div id="board_list">
-                <table>
-                    <thead class="text-center">
-                        <tr>
-                            <th width="8%">번호</th>
-                            <th width="12%">구분</th>
-                            <th>제목</th>
-                            <th width="12%">작성자</th>
-                            <th width="12%">등록일</th>
-                            <th width="8%">조회수</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <c:forEach var="vo" items="${list}">
-                            <tr>
-                                <td class="text-center">${vo.hno}</td>
-                                <td class="text-center">${vo.hcateName}</td>
-                                <td>
-                                    <a href="/helpdesk/detail?hno=${vo.hno}">
-                                        ${vo.hsubject}
-                                    </a>
-                                </td>
-                                <td class="text-center">${vo.id}</td>
-                                <td class="text-center">${vo.hdbday}</td>
-                                <td class="text-center">${vo.hhit}</td>
-                            </tr>
-                        </c:forEach>
-                    </tbody>
-                </table>
-
-                <div class="product__pagination">
-                    <a href="/helpdesk/list?page=${curpage>1?curpage-1:curpage}">
-                        ◀
+        <div id="board_list">
+          <table>
+            <thead class="text-center">
+              <tr>
+                <th width="8%">번호</th>
+                <th width="12%">구분</th>
+                <th>제목</th>
+                <th width="12%">작성자</th>
+                <th width="12%">등록일</th>
+                <th width="8%">조회수</th>
+              </tr>
+            </thead>
+            <tbody>
+              <c:forEach var="vo" items="${list}">
+                <tr>
+                  <td class="text-center">${vo.hno}</td>
+                  <td class="text-center">${vo.hcateName}</td>
+                  <td>
+                    <a href="/helpdesk/detail?hno=${vo.hno}">
+                      ${vo.hsubject}
                     </a>
-                    ${curpage} / ${totalpage}
-                    <a href="/helpdesk/list?page=${curpage<totalpage?curpage+1:curpage}">
-                        ▶
-                    </a>
-                </div>
-            </div>
-
+                  </td>
+                  <td class="text-center">${vo.id}</td>
+                  <td class="text-center">${vo.hdbday}</td>
+                  <td class="text-center">${vo.hhit}</td>
+                </tr>
+              </c:forEach>
+            </tbody>
+          </table>
+          <div class="product__pagination">
+            <a href="/helpdesk/list?page=${curpage>1?curpage-1:curpage}">◀</a>
+              ${curpage} / ${totalpage}
+            <a href="/helpdesk/list?page=${curpage<totalpage?curpage+1:curpage}">▶</a>
+          </div>
         </div>
+      </div>
     </div>
-</div>
+  </div>
 
 </body>
 </html>

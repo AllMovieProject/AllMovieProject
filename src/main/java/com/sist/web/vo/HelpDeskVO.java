@@ -17,6 +17,6 @@ import lombok.Data;
 @Data
 public class HelpDeskVO {
 	private int hno, hcate1, hcate2, hmtype, hrtype, hhit;
-	private String hsubject, hcontent, id;
+	private String hsubject, hcontent, id, hcateName, hdbday, cateNo, cateName;
 	private Date hregdate;
 }

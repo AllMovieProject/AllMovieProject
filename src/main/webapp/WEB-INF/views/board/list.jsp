@@ -126,96 +126,83 @@
 
 </head>
 <body>
-
 <div class="breadcrumb-option">
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-12">
-                <div class="breadcrumb__links">
-                    <a href="/"><i class="fa fa-home"></i> Home</a>
-                    <span>공지사항</span>
-                </div>
-            </div>
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-12">
+        <div class="breadcrumb__links">
+          <a href="/"><i class="fa fa-home"></i> Home</a>
+          <span>공지사항</span>
         </div>
+      </div>
     </div>
+  </div>
 </div>
 
 <div class="product__page__content container">
-
-    <div class="board-layout">
-
-        <!-- 왼쪽 사이드바 -->
-        <div class="board-side">
-            <h5>고객센터</h5>
-            <ul>
-                <li class="active"><a href="/board/list">공지사항</a></li>
-                <li><a href="/helpdesk/list">1:1 문의</a></li>
-                <li><a href="/groupvisit/list">대관/ 단체 문의</a></li>
-            </ul>
-        </div>
-
-        <!-- 오른쪽 콘텐츠 -->
-        <div class="board-content">
-
-            <div class="row mb-3">
-                <div class="col-lg-8">
-                    <h4>공지사항</h4>
-                </div>
-
-                <c:if test="${sessionScope.admin eq 'y'}">
-                    <div class="col-lg-4 text-right">
-                        <a href="/board/insert" class="btn btn-sm btn-danger">글쓰기</a>
-                    </div>
-                </c:if>
-            </div>
-
-            <div id="board_list">
-                <table>
-                    <thead class="text-center">
-                        <tr>
-                            <th width="8%">번호</th>
-                            <th width="10%">구분</th>
-                            <th>제목</th>
-                            <th width="12%">작성자</th>
-                            <th width="12%">등록일</th>
-                            <th width="8%">조회수</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <c:forEach var="vo" items="${list}">
-                            <tr>
-                                <td class="text-center">${vo.bno}</td>
-                                <td class="text-center">${vo.bcatename}</td>
-                                <td>
-                                    <a href="/board/detail?bno=${vo.bno}">
-                                        ${vo.bsubject}
-                                    </a>
-                                    <c:if test="${today == vo.bdbday}">
-                                        <sup><img src="/img/new.gif"></sup>
-                                    </c:if>
-                                </td>
-                                <td class="text-center">${vo.id}</td>
-                                <td class="text-center">${vo.bdbday}</td>
-                                <td class="text-center">${vo.bhit}</td>
-                            </tr>
-                        </c:forEach>
-                    </tbody>
-                </table>
-
-                <div class="product__pagination">
-				    <a href="/board/list?page=${curpage>1?curpage-1:curpage}">
-				        ◀
-				    </a>
-				    ${curpage} / ${totalpage}
-				    <a href="/board/list?page=${curpage<totalpage?curpage+1:curpage}">
-				        ▶
-				    </a>
-				</div>
-
-            </div>
-        </div>
+  <div class="board-layout">
+    <!-- 왼쪽 사이드바 -->
+    <div class="board-side">
+      <h5>고객센터</h5>
+      <ul>
+        <li class="active"><a href="/board/list">공지사항</a></li>
+        <li><a href="/helpdesk/list">1:1 문의</a></li>
+        <li><a href="/groupvisit/list">대관/ 단체 문의</a></li>
+      </ul>
     </div>
-</div>
+    <!-- 오른쪽 콘텐츠 -->
+    <div class="board-content">
+      <div class="row mb-3">
+        <div class="col-lg-8">
+          <h4>공지사항</h4>
+        </div>
+        <c:if test="${sessionScope.admin eq 'y'}">
+          <div class="col-lg-4 text-right">
+            <a href="/board/insert" class="btn btn-sm btn-danger">글쓰기</a>
+          </div>
+        </c:if>
+      </div>
+      <div id="board_list">
+        <table>
+          <thead class="text-center">
+            <tr>
+              <th width="8%">번호</th>
+              <th width="10%">구분</th>
+              <th>제목</th>
+              <th width="12%">작성자</th>
+              <th width="12%">등록일</th>
+              <th width="8%">조회수</th>
+            </tr>
+          </thead>
+          <tbody>
+            <c:forEach var="vo" items="${list}">
+              <tr>
+                <td class="text-center">${vo.bno}</td>
+                <td class="text-center">${vo.bcatename}</td>
+                <td>
+                  <a href="/board/detail?bno=${vo.bno}">
+                    ${vo.bsubject}
+                  </a>
+                  <c:if test="${today == vo.bdbday}">
+                    <sup><img src="/img/new.gif"></sup>
+                  </c:if>
+                </td>
+                  <td class="text-center">${vo.id}</td>
+                  <td class="text-center">${vo.bdbday}</td>
+                  <td class="text-center">${vo.bhit}</td>
+              </tr>
+            </c:forEach>
+          </tbody>
+          </table>
+            <div class="product__pagination">
+			  <a href="/board/list?page=${curpage>1?curpage-1:curpage}">◀</a>
+				${curpage} / ${totalpage}
+			  <a href="/board/list?page=${curpage<totalpage?curpage+1:curpage}">▶</a>
+			</div>
+          </div>
+        </div>
+      </div>
+    </div>
 
 </body>
 </html>
