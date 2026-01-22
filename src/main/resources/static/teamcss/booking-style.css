@@ -76,6 +76,12 @@
 	cursor: pointer;
 }
 
+.disable_data {
+  color: #9a9a9a;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
 .booking_data:hover, .pageBtn:hover {
 	background-color: #e0e0e0;
 }
@@ -85,7 +91,7 @@
 }
 
 .v-line {
-	border-left: thin solid #32a1ce;
+	border-left: thin solid #ddd;
 	height: 480px;
 }
 

@@ -6,6 +6,7 @@ import java.time.YearMonth;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -26,7 +27,6 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class BookingServiceImpl implements BookingService {
     private final BookingMapper mapper;
-    final int date_len = 10;
 
     @Override
     public Map<String, Object> bookingListData(BookingRequestDTO dto) {
@@ -56,7 +56,7 @@ public class BookingServiceImpl implements BookingService {
         map.put("theater", theater);
         List<ScheduleVO> date_list = mapper.dynamicDateListData(map);
 
-        date_list = beautifulDateList(date_list, page);
+        date_list = dateListPagination(date_list, page);
 
         map = new HashMap<>();
         map.put("date_list", date_list);
@@ -123,166 +123,84 @@ public class BookingServiceImpl implements BookingService {
         return map;
     }
     
-    private Map<String, Object> getDateList1(Integer year, Integer month, Integer page) {
+    private List<ScheduleVO> dateListPagination(List<ScheduleVO> date_list, int page) {
+    	String firstDate = date_list.get(0).getSday();
+        String lastDate = date_list.get(date_list.size() - 1).getSday();
+        final int LIST_LEN = 10;
 
-        Map<String, Object> map = new HashMap<>();
-        List<String> list = new ArrayList<>();
+        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        LocalDate localStartDate = LocalDate.parse(firstDate, dateTimeFormatter);
+        LocalDate localLastDate = LocalDate.parse(lastDate, dateTimeFormatter);
 
-        Date date = new Date();
-        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
-
-        String today = df.format(date);
-        StringTokenizer st = new StringTokenizer(today, "-");
-
-        int yearNow = Integer.parseInt(st.nextToken());
-        if (year == null) {
-            year = yearNow;
+        long differenceInDays = ChronoUnit.DAYS.between(localStartDate, localLastDate);
+        if (differenceInDays < LIST_LEN) {
+            differenceInDays = LIST_LEN;
         }
-
-        int monthNow = Integer.parseInt(st.nextToken());
-        if (month == null) {
-            month = monthNow;
-        }
-
-        int dayNow = Integer.parseInt(st.nextToken());
-
-        YearMonth ym = YearMonth.of(year, month);
-        int lastDay = ym.lengthOfMonth();
-
-        // 페이지네이션
-        final int PAGE_SIZE = 10;
-        int startDay = dayNow + (page - 1) * PAGE_SIZE;
-        int endDay = dayNow + page * PAGE_SIZE;
-
-        if (endDay > lastDay) {
-            endDay = lastDay;
-        }
-
-        int count = 0;
-        String booking_date = String.format("%04d-%02d-%02d", yearNow, monthNow, dayNow);
-
-        for (int i = startDay; i <= endDay; i++) {
-            String bDate = String.format("%04d-%02d-%02d", year, month, i);
-            list.add(bDate);
-            count++;
-        }
-
-        if (count < PAGE_SIZE && month == 12) {
-            month = 1;
-            year++;
-        } else if (count < PAGE_SIZE) {
-            month++;
-        }
-
-        ym = YearMonth.of(year, month);
-        lastDay = ym.lengthOfMonth();
-
-        for (int i = 1; i <= PAGE_SIZE - count; i++) {
-            String bDate = String.format("%04d-%02d-%02d", year, month, i);
-            list.add(bDate);
-        }
-
-        return map;
-    }
-    
-    private List<ScheduleVO> beautifulDateList(List<ScheduleVO> date_list, int page) {
-    	DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-    	
-    	String firstDay = date_list.get(0).getSday();
-        String lastDay = date_list.get(date_list.size() - 1).getSday();
         
-        LocalDate startDate = LocalDate.parse(firstDay, dateTimeFormatter);
-        LocalDate lastDate = LocalDate.parse(lastDay, dateTimeFormatter);
-
-        long differenceInDays = ChronoUnit.DAYS.between(startDate, lastDate);
-        
-        System.out.println(firstDay);
-        System.out.println(lastDay);
-        System.out.println(differenceInDays + "------------------------------------------------");
-        // 22 ~ 25 의 차이는 3으로 나옴 그래서 + 1 해줘야 함
-        // startday 문자열 변환 + vo 에 available 추가
-        StringTokenizer st = new StringTokenizer(firstDay, "-");
+        StringTokenizer st = new StringTokenizer(firstDate, "-");
         int year = Integer.parseInt(st.nextToken());
         int month = Integer.parseInt(st.nextToken());
         int day = Integer.parseInt(st.nextToken());
         
         YearMonth ym = YearMonth.of(year, month);
-        int last = ym.lengthOfMonth();
+        int lastDay = ym.lengthOfMonth();
+
+        List<ScheduleVO> list = new ArrayList<>();
+        ScheduleVO vo = new ScheduleVO();
+        String date = "";
+        int count = 0;
         
-		for(int i = 0; i <= differenceInDays; i++) {
+        Calendar calendar = Calendar.getInstance();
+        String[] weekDays = {"", "일", "월", "화", "수", "목", "금", "토"};
+        String dayOfWeekStr = "";
+        
+		for(int i = 0; i < differenceInDays; i++) {
+			date = String.format("%04d-%02d-%02d", year, month, day);
+			vo.setAvailable_flag(0);
 			
-			if ((last == day) && month != 12) {
-				month++;
-				ym = YearMonth.of(year, month);
-				last = ym.lengthOfMonth();
-			} else {
-				year++;
-				month = 1;
-				ym = YearMonth.of(year, month);
-				last = ym.lengthOfMonth();
+			if(count < date_list.size() && date_list.get(count).getSday().equals(date)) {
+			    vo.setAvailable_flag(1);
+			    count++;
 			}
-			String bDate = String.format("%04d-%02d-%02d", year, month, day);
-			// vo에 입력 availble_flag도 0,1
 			
-		}
-        
-		/*
-		 * while (true) { if (countDay == lastDay && date_list.size() >= date_len) {
-		 * break; }
-		 * 
-		 * break; }
-		 */
-        
-		/*
-		 * for (;date_list.size() == date_len;) {
-		 *  fday를 1씩 증가하면서 lday와 같아질 때까지
-		 * }
-		 */
+			calendar.set(year, month - 1, day);
+            calendar.set(Calendar.DAY_OF_MONTH, day);
 
-		/*
-		 * YearMonth ym = YearMonth.of(fYear, fMonth); int firstLastDay =
-		 * ym.lengthOfMonth();
-		 * 
-		 * if (fYear < lYear) {
-		 * 
-		 * }
-		 * 
-		 * int start = 0 + (page - 1) * 10; int end = date_len + (page - 1) * 10; if
-		 * (end > date_list.size()) { end = date_list.size(); }
-		 * 
-		 * if (date_list.size() >= date_len) { date_list = date_list.subList(start,
-		 * end); } else { }
-		 */
-        
-        return date_list;
-    }
+            int dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK);
+            dayOfWeekStr = weekDays[dayOfWeek];
 
-    private List<ScheduleVO> addDateData(List<ScheduleVO> date_list) {
-        StringTokenizer st = new StringTokenizer(date_list.get(date_list.size() - 1).getSday(), "-");
-        int year = Integer.parseInt(st.nextToken());
-        int month = Integer.parseInt(st.nextToken());
-        int day = Integer.parseInt(st.nextToken());
-
-        YearMonth ym = YearMonth.of(year, month);
-        int lastDay = ym.lengthOfMonth();
-        int count = 0;
-
-        for (int i = day + 1; i <= lastDay; i++) {
-            ScheduleVO vo = new ScheduleVO();
-            vo.setSday("--일정 없음");
-            date_list.add(vo);
-            count++;
-
-            if (date_list.size() == date_len) {
-                break;
+            vo.setSday(day + " / " + dayOfWeekStr);
+            if (day == 1) {
+                vo.setSday(month + "월 " + day + " / " + dayOfWeekStr);
             }
-        }
-
-        if (count < date_len - date_list.size()) {
-            // 달이 바뀌거나 연도가 바뀌어서 일자가 다 못 들어간거임
-            // 중간 중간 값이 없을 수도 있으니 available로
-        }
-
-        return date_list;
+            
+			list.add(vo);
+			vo = new ScheduleVO();
+			day++;
+			
+			if (day > lastDay) {
+				month++;
+				day = 1;
+				
+				if(month == 12) {
+				    year++;
+				    month = 1;
+				}
+				
+				ym = YearMonth.of(year, month);
+				lastDay = ym.lengthOfMonth();
+			}
+		}
+		
+		int startIndex = (LIST_LEN - 1) + (page - 1) * LIST_LEN;
+		int endIndex = (LIST_LEN - 1) + (page - 1) * LIST_LEN;
+		
+		if (endIndex >= list.size()) {
+		    endIndex = list.size() - 1;
+		    startIndex = endIndex - (LIST_LEN - 1);
+		}
+		
+		return list.subList(startIndex, endIndex);
     }
+
 }
