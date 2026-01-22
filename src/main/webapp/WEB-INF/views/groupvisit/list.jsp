@@ -120,90 +120,77 @@
 <body>
 
 <div class="breadcrumb-option">
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-12">
-                <div class="breadcrumb__links">
-                    <a href="/"><i class="fa fa-home"></i> Home</a>
-                    <span>대관 / 단체 문의</span>
-                </div>
-            </div>
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-12">
+        <div class="breadcrumb__links">
+          <a href="/"><i class="fa fa-home"></i> Home</a>
+          <span>대관 / 단체 문의</span>
         </div>
+      </div>
     </div>
+  </div>
 </div>
 
 <div class="product__page__content container">
-
-    <div class="board-layout">
-
-        <!-- 왼쪽 사이드바 -->
-        <div class="board-side">
-            <h5>고객센터</h5>
-            <ul>
-                <li><a href="/board/list">공지사항</a></li>
-                <li><a href="/helpdesk/list">1:1 문의</a></li>
-                <li class="active"><a href="/groupvisit/list">대관 / 단체 문의</a></li>
-            </ul>
-        </div>
-
-        <!-- 오른쪽 콘텐츠 -->
-        <div class="board-content">
-
-            <div class="row mb-3">
-                <div class="col-lg-8">
-                    <h4>대관 / 단체 문의</h4>
-                </div>
-
-                <c:if test="${sessionScope.admin eq 'y'}">
-                    <div class="col-lg-4 text-right">
-                        <a href="/groupvisit/insert" class="btn btn-sm btn-danger">글쓰기</a>
-                    </div>
-                </c:if>
-            </div>
-
-            <div id="board_list">
-                <table>
-                    <thead class="text-center">
-                        <tr>
-                            <th width="8%">번호</th>
-                            <th width="12%">구분</th>
-                            <th>제목</th>
-                            <th width="10%">유형</th>
-                            <th width="12%">등록일</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <c:forEach var="vo" items="${list}">
-                            <tr>
-                                <td class="text-center">${vo.gno}</td>
-                                <td class="text-center">${vo.gtype_name}</td>
-                                <td>
-                                    <a href="/groupvisit/detail?gno=${vo.gno}">
-                                        ${vo.gsubject}
-                                    </a>
-                                </td>
-                                <td class="text-center">${vo.grtype}</td>
-                                <td class="text-center">${vo.gregdate}</td>
-                            </tr>
-                        </c:forEach>
-                    </tbody>
-                </table>
-
-                <!-- 페이징 -->
-                <div class="product__pagination">
-                    <a href="/groupvisit/list?page=${curpage>1?curpage-1:curpage}">
-                        ◀
-                    </a>
-                    ${curpage} / ${totalpage}
-                    <a href="/groupvisit/list?page=${curpage<totalpage?curpage+1:curpage}">
-                        ▶
-                    </a>
-                </div>
-
-            </div>
-        </div>
+  <div class="board-layout">
+    <!-- 왼쪽 사이드바 -->
+    <div class="board-side">
+      <h5>고객센터</h5>
+      <ul>
+        <li><a href="/board/list">공지사항</a></li>
+        <li><a href="/helpdesk/list">1:1 문의</a></li>
+        <li class="active"><a href="/groupvisit/list">대관 / 단체 문의</a></li>
+      </ul>
     </div>
-</div>
+    <!-- 오른쪽 콘텐츠 -->
+    <div class="board-content">
+      <div class="row mb-3">
+        <div class="col-lg-8">
+          <h4>대관 / 단체 문의</h4>
+        </div>
+        <c:if test="${sessionScope.admin eq 'y'}">
+          <div class="col-lg-4 text-right">
+            <a href="/groupvisit/insert" class="btn btn-sm btn-danger">글쓰기</a>
+          </div>
+        </c:if>
+      </div>
+      <div id="board_list">
+        <table>
+          <thead class="text-center">
+            <tr>
+              <th width="8%">번호</th>
+              <th width="12%">구분</th>
+              <th>제목</th>
+              <th width="10%">유형</th>
+              <th width="12%">등록일</th>
+            </tr>
+          </thead>
+          <tbody>
+            <c:forEach var="vo" items="${list}">
+              <tr>
+                <td class="text-center">${vo.gno}</td>
+                <td class="text-center">${vo.gtype_name}</td>
+                <td>
+                  <a href="/groupvisit/detail?gno=${vo.gno}">
+                    ${vo.gsubject}
+                  </a>
+                </td>
+                <td class="text-center">${vo.grtype}</td>
+                <td class="text-center">${vo.gdbday}</td>
+              </tr>
+            </c:forEach>
+          </tbody>
+        </table>                
+          <div class="product__pagination">
+            <a href="/groupvisit/list?page=${curpage>1?curpage-1:curpage}">◀</a>
+              ${curpage} / ${totalpage}
+            <a href="/groupvisit/list?page=${curpage<totalpage?curpage+1:curpage}">▶</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 
 </body>
 </html>

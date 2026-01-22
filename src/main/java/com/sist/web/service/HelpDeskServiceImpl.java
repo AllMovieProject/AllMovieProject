@@ -3,10 +3,8 @@ package com.sist.web.service;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
-
 import com.sist.web.mapper.HelpdeskMapper;
 import com.sist.web.vo.HelpDeskVO;
-
 import lombok.RequiredArgsConstructor;
 
 @Service
@@ -24,5 +22,24 @@ public class HelpDeskServiceImpl implements HelpDeskService{
 	public int helpDeskTotalPage() {
 		// TODO Auto-generated method stub
 		return mapper.helpDeskTotalPage();
+	}
+
+	@Override
+	public HelpDeskVO helpDeskDetailData(int hno) {
+		// TODO Auto-generated method stub
+		mapper.helpDeskHitIncrement(hno);
+		return mapper.helpDeskDetailData(hno);
+	}
+
+	@Override
+	public void helpDeskInsert(HelpDeskVO vo) {
+		// TODO Auto-generated method stub
+		mapper.helpDeskInsert(vo);
+	}
+
+	@Override
+	public List<HelpDeskVO> helpDeskCateData(String cateGroup) {
+		// TODO Auto-generated method stub
+		return mapper.helpDeskCateData(cateGroup);
 	}	
 }
