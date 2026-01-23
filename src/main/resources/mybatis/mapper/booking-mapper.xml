@@ -5,7 +5,7 @@
 <mapper namespace="com.sist.web.mapper.BookingMapper">
   <select id="dynamicDateListData" resultType="ScheduleVO"
     parameterType="hashmap">
-    SELECT TO_CHAR(s.start_time, 'yyyy-mm-dd') AS sday
+    SELECT TO_CHAR(s.start_time, 'yyyy-mm-dd') AS date_data
     FROM schedule s
 
     JOIN screen sc ON s.screen_id = sc.screen_id
@@ -23,7 +23,7 @@
     </if>
 
     GROUP BY TO_CHAR(s.start_time, 'yyyy-mm-dd')
-    ORDER BY sday ASC
+    ORDER BY date_data ASC
   </select>
 
   <select id="dynamicMovieListData" resultType="MovieVO"

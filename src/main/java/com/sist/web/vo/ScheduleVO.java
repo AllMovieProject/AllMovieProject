@@ -8,7 +8,7 @@ import lombok.Data;
 public class ScheduleVO {
 	private int schedule_id, movie_id, screen_id, available_flag;
 	private Date start_time, end_time;
-	private String sday;
+	private String sday, date_data;
 	
 	// booking schedule list data
 	private int available_count, total_count; // seat

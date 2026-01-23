@@ -35,6 +35,14 @@
 	background-color: #ffffff;
 }
 
+.saturday {
+	color: blue;
+}
+
+.sunday {
+	color: red;
+}
+
 .booking_header {
 	height: 10%;
 	background-color: #ffffff;
