@@ -1,13 +1,11 @@
 package com.sist.web.service;
 
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.YearMonth;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -32,13 +30,12 @@ public class BookingServiceImpl implements BookingService {
     public Map<String, Object> bookingListData(BookingRequestDTO dto) {
         Map<String, Object> map = new HashMap<>();
 
-        Integer page = dto.getPage();
         String date = dto.getDate();
         Integer movie = dto.getMovie();
         Integer region = dto.getRegion();
         String theater = dto.getTheater();
         
-        map.putAll(getDateList(movie, theater, page));
+        map.putAll(getDateList(movie, theater));
         map.putAll(getMovieList(date, region, theater));
         map.putAll(getTheaterList(date, movie, region));
 
@@ -49,14 +46,13 @@ public class BookingServiceImpl implements BookingService {
         return map;
     }
     
-    private Map<String, Object> getDateList(Integer movie, String theater, Integer page) {
+    private Map<String, Object> getDateList(Integer movie, String theater) {
         Map<String, Object> map = new HashMap<>();
-
         map.put("movie", movie);
         map.put("theater", theater);
         List<ScheduleVO> date_list = mapper.dynamicDateListData(map);
 
-        date_list = dateListPagination(date_list, page);
+        date_list = dateListTransformer(date_list);
 
         map = new HashMap<>();
         map.put("date_list", date_list);
@@ -66,7 +62,6 @@ public class BookingServiceImpl implements BookingService {
     
     private Map<String, Object> getMovieList(String date, Integer region, String theater) {
         Map<String, Object> map = new HashMap<>();
-
         map.put("date", date);
         map.put("region", region);
         map.put("theater", theater);
@@ -80,16 +75,13 @@ public class BookingServiceImpl implements BookingService {
 
     private Map<String, Object> getTheaterList(String date, Integer movie, Integer region) {
         Map<String, Object> map = new HashMap<>();
-
-        List<TheaterVO> region_list = mapper.theaterRegionListData();
-
         map.put("date", date);
         map.put("movie", movie);
         map.put("region", region);
+        List<TheaterVO> region_list = mapper.theaterRegionListData();
         List<TheaterVO> theater_list = mapper.dynamicTheaterListData(map);
 
         Map<Integer, Integer> countMap = new HashMap<>();
-
         for (TheaterVO tvo : theater_list) {
             countMap.put(tvo.getRegion_no(), countMap.getOrDefault(tvo.getRegion_no(), 0) + 1);
         }
@@ -123,9 +115,9 @@ public class BookingServiceImpl implements BookingService {
         return map;
     }
     
-    private List<ScheduleVO> dateListPagination(List<ScheduleVO> date_list, int page) {
-    	String firstDate = date_list.get(0).getSday();
-        String lastDate = date_list.get(date_list.size() - 1).getSday();
+    private List<ScheduleVO> dateListTransformer(List<ScheduleVO> date_list) {
+    	String firstDate = date_list.get(0).getDate_data();
+        String lastDate = date_list.get(date_list.size() - 1).getDate_data();
         final int LIST_LEN = 10;
 
         DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
@@ -135,6 +127,10 @@ public class BookingServiceImpl implements BookingService {
         long differenceInDays = ChronoUnit.DAYS.between(localStartDate, localLastDate);
         if (differenceInDays < LIST_LEN) {
             differenceInDays = LIST_LEN;
+        }
+        
+        if(differenceInDays % LIST_LEN != 0) {
+        	differenceInDays = ((differenceInDays / LIST_LEN) + 1) * LIST_LEN;
         }
         
         StringTokenizer st = new StringTokenizer(firstDate, "-");
@@ -158,8 +154,9 @@ public class BookingServiceImpl implements BookingService {
 			date = String.format("%04d-%02d-%02d", year, month, day);
 			vo.setAvailable_flag(0);
 			
-			if(count < date_list.size() && date_list.get(count).getSday().equals(date)) {
+			if(count < date_list.size() && date_list.get(count).getDate_data().equals(date)) {
 			    vo.setAvailable_flag(1);
+			    vo.setDate_data(date_list.get(count).getDate_data());
 			    count++;
 			}
 			
@@ -191,16 +188,8 @@ public class BookingServiceImpl implements BookingService {
 				lastDay = ym.lengthOfMonth();
 			}
 		}
-		
-		int startIndex = (LIST_LEN - 1) + (page - 1) * LIST_LEN;
-		int endIndex = (LIST_LEN - 1) + (page - 1) * LIST_LEN;
-		
-		if (endIndex >= list.size()) {
-		    endIndex = list.size() - 1;
-		    startIndex = endIndex - (LIST_LEN - 1);
-		}
-		
-		return list.subList(startIndex, endIndex);
+
+		return list;
     }
 
 }

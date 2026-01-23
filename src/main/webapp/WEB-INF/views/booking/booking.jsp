@@ -14,14 +14,15 @@
 				<div class="booking_date text-center">
 					<table class="table table-bordered">
 						<tr>
-							<td class="pageBtn">&lt;</td>
-							<td v-for="(dvo, index) in store.datas.date_list" class="booking_data" 
-								:class="{'table-active': store.booking_date === dvo.sday }" :key="index">
-								<div v-if="dvo.available_flag === 1" @click="store.dateUpdate(dvo.sday)">
+							<td class="pageBtn" @click="store.prevDateBtn">&lt;</td>
+							<td v-for="(dvo, index) in store.dateList" class="booking_data"  
+								:class="{'table-active': store.booking_date === dvo.date_data }" :key="index">
+								<div v-if="dvo.available_flag === 1" @click="store.dateUpdate(dvo.date_data)"
+								 :class="[{'saturday': dvo.sday.includes('토')}, {'sunday': dvo.sday.includes('일')}]">
 								  {{ dvo.sday }}
 								</div>
 								<div class="disable_data" v-if="dvo.available_flag === 0">{{ dvo.sday }}</div></td>
-							<td class="pageBtn">&gt;</td>
+							<td class="pageBtn" @click="store.nextDateBtn">&gt;</td>
 						</tr>
 					</table>
 				</div>
