@@ -156,11 +156,14 @@
         <div class="col-lg-8">
           <h4>공지사항</h4>
         </div>
-        <c:if test="${sessionScope.admin eq 'y'}">
+		<div class="col-lg-4 text-right">
+	      <a href="/board/insert" class="btn btn-sm btn-danger">글쓰기</a>
+	    </div>
+        <!--<c:if test="${sessionScope.admin eq 'y'}">
           <div class="col-lg-4 text-right">
             <a href="/board/insert" class="btn btn-sm btn-danger">글쓰기</a>
           </div>
-        </c:if>
+        </c:if>-->
       </div>
       <div id="board_list">
         <table>

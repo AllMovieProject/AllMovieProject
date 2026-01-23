@@ -1,6 +1,7 @@
 package com.sist.web.mapper;
 import java.util.*;
 
+import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
@@ -8,7 +9,7 @@ import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.SelectKey;
 import org.apache.ibatis.annotations.Update;
 
-
+import com.sist.web.vo.BoardVO;
 import com.sist.web.vo.HelpDeskVO;
 /*
  * 	HNO			NUMBER
@@ -59,4 +60,13 @@ public interface HelpdeskMapper {
     		+ "FROM COMMONS_CATEGORY "
     		+ "WHERE CATE_GROUP = #{cateGroup} ORDER BY 1")
      public List<HelpDeskVO> helpDeskCateData(String cateGroup);
+    
+    @Update("UPDATE helpdesk SET "
+		    + "hsubject = #{hsubject}, hcontent = #{hcontent}, hcate1 = #{hcate1}, hcate2 = #{hcate2} "
+		    + "WHERE hno = #{hno}")
+	public void helpdeskUpdate(HelpDeskVO vo);
+    
+    @Delete("DELETE FROM helpdesk "
+			+ "WHERE hno = #{hno}")
+	public void boardDelete(int hno);
 }

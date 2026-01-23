@@ -14,7 +14,7 @@ import lombok.Data;
 @Data
 public class BoardVO {
 	private int bno, bcate, bhit;
-	private String id, bsubject, bcontent, bdbday, bcatename;
+	private String id, bsubject, bcontent, bdbday, bcatename, cateNo, cateName;
 	private Date bregdate;	
 	
 }

@@ -74,14 +74,40 @@ public class HelpdeskController {
 	}
 	
 	@GetMapping("/helpdesk/update")
-	public String helpdesk_update(Model model) {
-		model.addAttribute("main_jsp", "../helpdesk/update.jsp");
-		return "main/main";
+	public String helpdesk_update(@RequestParam("hno") int hno, Model model) {
+
+	    // ❗ 조회수 증가 없는 데이터 조회
+	    HelpDeskVO vo = hService.helpdeskUpdateData(hno);
+
+	    List<HelpDeskVO> cate1List = hService.helpDeskCateData("HELP1");
+	    List<HelpDeskVO> cate2List = hService.helpDeskCateData("HELP2");
+
+	    model.addAttribute("vo", vo);
+	    model.addAttribute("cate1List", cate1List);
+	    model.addAttribute("cate2List", cate2List);
+
+	    model.addAttribute("main_jsp", "../helpdesk/update.jsp");
+	    return "main/main";
 	}
 	
+	@PostMapping("/helpdesk/update_ok")
+	public String helpdesk_update_ok(@ModelAttribute HelpDeskVO vo) {
+
+	    hService.helpdeskUpdate(vo);
+
+	    return "redirect:/helpdesk/detail?hno=" + vo.getHno();
+	}	
+	
+	
 	@GetMapping("/helpdesk/delete")
-	public String helpdesk_delete(Model model) {
-		model.addAttribute("main_jsp", "../helpdesk/delete.jsp");
-		return "main/main";
+	public String helpdesk_delete(@RequestParam("hno") int hno, Model model) {
+	    model.addAttribute("hno", hno);
+	    return "helpdesk/delete"; 
+	}
+
+	@PostMapping("/helpdesk/delete_ok")
+	public String helpdesk_delete_ok(@RequestParam("hno") int hno) {
+	    hService.helpdeskDelete(hno);
+	    return "redirect:/helpdesk/list";
 	}
 }

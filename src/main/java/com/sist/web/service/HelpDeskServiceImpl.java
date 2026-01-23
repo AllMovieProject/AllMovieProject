@@ -41,5 +41,25 @@ public class HelpDeskServiceImpl implements HelpDeskService{
 	public List<HelpDeskVO> helpDeskCateData(String cateGroup) {
 		// TODO Auto-generated method stub
 		return mapper.helpDeskCateData(cateGroup);
-	}	
+	}
+
+	@Override
+	public HelpDeskVO helpdeskUpdateData(int hno) {
+		// TODO Auto-generated method stub
+		return mapper.helpDeskDetailData(hno);
+	}
+
+	@Override
+	public void helpdeskUpdate(HelpDeskVO vo) {
+		// TODO Auto-generated method stub
+		mapper.helpdeskUpdate(vo);
+	}
+
+	@Override
+	public void helpdeskDelete(int hno) {
+		// TODO Auto-generated method stub
+		mapper.boardDelete(hno);
+	}
+
+	
 }

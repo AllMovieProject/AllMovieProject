@@ -99,17 +99,21 @@
     text-align: right;
 }
 
-.notice-footer a {
+.notice-footer a,
+.notice-footer button {
     display: inline-block;
     padding: 8px 20px;
     border: 1px solid #333;
+    background: #fff;
     color: #333;
     text-decoration: none;
     font-size: 14px;
     margin-left: 6px;
+    cursor: pointer;
 }
 
-.notice-footer a:hover {
+.notice-footer a:hover,
+.notice-footer button:hover {
     background-color: #333;
     color: #fff;
 }
@@ -135,56 +139,67 @@
 
 <div class="product__page__content container">
   <div class="board-layout">
+
     <!-- 왼쪽 사이드바 -->
     <div class="board-side">
       <h5>고객센터</h5>
-        <ul>
-          <li><a href="/board/list">공지사항</a></li>
-          <li class="active"><a href="/helpdesk/list">1:1 문의</a></li>
-          <li><a href="/groupvisit/list">대관 / 단체 문의</a></li>
-        </ul>
+      <ul>
+        <li><a href="/board/list">공지사항</a></li>
+        <li class="active"><a href="/helpdesk/list">1:1 문의</a></li>
+        <li><a href="/groupvisit/list">대관 / 단체 문의</a></li>
+      </ul>
+    </div>
+
+    <!-- 오른쪽 콘텐츠 -->
+    <div class="board-content">
+      <div class="row mb-3">
+        <div class="col-lg-12">
+          <h4>1:1 문의</h4>
+        </div>
       </div>
-      <!-- 오른쪽 콘텐츠 -->
-      <div class="board-content">
-        <div class="row mb-3">
-          <div class="col-lg-12">
-            <h4>1:1 문의</h4>
+
+      <div class="notice-detail">
+
+        <!-- 제목 / 메타 -->
+        <div class="notice-header">
+          <div class="notice-title">
+            ${vo.hsubject}
           </div>
-        </div>
-        <div class="notice-detail">
-          <!-- 제목 / 메타 -->
-          <div class="notice-header">
-            <div class="notice-title">
-              ${vo.hsubject}
+          <div class="notice-meta">
+            <div>
+              <span>구분 : ${vo.hcateName}</span>
+              <span>작성자 : ${vo.id}</span>
             </div>
-            <div class="notice-meta">
-              <div>
-                <span>구분 : ${vo.hcateName}</span>
-                <span>작성자 : ${vo.id}</span>
-              </div>
-              <div>
-                <span>등록일 : ${vo.hdbday}</span>
-                <span>조회수 : ${vo.hhit}</span>
-              </div>
-            </div>
-          </div>
-          <!-- 내용 -->
-          <div class="notice-content">
-            ${vo.hcontent}
-          </div>
-          <!-- 하단 버튼 -->
-            <div class="notice-footer">
-              <a href="/helpdesk/list">목록</a>
-              <!-- 작성자 본인 또는 관리자만 -->
-              <c:if test="${sessionScope.id eq vo.id || sessionScope.admin eq 'y'}">
-                <a href="/helpdesk/update?hno=${vo.hno}">수정</a>
-                <a href="/helpdesk/delete?hno=${vo.hno}" onclick="return confirm('삭제하시겠습니까?')">삭제</a>
-              </c:if>
+            <div>
+              <span>등록일 : ${vo.hdbday}</span>
+              <span>조회수 : ${vo.hhit}</span>
             </div>
           </div>
         </div>
+
+        <!-- 내용 -->
+        <div class="notice-content">
+          ${vo.hcontent}
+        </div>
+
+        <!-- 하단 버튼 (board와 동일한 방식) -->
+        <div class="notice-footer">
+          <a href="/helpdesk/list">목록</a>
+          <a href="/helpdesk/update?hno=${vo.hno}">수정</a>
+
+          <form method="post"
+                action="/helpdesk/delete_ok"
+                onsubmit="return confirm('삭제하시겠습니까?');"
+                style="display:inline;">
+            <input type="hidden" name="hno" value="${vo.hno}">
+            <button type="submit">삭제</button>
+          </form>
+        </div>
+
       </div>
     </div>
+  </div>
+</div>
 
 </body>
 </html>

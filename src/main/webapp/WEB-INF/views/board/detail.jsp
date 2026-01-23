@@ -99,17 +99,21 @@
     text-align: right;
 }
 
-.notice-footer a {
+.notice-footer a,
+.notice-footer button {
     display: inline-block;
     padding: 8px 20px;
     border: 1px solid #333;
+    background: #fff;
     color: #333;
     text-decoration: none;
     font-size: 14px;
     margin-left: 6px;
+    cursor: pointer;
 }
 
-.notice-footer a:hover {
+.notice-footer a:hover,
+.notice-footer button:hover {
     background-color: #333;
     color: #fff;
 }
@@ -183,12 +187,15 @@
                 <!-- 하단 버튼 -->
                 <div class="notice-footer">
                     <a href="/board/list">목록</a>
+                    <a href="/board/update?bno=${vo.bno}">수정</a>
 
-                    <c:if test="${sessionScope.admin eq 'y'}">
-                        <a href="/board/update?bno=${vo.bno}">수정</a>
-                        <a href="/board/delete?bno=${vo.bno}"
-                           onclick="return confirm('삭제하시겠습니까?')">삭제</a>
-                    </c:if>
+                    <form method="post"
+                          action="/board/delete_ok"
+                          onsubmit="return confirm('삭제하시겠습니까?');"
+                          style="display:inline;">
+                        <input type="hidden" name="bno" value="${vo.bno}">
+                        <button type="submit">삭제</button>
+                    </form>
                 </div>
 
             </div>

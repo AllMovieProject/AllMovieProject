@@ -26,6 +26,12 @@ public class BoardServiceImpl implements BoardService{
 		// TODO Auto-generated method stub
 		return mapper.boardTotalPage();
 	}
+	
+	@Override
+	public List<BoardVO> boardCateData(String cateGroup) {
+		// TODO Auto-generated method stub
+		return mapper.boardCateData(cateGroup);
+	}
 
 	@Override
 	public void boardInsert(BoardVO vo) {
@@ -39,5 +45,25 @@ public class BoardServiceImpl implements BoardService{
 		mapper.boardHitIncrement(bno);
 		return mapper.boardDetailData(bno);
 	}
+
+	@Override
+	public void boardUpdate(BoardVO vo) {
+		// TODO Auto-generated method stub
+		mapper.boardUpdate(vo);
+	}
+
+	@Override
+	public BoardVO boardUpdateData(int no) {
+		// TODO Auto-generated method stub
+		return mapper.boardDetailData(no);
+	}
+
+	@Override
+	public void boardDelete(int bno) {
+		// TODO Auto-generated method stub
+		mapper.boardDelete(bno);
+	}
+
+	
 	
 }

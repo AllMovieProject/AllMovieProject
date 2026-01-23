@@ -2,6 +2,7 @@ package com.sist.web.mapper;
 
 import java.util.*;
 
+import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
@@ -10,6 +11,7 @@ import org.apache.ibatis.annotations.Update;
 import org.springframework.stereotype.Repository;
 
 import com.sist.web.vo.BoardVO;
+import com.sist.web.vo.HelpDeskVO;
 
 @Mapper
 public interface BoardMapper {	
@@ -25,15 +27,6 @@ public interface BoardMapper {
 	@Select("SELECT CEIL(COUNT(*)/12.0) FROM board")
 	public int boardTotalPage();
 	
-	// 데이터 추가 
-	@SelectKey(keyProperty = "bno", resultType = int.class,
-			before = true,
-			statement = "SELECT NVL(MAX(bno) + 1, 1) as bno FROM board")
-   
-	@Insert("INSERT INTO board (bno, bcate, id, bsubject, bcontent, bregdate, bhit) "
-			+"VALUES (#{bno}, #{bcate}, #{id}, #{bsubject}, #{bcontent}, SYSDATE, 0)")			
-	public void boardInsert(BoardVO vo);
-	   
 	// 데이터 상세보기 
     @Update("UPDATE board SET "
 	 	   +"bhit = bhit + 1 "
@@ -43,7 +36,29 @@ public interface BoardMapper {
 	 	   +"FROM board "
 	 	   +"WHERE bno = #{bno}")
     public BoardVO boardDetailData(int bno);
+	
+	// 데이터 추가 
+	@SelectKey(keyProperty = "bno", resultType = int.class,
+			before = true,
+			statement = "SELECT NVL(MAX(bno) + 1, 1) as bno FROM board")
+   
+	@Insert("INSERT INTO board (bno, bcate, id, bsubject, bcontent, bregdate, bhit) "
+			+"VALUES (#{bno}, #{bcate}, #{id}, #{bsubject}, #{bcontent}, SYSDATE, 0)")			
+	public void boardInsert(BoardVO vo);
+	
+	@Select("SELECT CATE_NO AS cateNo, CATE_NAME AS cateName "
+    		+ "FROM COMMONS_CATEGORY "
+    		+ "WHERE CATE_GROUP = #{cateGroup} ORDER BY 1")
+     public List<BoardVO> boardCateData(String cateGroup);
+	
+	// 테이터 추가
+	@Update("UPDATE board SET "
+		      + "bsubject = #{bsubject}, bcontent = #{bcontent}, bcate = #{bcate} "
+		      + "WHERE bno = #{bno}")
+		public void boardUpdate(BoardVO vo);
     
-    
+	@Delete("DELETE FROM board "
+			+ "WHERE bno = #{bno}")
+	public void boardDelete(int bno);
 	
 }
