@@ -84,7 +84,6 @@ const useProductStore = defineStore('product', {
 		async productCategoryList() {
 			const { data } = await api.get('/product/manager/category')
 			this.categories = data
-			console.log(data)
 		},
 
 		async productItemList() {
@@ -101,7 +100,6 @@ const useProductStore = defineStore('product', {
 					isBase: this.isBase,
 				},
 			})
-			console.log(data)
 			this.productList = data
 		},
 
@@ -121,7 +119,6 @@ const useProductStore = defineStore('product', {
 					category_id: this.productItemCategory,
 				},
 			})
-			console.log(data)
 			this.productList = data
 		},
 
@@ -156,7 +153,6 @@ const useProductStore = defineStore('product', {
 				// 초기화
 				this.productCombo = { ...productCombo }
 			}
-			console.log(this.comboItemList)
 		},
 
 		removeComboItem(index) {
@@ -199,9 +195,7 @@ const useProductStore = defineStore('product', {
 				    formData.append("image", this.productImageFile);
 				}
 				
-				await api.post('/product/manager/insert-item', formData).then((res) => {
-					console.log(res)
-				})
+				await api.post('/product/manager/insert-item', formData)
 			} else { // 콤보
 				this.storeProduct.product_price = this.comboTotalPrice - this.storeProduct.discount
 				const productForm = {
@@ -218,9 +212,7 @@ const useProductStore = defineStore('product', {
 				    formData.append("image", this.productImageFile);
 				}
 				
-				await api.post('/product/manager/insert-combo', formData).then((res) => {
-					console.log(res)
-				})
+				await api.post('/product/manager/insert-combo', formData)
 			}
 
 			alert('식품이 추가되었습니다!')

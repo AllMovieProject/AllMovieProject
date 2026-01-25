@@ -22,6 +22,12 @@ public class StoreController {
 		return "main/main";
 	}
 	
+	@GetMapping("/stock")
+	public String store_stock(Model model) {
+		model.addAttribute("main_jsp", "../store/stock.jsp");
+		return "main/main";
+	}
+	
 	@GetMapping("/product_insert")
 	public String store_product_insert(Model model) {
 		model.addAttribute("main_jsp", "../store/product_insert.jsp");

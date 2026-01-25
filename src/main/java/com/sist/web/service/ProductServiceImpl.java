@@ -19,6 +19,7 @@ import com.sist.web.vo.ProductComboVO;
 import com.sist.web.vo.ProductItemCategoryVO;
 import com.sist.web.vo.ProductItemVO;
 import com.sist.web.vo.StoreProductVO;
+import com.sist.web.vo.StoreStockVO;
 
 import lombok.RequiredArgsConstructor;
 
@@ -31,6 +32,44 @@ public class ProductServiceImpl implements ProductService {
 	@Value("${file.upload-dir}")
 	private String uploadDir;
 
+	public StoreProductVO saveFile(StoreProductVO vo, MultipartFile productImageFile) throws IOException {
+		File dir = new File(uploadDir);
+		if (!dir.exists()) {
+			dir.mkdirs();
+		}
+		
+		String filename = "";
+		boolean checked = false;
+		if (productImageFile.isEmpty()) {
+			checked = false; // 파일이 없는 상태
+		} else {
+			String oname = productImageFile.getOriginalFilename();
+			File f = new File(uploadDir + "/" + oname);
+			if (f.exists()) {
+				int count = 1;
+				String name = oname.substring(0, oname.lastIndexOf("."));
+				String ext = oname.substring(oname.lastIndexOf("."));
+				while (f.exists()) {
+					String newname = name + " (" + count + ")" + ext;
+					f = new File(uploadDir + "/" + newname);
+					count++;
+				}
+			}
+			filename = f.getName();
+			checked = true; // 파일이 존재하는 상태
+			
+			Path path = Paths.get(uploadDir, f.getName());
+			Files.copy(productImageFile.getInputStream(), path);
+		}
+		
+		if (checked) {
+			vo.setProduct_image(filename);
+		} else {
+			vo.setProduct_image("");
+		}
+		return vo;
+	}
+	
 	@Override
 	public List<ProductCategoryVO> productCategoryList() {
 		return mapper.productCategoryList();
@@ -89,43 +128,10 @@ public class ProductServiceImpl implements ProductService {
 	public List<StoreProductVO> storeProductListData(int category_id) {
 		return mapper.storeProductListData(category_id);
 	}
-	
-	public StoreProductVO saveFile(StoreProductVO vo, MultipartFile productImageFile) throws IOException {
-		File dir = new File(uploadDir);
-		if (!dir.exists()) {
-			dir.mkdirs();
-		}
-		
-		String filename = "";
-		boolean checked = false;
-		if (productImageFile.isEmpty()) {
-			checked = false; // 파일이 없는 상태
-		} else {
-			String oname = productImageFile.getOriginalFilename();
-			File f = new File(uploadDir + "/" + oname);
-			if (f.exists()) {
-				int count = 1;
-				String name = oname.substring(0, oname.lastIndexOf("."));
-				String ext = oname.substring(oname.lastIndexOf("."));
-				while (f.exists()) {
-					String newname = name + " (" + count + ")" + ext;
-					f = new File(uploadDir + "/" + newname);
-					count++;
-				}
-			}
-			filename = f.getName();
-			checked = true; // 파일이 존재하는 상태
-			
-			Path path = Paths.get(uploadDir, f.getName());
-			Files.copy(productImageFile.getInputStream(), path);
-		}
-		
-		if (checked) {
-			vo.setProduct_image(filename);
-		} else {
-			vo.setProduct_image("");
-		}
-		return vo;
+
+	@Override
+	public List<StoreStockVO> storeStockListData(String userid) {
+		return mapper.storeStockListData(userid);
 	}
 
 }

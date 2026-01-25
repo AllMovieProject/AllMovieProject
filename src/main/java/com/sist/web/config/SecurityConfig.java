@@ -26,12 +26,13 @@ public class SecurityConfig {
     private final LoginSuccessHandler loginSuccessHandler;
     
     @Bean
-    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+    SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
             .csrf(csrf -> csrf.disable())
             .authorizeHttpRequests(
                     auth -> auth.requestMatchers("/", "/member/**").permitAll()
                         .requestMatchers("/admin/**").hasRole("ADMIN")
+                        .requestMatchers("/*/manager/**").hasRole("MANAGER")
                         .anyRequest().permitAll())
             .formLogin(
                     form -> form.loginPage("/member/login")
@@ -56,14 +57,14 @@ public class SecurityConfig {
     }
     
     @Bean
-    public AuthenticationManager authenticationManager(HttpSecurity http, BCryptPasswordEncoder passwordEncoder) throws Exception {
+    AuthenticationManager authenticationManager(HttpSecurity http, BCryptPasswordEncoder passwordEncoder) throws Exception {
         AuthenticationManagerBuilder builder = http.getSharedObject(AuthenticationManagerBuilder.class);
         builder.userDetailsService(jdbcUserDetailsManager()).passwordEncoder(passwordEncoder());
         return builder.build();
     }
     
     @Bean
-    public JdbcUserDetailsManager jdbcUserDetailsManager() {
+    JdbcUserDetailsManager jdbcUserDetailsManager() {
         JdbcUserDetailsManager manager = new JdbcUserDetailsManager(dataSource);
         
         manager.setUsersByUsernameQuery("""
@@ -80,7 +81,7 @@ public class SecurityConfig {
     }
     
     @Bean
-    public BCryptPasswordEncoder passwordEncoder() {
+    BCryptPasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
 }

@@ -31,8 +31,11 @@
 
 	<!-- Product Section Begin -->
 	<section class="product-page spad">
-		<div class="container">
+		<div class="container" id="app">
 			<div class="row">
+				<div style="align-self: flex-end;">
+					<a href="product_insert" class="btn btn-sm btn-primary">식품 추가</a>
+				</div>
 				<table class="table">
 					<thead>
 						<tr>
@@ -46,19 +49,41 @@
 						</tr>
 					</thead>
 					<tbody>
-						<tr>
-							<td>번호</td>
-							<td>식품명</td>
-							<td>이미지</td>
-							<td>재고</td>
+						<tr v-for="(vo, idx) in store.list" :key="idx">
+							<td>{{ vo.product_id }}</td>
+							<td>{{ vo.pvo.product_name }}</td>
+							<td>{{ vo.pvo.product_image }}</td>
+							<td>{{ vo.stock_quantity }}</td>
 							<td>품절</td>
-							<td>등록일</td>
-							<td>최종수정일</td>
+							<td>{{ vo.dbday }}</td>
+							<td>{{ vo.dbday }}</td>
 						</tr>
 					</tbody>
 				</table>
 			</div>
 		</div>
 	</section>
+	<script src="/teamjs/commons.js"></script>
+	<script src="/teamjs/store/storeStock.js"></script>
+	<script>
+		const { createApp } = Vue;
+		const { createPinia } = Pinia;
+
+		// Vue 앱 생성
+		const pinia = createPinia();
+		const app = createApp({
+			setup() {
+				const store = useStoreStock();
+				
+				store.stockListData()
+				
+				return {
+					store
+				};
+			}
+		});
+		app.use(pinia);
+		app.mount('#app');
+	</script>
 </body>
 </html>

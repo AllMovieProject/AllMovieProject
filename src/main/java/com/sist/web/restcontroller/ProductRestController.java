@@ -20,8 +20,10 @@ import com.sist.web.service.ProductService;
 import com.sist.web.vo.ProductCategoryVO;
 import com.sist.web.vo.ProductItemVO;
 import com.sist.web.vo.StoreProductVO;
+import com.sist.web.vo.StoreStockVO;
 
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 
 @RestController
@@ -30,6 +32,20 @@ import lombok.RequiredArgsConstructor;
 public class ProductRestController {
 	
 	private final ProductService pService;
+	
+	@GetMapping("/manager/stock/list")
+	public ResponseEntity<List<StoreStockVO>> managerStockList(HttpSession session) {
+		List<StoreStockVO> list = null;
+		try {
+			String userid = (String) session.getAttribute("userid");
+			list = pService.storeStockListData(userid);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+		return new ResponseEntity<>(list, HttpStatus.OK);
+	}
+	
 	
 	@GetMapping("/manager/category")
 	public ResponseEntity<List<ProductCategoryVO>> managerCategory() {
