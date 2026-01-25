@@ -115,11 +115,9 @@ const useSeatStore = defineStore('seat', {
 				pg: 'html5_inicis',                           // PG사
 				pay_method: 'card',                           // 결제수단
 				merchant_uid: `mid_${new Date().getTime()}`,  // 주문번호
-				amount: 1000,                                 // 결제금액
-				name: '아임포트 결제 데이터 분석',                  // 주문명
-				buyer_name: '홍길동',                           // 구매자 이름
-				buyer_tel: '01012341234',                     // 구매자 전화번호
-				buyer_email: 'example@example',               // 구매자 이메일
+				amount: this.total_price,                                 // 결제금액
+				name: this.info.schedule_info.mvo.title + ' ' + this.total_count + '매', // 주문명
+				buyer_name: this.user_id,                           // 구매자 이름
 			}
 
 			IMP.request_pay(data, this.callback);
@@ -224,8 +222,7 @@ const useSeatStore = defineStore('seat', {
 					this.reset()
 					return
 				}
-			}
-			if (seperator === 'adult--' && this.adult_count > 0) {
+			} else if (seperator === 'adult--' && this.adult_count > 0) {
 				this.adult_count -= 1
 				this.total_count -= 1
 			} else if (seperator === 'teen--' && this.teen_count > 0) {

@@ -12,6 +12,7 @@ const initialState = () => ({
 	booking_movie: 0,
 	booking_region: 0,
 	booking_theater: '',
+  
 	datas: {
 		date_list: [],
 		movie_list: [],

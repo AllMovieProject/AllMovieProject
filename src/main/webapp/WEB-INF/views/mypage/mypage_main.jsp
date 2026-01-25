@@ -78,24 +78,21 @@
 	<!-- 왼쪽 메뉴 -->
 	<div class="mypage-left">
 		<ul class="menu">
-			<li class="active">회원 정보</li>
-			<li>예매 내역</li>
-			<li>구매 정보</li>
-			<li>문의 내역</li>
-			<li class="danger">회원 탈퇴</li>
+			<li class="active"><a href="/mypage">회원 정보</a></li>
+			<li><a href="/mypage/bookinglist">예매 내역</a></li>
+			<li><a href="#">구매 정보</a></li>
+			<li><a href="/mypage/qna">문의 내역</a></li>
+			<li class="danger"><a href="/mypage/">회원 탈퇴</a></li>
 		</ul>
 	</div>
 
 	<!-- 오른쪽 본문 -->
 	<div class="mypage-right">
-		<h2>회원 정보</h2>
-
-		<div class="content-box">
-			<p>여기에 본문 내용 들어가면 됨</p>
-		</div>
+		<jsp:include page="${mypage_jsp}"></jsp:include>
 	</div>
 
 </div>
 
 </body>
+</html>
 </html>
