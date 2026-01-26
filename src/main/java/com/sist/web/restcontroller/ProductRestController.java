@@ -33,20 +33,6 @@ public class ProductRestController {
 	
 	private final ProductService pService;
 	
-	@GetMapping("/manager/stock/list")
-	public ResponseEntity<List<StoreStockVO>> managerStockList(HttpSession session) {
-		List<StoreStockVO> list = null;
-		try {
-			String userid = (String) session.getAttribute("userid");
-			list = pService.storeStockListData(userid);
-		} catch (Exception e) {
-			e.printStackTrace();
-			return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
-		}
-		return new ResponseEntity<>(list, HttpStatus.OK);
-	}
-	
-	
 	@GetMapping("/manager/category")
 	public ResponseEntity<List<ProductCategoryVO>> managerCategory() {
 		List<ProductCategoryVO> list = null;

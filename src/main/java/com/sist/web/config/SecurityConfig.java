@@ -33,6 +33,7 @@ public class SecurityConfig {
                     auth -> auth.requestMatchers("/", "/member/**").permitAll()
                         .requestMatchers("/admin/**").hasRole("ADMIN")
                         .requestMatchers("/*/manager/**").hasRole("MANAGER")
+                        .requestMatchers("/upload/**").permitAll()
                         .anyRequest().permitAll())
             .formLogin(
                     form -> form.loginPage("/member/login")

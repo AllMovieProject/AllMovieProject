@@ -10,7 +10,6 @@ import com.sist.web.dto.ProductFormDTO;
 import com.sist.web.vo.ProductCategoryVO;
 import com.sist.web.vo.ProductItemVO;
 import com.sist.web.vo.StoreProductVO;
-import com.sist.web.vo.StoreStockVO;
 
 public interface ProductService {
 	
@@ -23,7 +22,5 @@ public interface ProductService {
 	public String productComboInsert(ComboFormDTO dto, MultipartFile productImageFile) throws IOException;
 	
 	public List<StoreProductVO> storeProductListData(int category_id);
-	
-	public List<StoreStockVO> storeStockListData(String userid);
 
 }

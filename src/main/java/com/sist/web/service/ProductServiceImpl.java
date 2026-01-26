@@ -19,7 +19,6 @@ import com.sist.web.vo.ProductComboVO;
 import com.sist.web.vo.ProductItemCategoryVO;
 import com.sist.web.vo.ProductItemVO;
 import com.sist.web.vo.StoreProductVO;
-import com.sist.web.vo.StoreStockVO;
 
 import lombok.RequiredArgsConstructor;
 
@@ -127,11 +126,6 @@ public class ProductServiceImpl implements ProductService {
 	@Override
 	public List<StoreProductVO> storeProductListData(int category_id) {
 		return mapper.storeProductListData(category_id);
-	}
-
-	@Override
-	public List<StoreStockVO> storeStockListData(String userid) {
-		return mapper.storeStockListData(userid);
 	}
 
 }
