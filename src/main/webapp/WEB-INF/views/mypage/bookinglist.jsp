@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="jakarta.tags.core"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -103,65 +104,44 @@
 <body>
 	<h2>예매 내역</h2>
 	<div class="content-box">
-		<div class="ticket-card">
-			<div class="ticket-item">
+		<c:forEach var="vo" items="${booking_list }">
+			<div class="ticket-card">
+				<div class="ticket-item">
 
-				<!-- 포스터 -->
-				<div class="ticket-poster">
-					<img src="/images/no-poster.png" alt="포스터">
-				</div>
+					<!-- 포스터 -->
+					<div class="ticket-poster">
+						<img src="vo.mvo.poster_url">
+					</div>
 
-				<!-- 영화 정보 -->
-				<div class="ticket-detail">
-					<h3 class="movie-title">주토피아 2</h3>
+					<!-- 영화 정보 -->
+					<div class="ticket-detail">
+						<h3 class="movie-title">${vo.mvo.title }</h3>
 
-					<div class="info-grid">
-						<div>
-							<strong>상영일시</strong> 2026.01.16(금) 19:10 ~ 21:08
-						</div>
-						<div>
-							<strong>좌석</strong> E5, E6
-						</div>
-						<div>
-							<strong>극장</strong> 남양주현대아울렛 스페이스원
-						</div>
-						<div>
-							<strong>상영관</strong> 컴포트 8관
+						<div class="info-grid">
+							<div>
+								<strong>상영일시</strong> 2026.01.16(금) 19:10 ~ 21:08
+							</div>
+							<div>
+								<strong>좌석</strong> E5, E6
+							</div>
+							<div>
+								<strong>극장</strong> ${vo.tvo.theater_name }
+							</div>
+							<div>
+								<strong>상영관</strong> ${vo.scvo.screen_name }
+							</div>
 						</div>
 					</div>
-				</div>
 
-				<!-- 상태 / 버튼 -->
-				<div class="ticket-action">
-					<span class="status done">예매 완료</span>
-					<button class="btn cancel">예매취소</button>
-				</div>
+					<!-- 상태 / 버튼 -->
+					<div class="ticket-action">
+						<span class="status done">예매 완료</span>
+						<button class="btn cancel">예매취소</button>
+					</div>
 
+				</div>
 			</div>
-		</div>
+		</c:forEach>
 	</div>
-	<script src="/teamjs/commons.js"></script>
-  <script src="/teamjs/booking/ticketStore.js"></script>
-	<script>
-const { createApp, onMounted, ref } = Vue
-const { createPinia } = Pinia
-
-const ticketApp = createApp({
-  setup() {
-    const store = useticketStore()
-    
-    onMounted(() => {
-      store.ticketListData()
-    })
-    
-    return {
-      store
-    }
-  }
-})
-
-ticketApp.use(createPinia())
-ticketApp.mount(".")
-</script>
 </body>
 </html>
