@@ -12,6 +12,6 @@ public class StoreStockVO {
 	private int stock_id, store_id, product_id, stock_quantity;
 	private String dbday;
 	private Date stock_regdate, stock_moddate;
-	private ProductItemVO pvo = new ProductItemVO();
+	private StoreProductVO pvo = new StoreProductVO();
 
 }

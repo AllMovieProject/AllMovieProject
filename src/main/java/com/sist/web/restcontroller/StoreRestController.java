@@ -5,49 +5,33 @@ import java.util.List;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.sist.web.service.StockService;
+import com.sist.web.service.StoreService;
 import com.sist.web.vo.StoreStockVO;
 
-import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/stock")
+@RequestMapping("/store")
 public class StoreRestController {
-	
-	private final StockService sService;
 
-	@GetMapping("/manager/list")
-	public ResponseEntity<List<StoreStockVO>> managerStockList(HttpSession session) {
+	private final StoreService sService;
+
+	// Store별 재고 조회 - store_id로 조회
+	@GetMapping("/list/data")
+	public ResponseEntity<List<StoreStockVO>> storeStockList(@RequestParam("sid") int store_id) {
 		List<StoreStockVO> list = null;
 		try {
-			String userid = (String) session.getAttribute("userid");
-			list = sService.storeStockListData(userid);
+			list = sService.storeListData(store_id);
 		} catch (Exception e) {
 			e.printStackTrace();
 			return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 		return new ResponseEntity<>(list, HttpStatus.OK);
 	}
-	
-	@PostMapping("/manager/insert")
-	public ResponseEntity<String> managerStockInsert(@RequestBody List<StoreStockVO> list, HttpSession session) {
-		String res = "no";
-		try {
-			String userid = (String) session.getAttribute("userid");
-			res = sService.stockInsert(list, userid);
-		} catch (Exception e) {
-			e.printStackTrace();
-			return new ResponseEntity<>(res, HttpStatus.INTERNAL_SERVER_ERROR);
-		}
-		return new ResponseEntity<>(res, HttpStatus.OK);
-	}
-	
+
 }

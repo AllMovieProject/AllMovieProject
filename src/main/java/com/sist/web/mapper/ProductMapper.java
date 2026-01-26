@@ -59,6 +59,13 @@ public interface ProductMapper {
 		  + "WHERE c.category_id = #{category_id}")
 	public List<StoreProductVO> storeProductListData(int category_id);
 	
+	@Select("SELECT product_id, product_name, product_image, item_id, product_price, "
+		  + "discount, description, is_combo "
+		  + "FROM store_product "
+		  + "WHERE is_combo = 'Y' "
+		  + "ORDER BY product_id DESC")
+	public List<StoreProductVO> storeComboProductList();
+	
 	@Insert("INSERT INTO product_combo(combo_id, product_id, item_id, is_upgrade, upgrade_price, item_quantity) "
 		  + "VALUES(seq_combo_id.nextval, #{product_id}, #{item_id}, #{is_upgrade}, #{upgrade_price}, #{item_quantity})")
 	public void productComboInsert(ProductComboVO vo);

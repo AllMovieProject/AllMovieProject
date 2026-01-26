@@ -69,6 +69,18 @@ public class ProductRestController {
 		return new ResponseEntity<>(list, HttpStatus.OK);
 	}
 	
+	@GetMapping("/manager/combo-products")
+	public ResponseEntity<List<StoreProductVO>> managerComboProducts() {
+		List<StoreProductVO> list = null;
+		try {
+			list = pService.storeComboProductList();
+		} catch (Exception e) {
+			e.printStackTrace();
+			return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+		return new ResponseEntity<>(list, HttpStatus.OK);
+	}
+	
 	@PostMapping("/manager/insert-item")
 	public ResponseEntity<String> managerInsertItem(@RequestPart("data") ProductFormDTO dto,
 	        @RequestPart(value = "image", required = false) MultipartFile productImageFile) {

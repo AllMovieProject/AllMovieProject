@@ -24,6 +24,7 @@ public class StockServiceImpl implements StockService {
 	public String stockInsert(List<StoreStockVO> list, String userid) {
 		String res = "no";
 		for (StoreStockVO vo : list) {
+			System.out.println("product_id: " + vo.getProduct_id());
 			vo.setProduct_id(vo.getProduct_id());
 			vo.setStock_quantity(vo.getStock_quantity());
 			mapper.stockInsert(vo, userid);

@@ -7,7 +7,8 @@ const useStockStore = defineStore('stock', {
     showModal: false,
     categories: [],
     selectedCategory: null,
-    products: []
+    products: [],
+    viewMode: 'category'
   }),
 
   getters: {
@@ -60,12 +61,54 @@ const useStockStore = defineStore('stock', {
       }
     },
 
+		// 모든 상품 조회 (카테고리 구분 없이)
+		async loadComboProducts() {
+      try {
+        const { data } = await api.get('/product/manager/combo-products')
+        this.products = data
+      } catch (error) {
+        console.error('콤보 상품 목록 조회 실패:', error)
+        throw new Error('콤보 상품 목록을 불러오는데 실패했습니다.')
+      }
+    },
+		
     // 카테고리 선택
     async selectCategory(categoryId) {
       this.selectedCategory = categoryId
       await this.loadProducts(categoryId)
     },
 
+		async handleSelectCategory(categoryId) {
+			try {
+				await this.selectCategory(categoryId);
+			} catch (error) {
+				alert(error.message);
+			}
+		},
+
+		// 뷰 모드 변경
+		async changeViewMode(mode) {
+      this.viewMode = mode
+      if (mode === 'combo') {
+        await this.loadComboProducts()
+      } else if (mode === 'category') {
+        if (this.categories.length === 0) {
+          await this.loadCategories()
+        } else if (this.selectedCategory) {
+          await this.loadProducts(this.selectedCategory)
+        }
+      }
+    },
+
+		// 뷰 모드 변경
+		async handleChangeViewMode(mode) {
+		    try {
+		        await this.changeViewMode(mode)
+		    } catch (error) {
+		        alert(error.message)
+		    }
+		},
+		
     // 상품 선택 모달 열기
     async openProductModal() {
       this.showModal = true
@@ -74,11 +117,19 @@ const useStockStore = defineStore('stock', {
       }
     },
 
+		async handleOpenModal() {
+			try {
+				await this.openProductModal();
+			} catch (error) {
+				alert(error.message);
+			}
+		},
+
     // 상품 선택 모달 닫기
     closeModal() {
       this.showModal = false
     },
-
+		
     // 상품 선택
     selectProduct(product) {
       // 이미 추가된 상품인지 확인
@@ -96,6 +147,14 @@ const useStockStore = defineStore('stock', {
 
       this.closeModal()
     },
+		
+		handleSelectProduct(product) {
+			try {
+				this.selectProduct(product);
+			} catch (error) {
+				alert(error.message);
+			}
+		},
 
     // 추가할 재고 삭제
     removeNewStock(index) {
@@ -138,6 +197,22 @@ const useStockStore = defineStore('stock', {
         throw new Error('재고 저장 중 오류가 발생했습니다.')
       }
     },
+		
+		async handleSaveStocks() {
+			try {
+				const result = await this.saveStocks();
+				if (result) {
+					alert('재고가 성공적으로 추가되었습니다.');
+				}
+			} catch (error) {
+				alert(error.message);
+			}
+		},
+		
+		formatPrice(price) {
+			if (!price) return '0';
+			return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+		},
 
     // 초기화
     reset() {

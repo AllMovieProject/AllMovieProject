@@ -128,4 +128,9 @@ public class ProductServiceImpl implements ProductService {
 		return mapper.storeProductListData(category_id);
 	}
 
+	@Override
+	public List<StoreProductVO> storeComboProductList() {
+		return mapper.storeComboProductList();
+	}
+
 }

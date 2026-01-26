@@ -14,13 +14,10 @@ import com.sist.web.vo.StoreProductVO;
 public interface ProductService {
 	
 	public List<ProductCategoryVO> productCategoryList();
-	
 	public List<ProductItemVO> productItemList(int category_id, boolean isBase);
-	
 	public String productInsert(ProductFormDTO dto, MultipartFile productImageFile) throws IOException;
-	
 	public String productComboInsert(ComboFormDTO dto, MultipartFile productImageFile) throws IOException;
-	
 	public List<StoreProductVO> storeProductListData(int category_id);
+	public List<StoreProductVO> storeComboProductList();
 
 }

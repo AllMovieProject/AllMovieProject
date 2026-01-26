@@ -28,13 +28,14 @@ public interface StockMapper {
 		  + "FROM store_stock ss "
 		  + "JOIN store s ON ss.store_id = s.store_id "
 		  + "JOIN store_product sp ON ss.product_id = sp.product_id "
-		  + "WHERE s.userid = #{userid}")
+		  + "WHERE s.userid = #{userid}"
+		  + "ORDER BY ss.stock_regdate DESC")
 	public List<StoreStockVO> storeStockListData(String userid);
 	
-	@SelectKey(keyProperty = "store_id", resultType = int.class, before = true,
+	@SelectKey(keyProperty = "vo.store_id", resultType = int.class, before = true,
 			   statement = "SELECT store_id FROM store WHERE userid = #{userid}")
 	@Insert("INSERT INTO store_stock(stock_id, store_id, product_id, stock_quantity) "
-		  + "VALUES(seq_stock_id.nextval, #{store_id}, #{product_id}, #{stock_quantity})")
-	public void stockInsert(StoreStockVO vo, @Param("userid") String userid);
+		  + "VALUES(seq_stock_id.nextval, #{vo.store_id}, #{vo.product_id}, #{vo.stock_quantity})")
+	public void stockInsert(@Param("vo") StoreStockVO vo, @Param("userid") String userid);
 
 }
