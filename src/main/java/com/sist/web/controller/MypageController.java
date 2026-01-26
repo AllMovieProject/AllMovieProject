@@ -26,9 +26,9 @@ public class MypageController {
 
 	@GetMapping("/mypage/bookinglist")
 	public String mypage_bookinglist(HttpSession session, Model model) {
-		String id = (String) session.getAttribute("id");
+		String id = (String) session.getAttribute("userid");
+        System.out.println(id);
 		List<ScheduleVO> list = mService.bookingListData(id);
-		
 		model.addAttribute("booking_list", list);
 		
         model.addAttribute("mypage_jsp", "../mypage/bookinglist.jsp");

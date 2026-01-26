@@ -15,6 +15,10 @@
 	min-height: 200px;
 }
 
+.ticket-card {
+  overflow-y: auto;
+}
+
 .ticket-item {
 	display: flex;
 	align-items: center;
