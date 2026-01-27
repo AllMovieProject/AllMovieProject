@@ -54,31 +54,16 @@
 										<div class="input__item">
 											<label><span style="color: white">선택)팝콘(M)</span>
 											<select>
-												<option value="">추천순</option>
-												<option value="">인기순</option>
-												<option value="">최근등록순</option>
-												<option value="">가격순</option>
-												<option value="">상품명순</option>
 											</select></label>
 										</div>
 										<div class="input__item">
 											<label><span style="color: white">선택)팝콘(M)</span>
 											<select>
-												<option value="">추천순</option>
-												<option value="">인기순</option>
-												<option value="">최근등록순</option>
-												<option value="">가격순</option>
-												<option value="">상품명순</option>
 											</select></label>
 										</div>
 										<div class="input__item">
 											<label><span style="color: white">선택)탄산(M)</span>
 											<select>
-												<option value="">추천순</option>
-												<option value="">인기순</option>
-												<option value="">최근등록순</option>
-												<option value="">가격순</option>
-												<option value="">상품명순</option>
 											</select></label>
 										</div>
 										<button type="button" class="site-btn">장바구니 담기</button>

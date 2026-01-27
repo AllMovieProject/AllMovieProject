@@ -5,7 +5,7 @@ const useStoreStore = defineStore('store', {
     stock_list: [],
     loading: false,
     searchKeyword: '',
-    selectedCategory: 'all', // 'all', 'combo', 'popcorn', 'drink', 'snack'
+    selectedCategory: 'all', // 'all', 'combo', 1(팝콘), 2(음료), 3(탄산), 4(스낵)
     sortBy: 'recommend', // 'recommend', 'popular', 'recent', 'price', 'name'
     storeName: '강남점', // 극장명
     storeId: 231
@@ -17,7 +17,7 @@ const useStoreStore = defineStore('store', {
       let list = [...state.stock_list]
 
       // 검색어 필터링
-      if (state.searchKeyword) {
+			if (state.searchKeyword) {
         const keyword = state.searchKeyword.toLowerCase()
         list = list.filter(item => 
           item.pvo.product_name.toLowerCase().includes(keyword)
@@ -25,14 +25,16 @@ const useStoreStore = defineStore('store', {
       }
 
       // 카테고리 필터링
-      if (state.selectedCategory !== 'all') {
-        if (state.selectedCategory === 'combo') {
-          list = list.filter(item => item.pvo.is_combo === 'Y')
-        } else {
-          // 카테고리별 필터링 (추후 카테고리 정보 추가 필요)
-          list = list.filter(item => item.pvo.category === state.selectedCategory)
-        }
-      }
+			if (state.selectedCategory !== 'all') {
+			  if (state.selectedCategory === 'combo') {
+			    // 콤보 상품만
+			    list = list.filter(item => item.pvo.is_combo === 'Y')
+			  } else {
+			    // 카테고리 ID로 필터링
+			    const categoryId = parseInt(state.selectedCategory)
+			    list = list.filter(item => item.category_id === categoryId)
+			  }
+			}
 
       // 정렬
       switch (state.sortBy) {
@@ -80,6 +82,7 @@ const useStoreStore = defineStore('store', {
 					}
 				})
         this.stock_list = data
+				console.log(this.stock_list)
       } catch (error) {
         console.error('재고 목록 조회 실패:', error)
         alert('재고 목록을 불러오는데 실패했습니다.')

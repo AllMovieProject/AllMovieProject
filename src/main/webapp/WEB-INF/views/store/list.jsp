@@ -56,70 +56,34 @@ pageEncoding="UTF-8"%>
 							<!-- 카테고리 및 정렬 -->
 							<div class="product__page__title">
 								<div class="row">
-									<div
-										class="col-lg-2 col-md-2 col-sm-4"
-										@click="store.handleCategoryChange('all')"
-									>
+									<div class="col-lg-2 col-md-2 col-sm-4" @click="store.handleCategoryChange('all')">
 										<div class="section-title">
-											<h4 :class="{ active: store.selectedCategory === 'all' }">
-												전체
-											</h4>
+											<h4 :class="{ active: store.selectedCategory === 'all' }">전체</h4>
 										</div>
 									</div>
-									<div
-										class="col-lg-2 col-md-2 col-sm-4"
-										@click="store.handleCategoryChange('combo')"
-									>
+									<div class="col-lg-2 col-md-2 col-sm-4" @click="store.handleCategoryChange('combo')">
 										<div class="section-title">
-											<h4
-												:class="{ active: store.selectedCategory === 'combo' }"
-											>
-												콤보
-											</h4>
+											<h4 :class="{ active: store.selectedCategory === 'combo' }">콤보</h4>
 										</div>
 									</div>
-									<div
-										class="col-lg-2 col-md-2 col-sm-4"
-										@click="store.handleCategoryChange('popcorn')"
-									>
+									<div class="col-lg-2 col-md-2 col-sm-4" @click="store.handleCategoryChange('1')">
 										<div class="section-title">
-											<h4
-												:class="{ active: store.selectedCategory === 'popcorn' }"
-											>
-												팝콘
-											</h4>
+											<h4 :class="{ active: store.selectedCategory === '1' }">팝콘</h4>
 										</div>
 									</div>
-									<div
-										class="col-lg-2 col-md-2 col-sm-4"
-										@click="store.handleCategoryChange('drink')"
-									>
+									<div class="col-lg-2 col-md-2 col-sm-4" @click="store.handleCategoryChange('2')">
 										<div class="section-title">
-											<h4
-												:class="{ active: store.selectedCategory === 'drink' }"
-											>
-												음료
-											</h4>
+											<h4 :class="{ active: store.selectedCategory === '2' }">음료</h4>
 										</div>
 									</div>
-									<div
-										class="col-lg-2 col-md-2 col-sm-4"
-										@click="store.handleCategoryChange('snack')"
-									>
+									<div class="col-lg-2 col-md-2 col-sm-4" @click="store.handleCategoryChange('4')">
 										<div class="section-title">
-											<h4
-												:class="{ active: store.selectedCategory === 'snack' }"
-											>
-												스낵
-											</h4>
+											<h4 :class="{ active: store.selectedCategory === '4' }">스낵</h4>
 										</div>
 									</div>
 									<div class="col-lg-2 col-md-2 col-sm-4">
 										<div class="product__page__filter">
-											<select
-												v-model="store.sortBy"
-												@change="store.handleSortChange"
-											>
+											<select v-model="store.sortBy" @change="store.handleSortChange">
 												<option value="recommend">추천순</option>
 												<option value="popular">인기순</option>
 												<option value="recent">최근등록순</option>
@@ -139,16 +103,16 @@ pageEncoding="UTF-8"%>
 									class="col-lg-4 col-md-6 col-sm-6"
 								>
 									<div class="product__item">
-										<div
-											class="product__item__pic set-bg"
-											:style="{ backgroundImage: stock.pvo.product_image ? 'url(/upload/' + stock.pvo.product_image +')' : 'url(/img/default-product.jpg)' }"
-										>
-											<span
-												v-if="stock.pvo.is_combo === 'Y'"
-												class="badge-combo"
-												>콤보</span
-											>
+				            <div class="product__item__pic">
+										  <img 
+										    :src="stock.pvo && stock.pvo.product_image 
+										      ? '/upload/' + stock.pvo.product_image 
+										      : '/img/default-product.jpg'"
+										    :alt="stock.pvo.product_name"
+										  >
+										  <span v-if="stock.pvo && stock.pvo.is_combo === 'Y'" class="badge-combo">콤보</span>
 										</div>
+				            </div>
 										<div class="product__item__text">
 											<h5>
 												<a href="javascript:void(0)">{{
@@ -157,18 +121,6 @@ pageEncoding="UTF-8"%>
 											</h5>
 											<div class="price">
 												{{ store.formatPrice(stock.pvo.product_price) }}원
-												<span v-if="stock.pvo.discount > 0" class="discount">
-													{{ stock.pvo.discount }}% 할인
-												</span>
-											</div>
-											<div class="stock-info">
-												재고: {{ stock.stock_quantity }}개
-												<span
-													v-if="stock.stock_quantity < 10"
-													class="badge-low-stock"
-												>
-													부족
-												</span>
 											</div>
 											<div
 												v-if="stock.pvo.description"
