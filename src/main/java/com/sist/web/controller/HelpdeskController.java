@@ -68,7 +68,7 @@ public class HelpdeskController {
 	
 	@PostMapping("/helpdesk/insert_ok")
 	public String helpdesk_insert_ok(@ModelAttribute HelpDeskVO vo) {
-		vo.setId("admin");
+		vo.setId("userName");
 		hService.helpDeskInsert(vo);
 		return "redirect:/helpdesk/list";
 	}

@@ -148,12 +148,10 @@
       <div class="row mb-3">
         <div class="col-lg-8">
           <h4>대관 / 단체 문의</h4>
-        </div>
-        <c:if test="${sessionScope.admin eq 'y'}">
+        </div>        
           <div class="col-lg-4 text-right">
-            <a href="/groupvisit/insert" class="btn btn-sm btn-danger">글쓰기</a>
-          </div>
-        </c:if>
+            <a href="/groupvisit/insert" class="btn btn-sm btn-danger">문의하기</a>
+          </div>        
       </div>
       <div id="board_list">
         <table>
