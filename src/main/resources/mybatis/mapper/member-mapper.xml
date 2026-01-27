@@ -11,8 +11,8 @@
     
     <association property="svo" javaType="ScheduleVO">
       <result property="sday" column="sday" />
-      <result property="start_time" column="start_time" />
-      <result property="end_time" column="end_time" />
+      <result property="starttime" column="starttime" />
+      <result property="endtime" column="endtime" />
     </association>
 
     <association property="mvo" javaType="MovieVO">
@@ -30,9 +30,8 @@
       <result property="screen_name" column="screen_name" />
     </association>
 
-    <collection property="sevo" ofType="SeatVO">
-      <result property="seat_row" column="seat_row" />
-      <result property="seat_col" column="seat_col" />
+    <collection property="bsvo" ofType="BookingSeatVO">
+      <result property="seat_info" column="seat_info" />
     </collection>
   </resultMap>
 
@@ -40,7 +39,7 @@
     parameterType="string">
     SELECT b.booking_id, b.schedule_id, b.cancel_flag,  m.title, m.movie_type, m.rating, m.poster_url,
     t.theater_name, sc.screen_name, TO_CHAR(s.start_time, 'YYYY.MM.DD') AS sday, TO_CHAR(s.start_time, 'HH24:MI') AS starttime,
-    TO_CHAR(s.end_time, 'HH24:MI') AS endtime, se.seat_row,  se.seat_col
+    TO_CHAR(s.end_time, 'HH24:MI') AS endtime, bs.seat_info
     FROM booking b
     
     JOIN schedule s ON s.schedule_id = b.schedule_id
@@ -48,8 +47,7 @@
     JOIN screen sc ON sc.screen_id = s.screen_id
     JOIN theater t ON sc.theater_id = t.theater_id
     LEFT JOIN booking_seat bs ON b.booking_id = bs.booking_id
-    LEFT JOIN seat se ON se.seat_id = bs.seat_id
     
-    WHERE b.member_id = #{id}
+    WHERE s.start_time >= SYSDATE AND b.member_id = #{id}
   </select>
   </mapper>

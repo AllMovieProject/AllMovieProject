@@ -8,6 +8,7 @@ import com.sist.web.mapper.MemberMapper;
 import com.sist.web.vo.BookingVO;
 import com.sist.web.vo.MemberVO;
 import com.sist.web.vo.ScheduleVO;
+import com.sist.web.vo.SeatVO;
 
 import lombok.RequiredArgsConstructor;
 
@@ -38,7 +39,9 @@ public class MemberServiceImpl implements MemberService {
 
 	@Override
 	public List<BookingVO> bookingListData(String id) {
-		return mapper.bookingListData(id);
+	    List<BookingVO> bList = mapper.bookingListData(id);
+	    
+		return bList;
 	}
 
 }

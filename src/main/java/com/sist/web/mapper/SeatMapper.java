@@ -66,6 +66,6 @@ public interface SeatMapper {
 	@Insert("INSERT INTO booking(booking_id, schedule_id, member_id) VALUES(#{booking_id}, #{schedule_id}, #{member_id})")
 	public void bookingInsert(BookingVO vo);
 	
-	@Insert("INSERT INTO booking_seat(booking_seat_id, booking_id, seat_id) VALUES(bookingseat_id_seq.NEXTVAL, #{booking_id}, #{seat_id})")
+	@Insert("INSERT INTO booking_seat(booking_seat_id, booking_id, seat_info) VALUES(bookingseat_id_seq.NEXTVAL, #{booking_id}, #{seat_info})")
 	public void bookingSeatInsert(BookingSeatVO vo);
 }

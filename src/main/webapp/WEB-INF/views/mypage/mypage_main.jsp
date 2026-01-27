@@ -172,8 +172,8 @@
 	<!-- 왼쪽 메뉴 -->
 	<div class="mypage-left">
 		<ul class="menu">
+      <li :class="{active : store.currentPage === 'bookinglist'}" @click="store.pageTo('bookinglist')">예매 내역</li>
 			<li :class="{active : store.currentPage === 'userinfo'}" @click="store.pageTo('userinfo')">회원 정보</li>
-			<li :class="{active : store.currentPage === 'bookinglist'}" @click="store.pageTo('bookinglist')">예매 내역</li>
 			<li>구매 정보</li>
 			<li>문의 내역</li>
 			<li class="danger" @click="store.withdraw()">회원 탈퇴</li>

@@ -9,6 +9,7 @@ import org.springframework.stereotype.Repository;
 
 import com.sist.web.vo.BookingVO;
 import com.sist.web.vo.MemberVO;
+import com.sist.web.vo.SeatVO;
 
 @Mapper
 @Repository
@@ -29,4 +30,6 @@ public interface MemberMapper {
 	
 	// 마이페이지
 	public List<BookingVO> bookingListData(String id);
+	
+	public List<SeatVO> bookingSeatListData(String id);
 }

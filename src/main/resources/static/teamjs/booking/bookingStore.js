@@ -34,18 +34,17 @@ const useBookingStore = defineStore('booking', {
 				theater: this.booking_theater
 			})
 
-			// booking_date가 이 안에 포함되면?
 			this.datas = res.data
-			let i = 0
 			
-			for (i = 0; i < res.data.date_list.length; i++) {
+			this.booking_date = ''
+
+      for (let i = 0; i < res.data.date_list.length; i++) {
 				if (res.data.date_list[i].date_data === this.tempDate) {
 					this.booking_date = this.tempDate
 				}
-				
 			}
 			
-			if (i === res.data.date_list.length && this.booking_date === '') {
+			if (this.booking_date === '') {
 				this.booking_date = res.data.date_list[0].date_data
 			}
 

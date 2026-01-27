@@ -14,7 +14,7 @@
 
 				<!-- 포스터 -->
 				<div class="ticket-poster">
-					<img src="vo.mvo.poster_url">
+					<img :src="vo.mvo.poster_url">
 				</div>
 
 				<!-- 영화 정보 -->
@@ -23,10 +23,10 @@
 
 					<div class="info-grid">
 						<div>
-							<strong>상영일시</strong> 2026.01.16(금) 19:10 ~ 21:08
+							<strong>상영일시</strong><br>{{ vo.svo.sday }} {{ vo.svo.starttime }} ~ {{ vo.svo.endtime }}
 						</div>
 						<div>
-							<strong>좌석</strong> E5, E6
+							<strong>좌석</strong><br>{{ vo.bsvo.seat_info }}
 						</div>
 						<div>
 							<strong>극장</strong> {{ vo.tvo.theater_name }}

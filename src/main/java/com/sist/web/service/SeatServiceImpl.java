@@ -94,7 +94,7 @@ public class SeatServiceImpl implements SeatService {
 	@Override
 	public void bookingComplete(SeatBookingDTO dto) {
         int schedule_id = dto.getSchedule_id();
-        List<Integer> list = dto.getSelected_seats();
+        String seat_info = dto.getSeat_info();
         String id = dto.getUser_id();
         
         BookingVO bvo = new BookingVO();
@@ -108,14 +108,12 @@ public class SeatServiceImpl implements SeatService {
         bvo.setSchedule_id(schedule_id);
         bvo.setMember_id(id);
         mapper.bookingInsert(bvo);
-        
+
         BookingSeatVO bsvo = new BookingSeatVO();
         bsvo.setBooking_id(booking_id);
         
-        for(int seat_id : list) {
-            bsvo.setSeat_id(seat_id);
-            mapper.bookingSeatInsert(bsvo);
-        }
+        bsvo.setSeat_info(seat_info);
+        mapper.bookingSeatInsert(bsvo);
 	}
 
 }

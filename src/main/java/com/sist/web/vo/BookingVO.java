@@ -11,5 +11,5 @@ public class BookingVO {
 	private MovieVO mvo = new MovieVO();
 	private TheaterVO tvo = new TheaterVO();
 	private ScreenVO scvo = new ScreenVO();
-    private SeatVO sevo = new SeatVO();
+    private BookingSeatVO bsvo = new BookingSeatVO();
 }
