@@ -1,0 +1,160 @@
+.payment-container {
+  max-width: 800px;
+  margin: 50px auto;
+  padding: 0 20px;
+}
+
+.payment-header {
+  margin-bottom: 30px;
+  padding-bottom: 20px;
+  border-bottom: 2px solid #e53637;
+}
+
+.payment-header h2 {
+  font-size: 28px;
+  color: #fff;
+}
+
+.payment-section {
+  background: #1a1a1a;
+  padding: 30px;
+  border-radius: 8px;
+  margin-bottom: 20px;
+}
+
+.payment-section h3 {
+  color: white;
+  margin-bottom: 20px;
+  font-size: 20px;
+}
+
+.order-list {
+  margin-bottom: 20px;
+}
+
+.order-item {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  padding: 15px;
+  background: #2a2a2a;
+  border-radius: 8px;
+  margin-bottom: 10px;
+}
+
+.order-item-image {
+  width: 60px;
+  height: 60px;
+  object-fit: cover;
+  border-radius: 4px;
+}
+
+.order-item-info {
+  flex: 1;
+  color: white;
+}
+
+.order-item-info h4 {
+  margin: 0 0 5px 0;
+  font-size: 16px;
+}
+
+.order-item-info p {
+  margin: 0;
+  font-size: 14px;
+  color: #999;
+}
+
+.order-item-price {
+  font-size: 16px;
+  font-weight: bold;
+  color: white;
+}
+
+.buyer-form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.form-group label {
+  color: white;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.form-group input {
+  padding: 12px;
+  background: #2a2a2a;
+  border: 1px solid #444;
+  border-radius: 4px;
+  color: white;
+  font-size: 14px;
+}
+
+.form-group input:focus {
+  outline: none;
+  border-color: #e53637;
+}
+
+.payment-summary {
+  background: #2a2a2a;
+  padding: 20px;
+  border-radius: 8px;
+}
+
+.summary-row {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px 0;
+  border-bottom: 1px solid #444;
+}
+
+.summary-row:last-child {
+  border-bottom: none;
+  padding-top: 15px;
+}
+
+.summary-label {
+  color: #ddd;
+  font-size: 16px;
+}
+
+.summary-value {
+  color: white;
+  font-size: 16px;
+  font-weight: bold;
+}
+
+.summary-total {
+  font-size: 20px;
+  color: #e53637;
+}
+
+.btn-payment {
+  width: 100%;
+  padding: 18px;
+  background: #e53637;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  font-size: 18px;
+  font-weight: bold;
+  cursor: pointer;
+  margin-top: 20px;
+}
+
+.btn-payment:hover {
+  background: #c62828;
+}
+
+.btn-payment:disabled {
+  background: #666;
+  cursor: not-allowed;
+}

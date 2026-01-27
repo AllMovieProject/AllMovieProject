@@ -24,7 +24,7 @@ public class StoreRestController {
 
 	// Store별 재고 조회 - store_id로 조회
 	@GetMapping("/list/data")
-	public ResponseEntity<List<StoreStockVO>> storeStockList(@RequestParam("sid") int store_id) {
+	public ResponseEntity<List<StoreStockVO>> store_stock_list(@RequestParam("sid") int store_id) {
 		List<StoreStockVO> list = null;
 		try {
 			list = sService.storeListData(store_id);
@@ -36,7 +36,7 @@ public class StoreRestController {
 	}
 	
 	@GetMapping("/{store_id}/product/{product_id}")
-	public ResponseEntity<StoreStockVO> storeProductDetail(
+	public ResponseEntity<StoreStockVO> store_product_detail(
 	    @PathVariable("store_id") int store_id,
 	    @PathVariable("product_id") int product_id) {
 	  StoreStockVO vo = null;

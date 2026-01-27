@@ -6,6 +6,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import jakarta.servlet.http.HttpSession;
+
 @Controller
 @RequestMapping("/store")
 public class StoreController {
@@ -17,7 +19,8 @@ public class StoreController {
 	}
 	
 	@GetMapping("/detail")
-	public String store_detail(@RequestParam("store_id") int store_id, @RequestParam("product_id") int product_id, Model model) {
+	public String store_detail(@RequestParam("store_id") int store_id, @RequestParam("product_id") int product_id, Model model, HttpSession session) {
+		model.addAttribute("userid", session.getAttribute("userid"));
 		model.addAttribute("main_jsp", "../store/detail.jsp");
 		return "main/main";
 	}
@@ -37,6 +40,12 @@ public class StoreController {
 	@GetMapping("/cart")
 	public String store_cart(Model model) {
 		model.addAttribute("main_jsp", "../store/cart.jsp");
+		return "main/main";
+	}
+	
+	@GetMapping("/payment")
+	public String store_payment(Model model) {
+		model.addAttribute("main_jsp", "../store/payment.jsp");
 		return "main/main";
 	}
 

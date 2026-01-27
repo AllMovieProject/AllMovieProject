@@ -33,6 +33,7 @@ public class SecurityConfig {
                     auth -> auth.requestMatchers("/", "/member/**").permitAll()
                         .requestMatchers("/admin/**").hasRole("ADMIN")
                         .requestMatchers("/*/manager/**").hasRole("MANAGER")
+                        .requestMatchers("/cart/*").hasRole("USER")
                         .requestMatchers("/upload/**").permitAll()
                         .anyRequest().permitAll())
             .formLogin(
@@ -85,4 +86,5 @@ public class SecurityConfig {
     BCryptPasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
+    
 }

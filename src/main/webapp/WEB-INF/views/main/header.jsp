@@ -58,6 +58,7 @@
 										<ul class="dropdown">
 											<li><a href="/member/logout">로그아웃</a></li>
 											<li><a href="/mypage/ticket">예매 내역</a></li>
+											<li><a href="/store/cart">장바구니</a></li>
                       <li><a href="/mypage">마이페이지</a></li>
 										</ul></li>
 								</sec:authorize>

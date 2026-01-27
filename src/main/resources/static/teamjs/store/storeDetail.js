@@ -7,7 +7,8 @@ const useStoreDetailStore = defineStore('storeDetail', {
     loading: false,
     storeId: 1,
     selectedOptions: {}, // { 'combo_id-index': item_id }
-    totalQuantity: 1
+    totalQuantity: 1,
+		user_id: ''
   }),
 
   getters: {
@@ -150,6 +151,11 @@ const useStoreDetailStore = defineStore('storeDetail', {
     },
 
 		addToCart() {
+			if (this.user_id == null || this.user_id == '') {
+				alert('로그인이 필요합니다')
+				location.href = '/member/login'
+				return
+			}
 		  const selectedOptions = this.getSelectedOptions()
 		  
 		  const cartData = {
@@ -164,14 +170,12 @@ const useStoreDetailStore = defineStore('storeDetail', {
 		  
 		  api.post('/cart/add', cartData)
 		    .then(response => {
+					console.log(response)
 		      if (response.data === 'yes') {
 		        alert('장바구니에 추가되었습니다.')
 		        if (confirm('장바구니로 이동하시겠습니까?')) {
 		          location.href = 'cart'
 		        }
-		      } else if (response.data === 'login_required') {
-		        alert('로그인이 필요합니다.')
-		        location.href = '/member/login'
 		      }
 		    })
 		    .catch(error => {

@@ -15,8 +15,7 @@ const useCartStore = defineStore('cart', {
     },
 
     isAllSelected: (state) => {
-      return state.cart_list.length > 0 && 
-             state.selectedItems.length === state.cart_list.length
+      return state.cart_list.length > 0 && state.selectedItems.length === state.cart_list.length
     },
 
     selectedTotalPrice: (state) => {
@@ -25,12 +24,12 @@ const useCartStore = defineStore('cart', {
         let itemTotal = item.pvo.product_price - (item.pvo.discount || 0)
         
         // 콤보 상품인 경우 옵션 가격 추가
-        if (item.items && item.items.length > 0) {
+        /*if (item.items && item.items.length > 0) {
           item.items.forEach(cartItem => {
             const addPrice = cartItem.ivo.add_price || 0
             itemTotal += addPrice * cartItem.quantity
           })
-        }
+        }*/
         
         total += itemTotal * item.quantity
       })
@@ -143,16 +142,28 @@ const useCartStore = defineStore('cart', {
       }
     },
 
-    orderSelected() {
-      if (this.selectedItems.length === 0) {
-        alert('주문할 상품을 선택해주세요.')
-        return
-      }
-      
-      const orderData = this.selectedCartItems
-      console.log('주문 정보:', orderData)
-      alert('주문 페이지로 이동합니다.')
-    },
+		orderSelected() {
+		  if (this.selectedItems.length === 0) {
+		    alert('주문할 상품을 선택해주세요.')
+		    return
+		  }
+		  
+		  const orderData = {
+		    items: this.selectedCartItems,
+		    buyerInfo: {
+		      name: '', // 결제 페이지에서 입력
+		      tel: '',
+		      email: ''
+		    },
+		    totalAmount: this.selectedTotalPrice
+		  }
+		  
+		  // sessionStorage에 주문 데이터 저장
+		  sessionStorage.setItem('orderData', JSON.stringify(orderData))
+		  
+		  // 결제 페이지로 이동
+		  location.href = '/store/payment'
+		},
 
     formatPrice(price) {
       if (!price) return '0'

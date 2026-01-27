@@ -163,6 +163,7 @@
         const store = useStoreDetailStore()
 
         onMounted(async () => {
+          store.user_id = '${sessionScope.userid}'
           const urlParams = new URLSearchParams(window.location.search)
           const storeId = urlParams.get('store_id') || 1
           const productId = urlParams.get('product_id')

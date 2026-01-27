@@ -36,7 +36,7 @@ public class ProductRestController {
 	private final ProductService pService;
 	
 	@GetMapping("/manager/category")
-	public ResponseEntity<List<ProductCategoryVO>> managerCategory() {
+	public ResponseEntity<List<ProductCategoryVO>> manager_category() {
 		List<ProductCategoryVO> list = null;
 		try {
 			list = pService.productCategoryList();
@@ -48,7 +48,7 @@ public class ProductRestController {
 	}
 	
 	@GetMapping("/manager/item-list")
-	public ResponseEntity<List<ProductItemVO>> managerItems(@RequestParam("category_id") int category_id, @RequestParam("isBase") boolean isBase) {
+	public ResponseEntity<List<ProductItemVO>> manager_items(@RequestParam("category_id") int category_id, @RequestParam("isBase") boolean isBase) {
 		List<ProductItemVO> list = null;
 		try {
 			list = pService.productItemList(category_id, isBase);
@@ -60,7 +60,7 @@ public class ProductRestController {
 	}
 	
 	@GetMapping("/manager/product-list")
-	public ResponseEntity<List<StoreProductVO>> managerProductList(@RequestParam("category_id") int category_id) {
+	public ResponseEntity<List<StoreProductVO>> manager_product_list(@RequestParam("category_id") int category_id) {
 		List<StoreProductVO> list = null;
 		try {
 			list = pService.storeProductListData(category_id);
@@ -72,7 +72,7 @@ public class ProductRestController {
 	}
 	
 	@GetMapping("/manager/combo-products")
-	public ResponseEntity<List<StoreProductVO>> managerComboProducts() {
+	public ResponseEntity<List<StoreProductVO>> manager_combo_products() {
 		List<StoreProductVO> list = null;
 		try {
 			list = pService.storeComboProductList();
@@ -84,7 +84,7 @@ public class ProductRestController {
 	}
 	
 	@PostMapping("/manager/insert-item")
-	public ResponseEntity<String> managerInsertItem(@RequestPart("data") ProductFormDTO dto,
+	public ResponseEntity<String> manager_insert_item(@RequestPart("data") ProductFormDTO dto,
 	        @RequestPart(value = "image", required = false) MultipartFile productImageFile) {
 		String res = "";
 		try {
@@ -97,7 +97,7 @@ public class ProductRestController {
 	}
 	
 	@PostMapping("/manager/insert-combo")
-	public ResponseEntity<String> managerInsertCombo(@RequestPart("data") ComboFormDTO dto,
+	public ResponseEntity<String> manager_insert_combo(@RequestPart("data") ComboFormDTO dto,
 	        @RequestPart(value = "image", required = false) MultipartFile productImageFile) {
 		String res = "";
 		try {
@@ -110,7 +110,7 @@ public class ProductRestController {
 	}
 
 	@GetMapping("/combo/{product_id}")
-	public ResponseEntity<List<ProductComboVO>> productComboDetail(@PathVariable("product_id") int product_id) {
+	public ResponseEntity<List<ProductComboVO>> product_combo_detail(@PathVariable("product_id") int product_id) {
 	  List<ProductComboVO> list = null;
 	  try {
 	    list = pService.productComboDetail(product_id);
@@ -122,7 +122,7 @@ public class ProductRestController {
 	}
 	
 	@GetMapping("/upgrade-options/{base_item_id}")
-	public ResponseEntity<List<ProductItemVO>> getUpgradeOptions(@PathVariable("base_item_id") int base_item_id) {
+	public ResponseEntity<List<ProductItemVO>> get_upgrade_options(@PathVariable("base_item_id") int base_item_id) {
 	  List<ProductItemVO> list = null;
 	  try {
 	    list = pService.getUpgradeOptions(base_item_id);
