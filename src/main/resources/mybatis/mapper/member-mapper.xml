@@ -3,10 +3,11 @@
 <!DOCTYPE mapper
  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.sist.web.mapper.MypageMapper">
+<mapper namespace="com.sist.web.mapper.MemberMapper">
   <resultMap id="bookingInfoMap" type="BookingVO">
     <id property="booking_id" column="booking_id" />
     <result property="schedule_id" column="schedule_id" />
+    <result property="cancel_flag" column="cancel_flag" />
     
     <association property="svo" javaType="ScheduleVO">
       <result property="sday" column="sday" />
@@ -37,7 +38,7 @@
 
   <select id="bookingListData" resultMap="bookingInfoMap"
     parameterType="string">
-    SELECT b.booking_id, b.schedule_id,  m.title, m.movie_type, m.rating, m.poster_url,
+    SELECT b.booking_id, b.schedule_id, b.cancel_flag,  m.title, m.movie_type, m.rating, m.poster_url,
     t.theater_name, sc.screen_name, TO_CHAR(s.start_time, 'YYYY.MM.DD') AS sday, TO_CHAR(s.start_time, 'HH24:MI') AS starttime,
     TO_CHAR(s.end_time, 'HH24:MI') AS endtime, se.seat_row,  se.seat_col
     FROM booking b

@@ -38,4 +38,11 @@ public class MemberController {
 		model.addAttribute("main_jsp", "../member/login.jsp");
 		return "main/main";
 	}
+	
+	// 마이페이지
+	@GetMapping("/mypage")
+	public String mypage_main(Model model) {
+		model.addAttribute("main_jsp", "../mypage/mypage_main.jsp");
+		return "main/main";
+	}
 }

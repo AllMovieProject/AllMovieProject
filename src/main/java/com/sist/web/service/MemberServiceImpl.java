@@ -1,9 +1,13 @@
 package com.sist.web.service;
 
+import java.util.List;
+
 import org.springframework.stereotype.Service;
 
 import com.sist.web.mapper.MemberMapper;
+import com.sist.web.vo.BookingVO;
 import com.sist.web.vo.MemberVO;
+import com.sist.web.vo.ScheduleVO;
 
 import lombok.RequiredArgsConstructor;
 
@@ -30,6 +34,11 @@ public class MemberServiceImpl implements MemberService {
 	@Override
 	public MemberVO memberInfoData(String userid) {
 		return mapper.memberInfoData(userid);
+	}
+
+	@Override
+	public List<BookingVO> bookingListData(String id) {
+		return mapper.bookingListData(id);
 	}
 
 }
