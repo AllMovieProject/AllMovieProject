@@ -8,6 +8,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.sist.web.dto.ComboFormDTO;
 import com.sist.web.dto.ProductFormDTO;
 import com.sist.web.vo.ProductCategoryVO;
+import com.sist.web.vo.ProductComboVO;
 import com.sist.web.vo.ProductItemVO;
 import com.sist.web.vo.StoreProductVO;
 
@@ -19,5 +20,7 @@ public interface ProductService {
 	public String productComboInsert(ComboFormDTO dto, MultipartFile productImageFile) throws IOException;
 	public List<StoreProductVO> storeProductListData(int category_id);
 	public List<StoreProductVO> storeComboProductList();
+	public List<ProductComboVO> productComboDetail(int product_id);
+	public List<ProductItemVO> getUpgradeOptions(int base_item_id);
 
 }

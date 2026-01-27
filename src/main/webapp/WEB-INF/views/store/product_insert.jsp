@@ -180,13 +180,13 @@
 						<small v-if="store.storeProduct.is_combo === 'N' && store.isBase">
 							(기본 식품 가격)
 						</small>
-						<!-- <small v-if="store.storeProduct.is_combo === 'N' && !store.isBase && store.baseItemPrice > 0">
-							(기본: {{ (store.baseItemPrice || 0).toLocaleString() }}원 + 추가: {{ (store.addPrice || 0).toLocaleString() }}원)
+						<small v-if="store.storeProduct.is_combo === 'N' && !store.isBase && store.productItem.item_price > 0">
+							(기본: {{ (store.productItem.item_price || 0).toLocaleString() }}원 + 추가: {{ (store.productItem.add_price || 0).toLocaleString() }}원)
 						</small>
 						<small v-if="store.storeProduct.is_combo === 'Y' && store.comboItemList.length > 0">
-							(합계: {{ (store.comboTotalPrice || 0).toLocaleString() }}원 - 할인: {{ (store.discountPrice ||
+							(합계: {{ (store.comboTotalPrice || 0).toLocaleString() }}원 - 할인: {{ (store.storeProduct.discount ||
 							0).toLocaleString() }}원)
-						</small> -->
+						</small>
 					</div>
 	
 					<div class="btn-group">

@@ -41,7 +41,7 @@ file:
 #    volumes:
 #      - /var/upload:/var/upload  # [서버실제경로]:[컨테이너내부경로]
 #    ports:
-#      - '8080:8080'
+#      - '8000:8000'
 
 mybatis:
   type-aliases-package: com.sist.web.vo

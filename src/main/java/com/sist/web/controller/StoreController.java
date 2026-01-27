@@ -17,7 +17,7 @@ public class StoreController {
 	}
 	
 	@GetMapping("/detail")
-	public String store_detail(@RequestParam("id") int id, Model model) {
+	public String store_detail(@RequestParam("store_id") int store_id, @RequestParam("product_id") int product_id, Model model) {
 		model.addAttribute("main_jsp", "../store/detail.jsp");
 		return "main/main";
 	}
@@ -31,6 +31,12 @@ public class StoreController {
 	@GetMapping("/product_insert")
 	public String store_product_insert(Model model) {
 		model.addAttribute("main_jsp", "../store/product_insert.jsp");
+		return "main/main";
+	}
+	
+	@GetMapping("/cart")
+	public String store_cart(Model model) {
+		model.addAttribute("main_jsp", "../store/cart.jsp");
 		return "main/main";
 	}
 

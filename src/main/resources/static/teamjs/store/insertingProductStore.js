@@ -63,6 +63,13 @@ const useProductStore = defineStore('product', {
 						(this.productItem.add_price || 0)
 					)
 				}
+			} else {
+				return this.comboItemList.reduce(
+					(sum, item) =>
+						sum +
+						item.productItem.product_price * item.productCombo.item_quantity,
+					this.storeProduct.discount * -1,
+				)
 			}
 		},
 	},

@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-pageEncoding="UTF-8"%>
+		pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
 	<head>
@@ -45,7 +45,7 @@ pageEncoding="UTF-8"%>
 									</div>
 									<div class="col-lg-4 col-md-4 col-sm-6">
 										<div class="product__page__filter">
-											<a href="/manager/stock" class="btn btn-sm btn-primary"
+											<a href="stock" class="btn btn-sm btn-primary"
 												>재고 관리</a
 											>
 										</div>
@@ -115,9 +115,9 @@ pageEncoding="UTF-8"%>
 				            </div>
 										<div class="product__item__text">
 											<h5>
-												<a href="javascript:void(0)">{{
-													stock.pvo.product_name
-												}}</a>
+												<a :href="'/store/detail?store_id=' + store.storeId + '&product_id=' + stock.product_id">
+										      {{ stock.pvo.product_name }}
+										    </a>
 											</h5>
 											<div class="price">
 												{{ store.formatPrice(stock.pvo.product_price) }}원

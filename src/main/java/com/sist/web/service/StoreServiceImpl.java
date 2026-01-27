@@ -19,5 +19,10 @@ public class StoreServiceImpl implements StoreService {
 	public List<StoreStockVO> storeListData(int store_id) {
 		return mapper.storeListData(store_id);
 	}
+	
+	@Override
+	public StoreStockVO storeStockDetail(int store_id, int product_id) {
+	  return mapper.storeStockDetail(store_id, product_id);
+	}
 
 }

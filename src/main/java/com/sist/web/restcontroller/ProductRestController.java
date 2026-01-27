@@ -6,6 +6,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -18,6 +19,7 @@ import com.sist.web.dto.ComboFormDTO;
 import com.sist.web.dto.ProductFormDTO;
 import com.sist.web.service.ProductService;
 import com.sist.web.vo.ProductCategoryVO;
+import com.sist.web.vo.ProductComboVO;
 import com.sist.web.vo.ProductItemVO;
 import com.sist.web.vo.StoreProductVO;
 import com.sist.web.vo.StoreStockVO;
@@ -105,6 +107,30 @@ public class ProductRestController {
 			return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 		return new ResponseEntity<>(res, HttpStatus.OK);
+	}
+
+	@GetMapping("/combo/{product_id}")
+	public ResponseEntity<List<ProductComboVO>> productComboDetail(@PathVariable("product_id") int product_id) {
+	  List<ProductComboVO> list = null;
+	  try {
+	    list = pService.productComboDetail(product_id);
+	  } catch (Exception e) {
+	    e.printStackTrace();
+	    return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+	  }
+	  return new ResponseEntity<>(list, HttpStatus.OK);
+	}
+	
+	@GetMapping("/upgrade-options/{base_item_id}")
+	public ResponseEntity<List<ProductItemVO>> getUpgradeOptions(@PathVariable("base_item_id") int base_item_id) {
+	  List<ProductItemVO> list = null;
+	  try {
+	    list = pService.getUpgradeOptions(base_item_id);
+	  } catch (Exception e) {
+	    e.printStackTrace();
+	    return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+	  }
+	  return new ResponseEntity<>(list, HttpStatus.OK);
 	}
 
 }

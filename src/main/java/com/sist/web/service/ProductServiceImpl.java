@@ -117,7 +117,7 @@ public class ProductServiceImpl implements ProductService {
 		mapper.storeProductInsert(productVO);
 		// TODO INSERT comboListVO => product_id 넣어서
 		for (ProductComboVO vo : comboListVO) {
-			System.out.println(vo.getIs_upgrade());
+			vo.setProduct_id(productVO.getProduct_id());
 			mapper.productComboInsert(vo);
 		}
 		return "yes";
@@ -131,6 +131,16 @@ public class ProductServiceImpl implements ProductService {
 	@Override
 	public List<StoreProductVO> storeComboProductList() {
 		return mapper.storeComboProductList();
+	}
+	
+	@Override
+	public List<ProductComboVO> productComboDetail(int product_id) {
+	  return mapper.productComboDetail(product_id);
+	}
+	
+	@Override
+	public List<ProductItemVO> getUpgradeOptions(int base_item_id) {
+	  return mapper.getUpgradeOptions(base_item_id);
 	}
 
 }
