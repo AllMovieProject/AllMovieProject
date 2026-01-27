@@ -146,8 +146,8 @@
             <h5>고객센터</h5>
             <ul>
                 <li class="active"><a href="/board/list">공지사항</a></li>
-                <li><a href="#">1:1 문의</a></li>
-                <li><a href="#">대관/ 단체 문의</a></li>
+                <li><a href="/helpdesk/list">1:1 문의</a></li>
+                <li><a href="/groupvisit/list">대관/ 단체 문의</a></li>
             </ul>
         </div>
 

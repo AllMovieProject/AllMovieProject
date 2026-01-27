@@ -7,6 +7,8 @@ import java.util.List;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.sist.web.service.GroupVisitService;
@@ -38,26 +40,59 @@ public class GroupvisitController {
 	}
 	
 	@GetMapping("/groupvisit/detail")
-	public String groupvisit_detail(Model model) {
+	public String groupvisit_detail(@RequestParam("gno")int gno, Model model) {
+		GroupVisitVO vo = gService.groupVisitDetailData(gno);
+		
+		model.addAttribute("vo", vo);
 		model.addAttribute("main_jsp", "../groupvisit/detail.jsp");
 		return "main/main";
 	}
 	
 	@GetMapping("/groupvisit/insert")
 	public String groupvisit_insert(Model model) {
+		String cateGroup = "GROUPVISIT";
+		List<GroupVisitVO> cateGroup1 = gService.groupVisitCateData(cateGroup);
+		
+		model.addAttribute("cate1List", cateGroup1);		
 		model.addAttribute("main_jsp", "../groupvisit/insert.jsp");
 		return "main/main";
 	}
 	
+	@PostMapping("/groupvisit/insert_ok")
+	public String groupvisit_insert_ok(@ModelAttribute GroupVisitVO vo) {
+		vo.setId("userName");
+		gService.groupVisitInsert(vo);
+		return "redirect:/groupvisit/list";
+	}
+	
 	@GetMapping("/groupvisit/update")
-	public String groupvisit_update(Model model) {
+	public String groupvisit_update(@RequestParam("gno") int gno,  Model model) {
+		GroupVisitVO vo = gService.groupVisitDetailData(gno);
+		
+		List<GroupVisitVO> cate1List = gService.groupVisitCateData("GROUPVISIT");
+		
+		model.addAttribute("vo", vo);
+		model.addAttribute("cate1List", cate1List);
 		model.addAttribute("main_jsp", "../groupvisit/update.jsp");
 		return "main/main";
 	}
 	
+	@PostMapping("/groupvisit/update_ok")
+	public String groupvisit_update_ok(@ModelAttribute GroupVisitVO vo) {
+		gService.groupVisitUpdate(vo);
+		return "redirect:/groupvisit/detail?gno=" + vo.getGno();
+	}
+	
 	@GetMapping("/groupvisit/delete")
-	public String groupvisit_delete(Model model) {
-		model.addAttribute("main_jsp", "../groupvisit/delete.jsp");
-		return "main/main";
+	public String groupvisit_delete(@RequestParam("gno")int gno, Model model) {
+		
+		model.addAttribute("gno", gno);
+		return "groupvisit/delete";
+	}
+	
+	@PostMapping("/groupvisit/delete_ok")
+	public String groupvisit_delete_ok(@RequestParam("gno")int gno) {
+		gService.groupVisitDelete(gno);
+		return "redirect:/groupvisit/list";
 	}
 }

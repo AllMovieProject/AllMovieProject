@@ -15,6 +15,6 @@ import lombok.Data;
 @Data
 public class GroupVisitVO {
 	private int gno, gtype, grtype, ghit;
-	private String gsubject, gcontent, id, gtype_name, gdbday;
+	private String gsubject, gcontent, id, gtype_name, gdbday, gcateName, cateName, cateNo;
 	private Date gregdate;
 }

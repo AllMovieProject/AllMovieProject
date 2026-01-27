@@ -59,7 +59,7 @@ public interface HelpdeskMapper {
     @Select("SELECT CATE_NO AS cateNo, CATE_NAME AS cateName "
     		+ "FROM COMMONS_CATEGORY "
     		+ "WHERE CATE_GROUP = #{cateGroup} ORDER BY 1")
-     public List<HelpDeskVO> helpDeskCateData(String cateGroup);
+    public List<HelpDeskVO> helpDeskCateData(String cateGroup);
     
     @Update("UPDATE helpdesk SET "
 		    + "hsubject = #{hsubject}, hcontent = #{hcontent}, hcate1 = #{hcate1}, hcate2 = #{hcate2} "
