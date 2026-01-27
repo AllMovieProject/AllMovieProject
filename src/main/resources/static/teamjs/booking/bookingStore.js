@@ -7,6 +7,7 @@ const initialState = () => ({
 	dateList: [],
 
 	booking_date: '',
+	tempDate: '',
 	booking_movie: 0,
 	booking_region: 0,
 	booking_theater: '',
@@ -18,8 +19,7 @@ const initialState = () => ({
 		theater_list: [],
 		schedule_list: []
 	},
-	user_id: '',
-	beforeDateList: []
+	user_id: ''
 })
 
 const useBookingStore = defineStore('booking', {
@@ -34,7 +34,20 @@ const useBookingStore = defineStore('booking', {
 				theater: this.booking_theater
 			})
 
+			// booking_date가 이 안에 포함되면?
 			this.datas = res.data
+			let i = 0
+			
+			for (i = 0; i < res.data.date_list.length; i++) {
+				if (res.data.date_list[i].date_data === this.tempDate) {
+					this.booking_date = this.tempDate
+				}
+				
+			}
+			
+			if (i === res.data.date_list.length && this.booking_date === '') {
+				this.booking_date = res.data.date_list[0].date_data
+			}
 
 			/*for (let i = 0; i < res.data.date_list.length; i++) {
 				if (res.data.date_list[i].available_flag === 1 && res.data.date_list[i].date_data === this.booking_date) {
@@ -44,9 +57,9 @@ const useBookingStore = defineStore('booking', {
 				}
 			}*/
 
-			if (this.booking_date === '') {
+			/*if (this.booking_date === '') {
 				this.booking_date = res.data.date_list[0].date_data
-			}
+			}*/
 
 			this.maxPage = res.data.date_list.length / this.len
 			this.paginator()
@@ -54,6 +67,7 @@ const useBookingStore = defineStore('booking', {
 
 		dateUpdate(date) {
 			if (this.booking_date !== date) {
+				this.tempDate = date
 				this.booking_date = date
 				this.bookingListData()
 			}
@@ -64,6 +78,7 @@ const useBookingStore = defineStore('booking', {
 				this.booking_movie = 0
 			} else {
 				this.booking_movie = movie
+				this.tempDate = this.booking_date
 			}
 			// 카운트 증가해서 잘 끝나면
 			
@@ -76,7 +91,6 @@ const useBookingStore = defineStore('booking', {
 				}
 			}*/
 			
-			this.booking_date = ''
 			this.bookingListData()
 			},
 
