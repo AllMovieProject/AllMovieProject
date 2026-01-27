@@ -43,7 +43,7 @@ public class ProductServiceImpl implements ProductService {
 			checked = false; // 파일이 없는 상태
 		} else {
 			String oname = productImageFile.getOriginalFilename();
-			File f = new File(uploadDir + "/" + oname);
+			File f = new File(uploadDir, oname);
 			if (f.exists()) {
 				int count = 1;
 				String name = oname.substring(0, oname.lastIndexOf("."));

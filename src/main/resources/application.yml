@@ -27,11 +27,21 @@ spring:
       max-request-size: 100MB
 
 # 개발
-#file:
-#  upload-dir: C:/upload
-# 배포
 file:
-  upload-dir: /var/upload
+  upload-dir: C:/upload/
+
+# 배포
+#file:
+#  upload-dir: /var/upload/
+# sudo mkdir -p /var/upload
+# sudo chmod -R 777 /var/upload
+#services:
+#  app:
+#    image: [name]/all-movie
+#    volumes:
+#      - /var/upload:/var/upload  # [서버실제경로]:[컨테이너내부경로]
+#    ports:
+#      - '8080:8080'
 
 mybatis:
   type-aliases-package: com.sist.web.vo
