@@ -1,5 +1,7 @@
 package com.sist.web.service;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
@@ -41,7 +43,49 @@ public class MemberServiceImpl implements MemberService {
 	public List<BookingVO> bookingListData(String id) {
 	    List<BookingVO> bList = mapper.bookingListData(id);
 	    
+		/*
+		 * for (BookingVO vo : bList) { String seatInfo = vo.getBsvo().getSeat_info();
+		 * String }
+		 */
+	    
 		return bList;
+	}
+
+	@Override
+	public String bookingCancel(String booking_id) {
+		String res = "error";
+		
+		LocalDateTime now = LocalDateTime.now();
+		String formattedNow = now.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+		String bookingDate = mapper.bookingStartTime(booking_id);
+		
+		 String[] bookingDateInfo = bookingDate.split(" ");
+		 String[] nowDateInfo = formattedNow.split(" ");
+		
+		if (formattedNow.equals(bookingDateInfo[0])) {
+			String bookingTime = bookingDateInfo[1];
+			String[] bookingTimeInfo = bookingTime.split(":");
+			
+			String nowTime = nowDateInfo[1];
+			String[] nowTimeInfo = nowTime.split(":");
+			
+			if (bookingTimeInfo[0].equals(nowTimeInfo[0])) {
+				// 분단위 비교
+				int bookingMin = Integer.parseInt(bookingTimeInfo[1]);
+				int nowMin = Integer.parseInt(nowTimeInfo[1]);
+				
+				if (bookingMin - nowMin < 20) {
+					res = "cant";
+				}
+			}
+		}
+		
+		res = "can";
+		
+		mapper.bookingCancel(booking_id);
+		mapper.bookingSeatCancel(booking_id);
+		
+		return res;
 	}
 
 }

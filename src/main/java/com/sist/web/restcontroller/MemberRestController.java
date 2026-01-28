@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -39,5 +40,20 @@ public class MemberRestController {
         }
 
         return new ResponseEntity<>(list, HttpStatus.OK);
+	}
+	
+	@DeleteMapping("/mypage/bookingCancel")
+	public ResponseEntity<String> bookingCancel(@RequestParam("booking_id") String booking_id) {
+		String res = "";
+		
+        try {
+        	res = mService.bookingCancel(booking_id);
+        	System.out.println(res);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+
+        return new ResponseEntity<>(res, HttpStatus.OK);
 	}
 }

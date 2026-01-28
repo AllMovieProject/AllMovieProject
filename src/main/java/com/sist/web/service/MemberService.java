@@ -13,4 +13,5 @@ public interface MemberService {
 	
 	// 마이페이지
 	public List<BookingVO> bookingListData(String id);
+	public String bookingCancel(String booking_id);
 }
