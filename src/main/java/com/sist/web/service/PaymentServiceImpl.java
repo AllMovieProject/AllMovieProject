@@ -29,7 +29,7 @@ public class PaymentServiceImpl implements PaymentService {
             // 1. 결제 정보 생성
             paymentMapper.insertPayment(paymentVO);
 
-            // 2. 주문 정보 생성
+            // 2. 주문 정보 생성 (상태: received - 접수)
             OrderVO orderVO = new OrderVO();
             orderVO.setUserid(paymentVO.getUserid());
             orderVO.setStore_id(cartItems.get(0).getStore_id());
@@ -71,17 +71,15 @@ public class PaymentServiceImpl implements PaymentService {
 
     @Override
     @Transactional
-    public String completePayment(String merchant_uid, String imp_uid) {
+    public String completePayment(String merchant_uid, String imp_uid, String payment_method) {
         try {
             // 결제 완료 처리
             PaymentVO payment = new PaymentVO();
             payment.setMerchant_uid(merchant_uid);
             payment.setImp_uid(imp_uid);
+            payment.setPayment_method(payment_method != null ? payment_method : "card"); // 실제 결제 수단 저장
             payment.setPayment_status("paid");
             paymentMapper.updatePayment(payment);
-
-            // 주문 상태 업데이트
-            orderMapper.updateOrderStatus(merchant_uid, "paid");
 
             return "yes";
         } catch (Exception e) {
@@ -100,8 +98,8 @@ public class PaymentServiceImpl implements PaymentService {
             payment.setPayment_status("cancelled");
             paymentMapper.updatePayment(payment);
 
-            // 주문 상태 업데이트
-            orderMapper.updateOrderStatus(merchant_uid, "cancelled");
+            // 주문 상태 업데이트 (취소)
+            orderMapper.updateOrderStatus(merchant_uid, OrderVO.STATUS_CANCELLED);
 
             return "yes";
         } catch (Exception e) {
@@ -109,5 +107,4 @@ public class PaymentServiceImpl implements PaymentService {
             throw e;
         }
     }
-    
 }

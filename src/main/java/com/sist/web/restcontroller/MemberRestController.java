@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.sist.web.service.MemberService;
 import com.sist.web.vo.BookingVO;
+import com.sist.web.vo.MemberVO;
 
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
@@ -46,14 +47,32 @@ public class MemberRestController {
 	public ResponseEntity<String> bookingCancel(@RequestParam("booking_id") String booking_id) {
 		String res = "";
 		
+	    try {
+	    	res = mService.bookingCancel(booking_id);
+	    	System.out.println(res);
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	        return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+	    }
+	
+	    return new ResponseEntity<>(res, HttpStatus.OK);
+	}
+	
+    @GetMapping("/member/info")
+    public ResponseEntity<MemberVO> getMemberInfo(HttpSession session) {
+    	MemberVO vo = null;
         try {
-        	res = mService.bookingCancel(booking_id);
-        	System.out.println(res);
+            String userid = (String) session.getAttribute("userid");
+            if (userid == null) {
+                return new ResponseEntity<>(null, HttpStatus.UNAUTHORIZED);
+            }
+            
+            vo = mService.memberInfoData(userid);
         } catch (Exception e) {
             e.printStackTrace();
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
-
-        return new ResponseEntity<>(res, HttpStatus.OK);
-	}
+        return new ResponseEntity<>(vo, HttpStatus.OK);
+    }
+        
 }

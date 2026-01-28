@@ -62,23 +62,39 @@
       </div>
 
       <!-- 주문자 정보 -->
-      <div class="payment-section">
-        <h3>주문자 정보</h3>
-        <form class="buyer-form">
-          <div class="form-group">
-            <label>이름</label>
-            <input type="text" v-model="store.buyerInfo.name" placeholder="이름을 입력하세요">
-          </div>
-          <div class="form-group">
-            <label>휴대폰 번호</label>
-            <input type="tel" v-model="store.buyerInfo.tel" placeholder="010-0000-0000">
-          </div>
-          <div class="form-group">
-            <label>이메일</label>
-            <input type="email" v-model="store.buyerInfo.email" placeholder="example@email.com">
-          </div>
-        </form>
-      </div>
+			<div class="payment-section">
+			  <h3>주문자 정보</h3>
+			  <form class="buyer-form">
+			    <div class="form-group">
+			      <label>이름</label>
+			      <input 
+			        type="text" 
+			        v-model="store.buyerInfo.name" 
+			        placeholder="이름을 입력하세요"
+			        readonly
+			      >
+			    </div>
+			    <div class="form-group">
+			      <label>휴대폰 번호</label>
+			      <input 
+			        type="tel" 
+			        v-model="store.buyerInfo.tel" 
+			        placeholder="010-0000-0000"
+			      >
+			    </div>
+			    <div class="form-group">
+			      <label>이메일</label>
+			      <input 
+			        type="email" 
+			        v-model="store.buyerInfo.email" 
+			        placeholder="example@email.com"
+			      >
+			    </div>
+			  </form>
+			  <p style="color: #999; font-size: 12px; margin-top: 10px;">
+			    * 회원정보가 자동으로 입력되었습니다. 수정이 필요한 경우 직접 변경해주세요.
+			  </p>
+			</div>
 
       <!-- 결제 금액 -->
       <div class="payment-section">
