@@ -1,5 +1,7 @@
 package com.sist.web.vo;
 
+import java.util.List;
+
 import lombok.Data;
 
 @Data
@@ -13,5 +15,6 @@ public class OrderItemVO {
     
     // JOIN용
     private StoreProductVO pvo = new StoreProductVO();
+    private List<OrderItemDetailVO> details; // 상품 상세 옵션
     
 }

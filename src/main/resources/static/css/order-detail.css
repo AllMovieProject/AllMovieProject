@@ -1,0 +1,173 @@
+.content-box-detail {
+	border: 1px solid #eee;
+	border-radius: 8px;
+	padding: 20px;
+	background: #fff;
+	min-height: 200px;
+  overflow-y: scroll;
+  max-height: 540px;
+}
+
+.detail-section {
+  margin-bottom: 30px;
+  padding-bottom: 30px;
+  border-bottom: 1px solid #eee;
+}
+
+.detail-section:last-child {
+  border-bottom: none;
+  margin-bottom: 0;
+  padding-bottom: 0;
+}
+
+.detail-section h3 {
+  font-size: 18px;
+  color: #333;
+  margin-bottom: 20px;
+}
+
+.detail-info-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.detail-info-row {
+  display: flex;
+  align-items: center;
+  padding: 12px 15px;
+  background: #f9f9f9;
+  border-radius: 6px;
+}
+
+.detail-label {
+  width: 120px;
+  font-size: 14px;
+  color: #666;
+  font-weight: 600;
+}
+
+.detail-value {
+  flex: 1;
+  font-size: 14px;
+  color: #333;
+}
+
+.detail-products {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.detail-product {
+  display: flex;
+  align-items: flex-start;
+  gap: 20px;
+  padding: 20px;
+  background: #f9f9f9;
+  border-radius: 8px;
+}
+
+.detail-product-image {
+  width: 100px;
+  height: 100px;
+  object-fit: cover;
+  border-radius: 6px;
+  background: #f0f0f0;
+}
+
+.detail-product-info {
+  flex: 1;
+}
+
+.detail-product-name {
+  font-size: 18px;
+  font-weight: 700;
+  color: #333;
+  margin-bottom: 12px;
+}
+
+.detail-product-options {
+  margin-bottom: 12px;
+}
+
+.option-title {
+  font-size: 13px;
+  color: #666;
+  font-weight: 600;
+  margin-bottom: 6px;
+}
+
+.option-item {
+  font-size: 13px;
+  color: #666;
+  margin-bottom: 4px;
+  padding-left: 10px;
+}
+
+.detail-product-quantity {
+  font-size: 14px;
+  color: #999;
+}
+
+.detail-product-price {
+  font-size: 20px;
+  font-weight: 700;
+  color: #333;
+  white-space: nowrap;
+}
+
+.payment-summary {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.payment-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 15px;
+  background: #f9f9f9;
+  border-radius: 6px;
+}
+
+.payment-row.total {
+  background: #fff;
+  border: 2px solid #e74c3c;
+  margin-top: 8px;
+}
+
+.payment-label {
+  font-size: 15px;
+  color: #666;
+}
+
+.payment-row.total .payment-label {
+  font-size: 16px;
+  font-weight: 700;
+  color: #333;
+}
+
+.payment-value {
+  font-size: 16px;
+  font-weight: 700;
+  color: #333;
+}
+
+.payment-row.total .payment-value {
+  font-size: 22px;
+  color: #e74c3c;
+}
+
+.detail-actions {
+  margin-top: 30px;
+  display: flex;
+  justify-content: center;
+}
+
+.detail-actions .btn {
+  width: 200px;
+  height: 44px;
+  font-size: 15px;
+}

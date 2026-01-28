@@ -1,0 +1,5 @@
+services:
+  app:
+    image: necteo/all-movie
+    ports:
+      - '8000:8000'
