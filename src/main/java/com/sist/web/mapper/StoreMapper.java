@@ -10,6 +10,7 @@ import org.apache.ibatis.annotations.Select;
 
 import com.sist.web.vo.ProductComboVO;
 import com.sist.web.vo.StoreStockVO;
+import com.sist.web.vo.StoreVO;
 
 @Mapper
 public interface StoreMapper {
@@ -51,5 +52,21 @@ public interface StoreMapper {
 	      + "LEFT JOIN product_item_category pic ON sp.item_id = pic.item_id "
 	      + "WHERE ss.store_id = #{store_id} AND ss.product_id = #{product_id}")
 	public StoreStockVO storeStockDetail(@Param("store_id") int store_id, @Param("product_id") int product_id);
+	
+
+    @Select("SELECT store_id FROM store WHERE userid = #{userid}")
+    public int getStoreId(String userid);
+    
+    // 모든 극장 목록 조회
+    @Select("SELECT store_id, theater_id, store_name, userid "
+          + "FROM store "
+          + "ORDER BY store_name")
+    public List<StoreVO> getAllStores();
+
+    // 특정 극장 정보 조회
+    @Select("SELECT store_id, theater_id, store_name, userid "
+          + "FROM store "
+          + "WHERE store_id = #{store_id}")
+    public StoreVO getStoreById(int store_id);
 
 }

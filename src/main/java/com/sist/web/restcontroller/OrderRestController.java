@@ -1,6 +1,7 @@
 package com.sist.web.restcontroller;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -56,13 +57,35 @@ public class OrderRestController {
     }
     
     @PutMapping("/cancel/{order_id}")
-    public ResponseEntity<String> cancelOrder(@PathVariable("order_id") int order_id) {
+    public ResponseEntity<Map<String, String>> cancelOrder(@PathVariable("order_id") int order_id) {
         try {
-            String result = oService.updateOrderStatus(order_id, OrderVO.STATUS_CANCELLED);
-            return new ResponseEntity<>(result, HttpStatus.OK);
+            String result = oService.cancelOrder(order_id);
+            
+            String message = "";
+            switch (result) {
+                case "yes":
+                    message = "주문이 취소되고 환불되었습니다.";
+                    break;
+                case "order_not_found":
+                    message = "주문을 찾을 수 없습니다.";
+                    break;
+                case "cannot_cancel":
+                    message = "취소할 수 없는 주문 상태입니다.";
+                    break;
+                case "payment_not_found":
+                    message = "결제 정보를 찾을 수 없습니다.";
+                    break;
+                case "not_paid":
+                    message = "결제되지 않은 주문입니다.";
+                    break;
+                default:
+                    message = "주문 취소에 실패했습니다.";
+            }
+            
+            return new ResponseEntity<>(Map.of("result", result, "message", message), HttpStatus.OK);
         } catch (Exception e) {
             e.printStackTrace();
-            return new ResponseEntity<>("error", HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<>(Map.of("result", "error", "message", "서버 오류가 발생했습니다."), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
     

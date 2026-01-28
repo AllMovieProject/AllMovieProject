@@ -10,5 +10,6 @@ public interface PaymentService {
     public String createPayment(PaymentVO paymentVO, List<CartVO> cartItems);
     public String completePayment(String merchant_uid, String imp_uid, String payment_method);
     public String cancelPayment(String merchant_uid);
+    public String refundPayment(String merchant_uid, String reason);
     
 }

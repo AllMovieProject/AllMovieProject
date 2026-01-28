@@ -122,24 +122,28 @@ const useMyPageStore = defineStore('mypage', {
       this.orderDetail = null
     },
 
-    // 주문 취소
-    async cancelOrder(order_id) {
-      if (!confirm('주문을 취소하시겠습니까?')) return
-      
-      try {
-        const { data } = await api.put('/order/cancel/' + order_id)
-        if (data === 'yes') {
-          alert('주문이 취소되었습니다.')
-          await this.loadOrderList()
+		// 주문 취소 (목록에서)
+		async cancelOrder(order_id) {
+		  if (!confirm('주문을 취소하시겠습니까?\n결제된 금액은 자동으로 환불됩니다.')) return
+		  
+		  this.loading = true
+		  try {
+		    const { data } = await api.put('/order/cancel/' + order_id)
+		    
+		    if (data.result === 'yes') {
+		      alert(data.message || '주문이 취소되고 환불되었습니다.')
 					this.backToOrderList()
-        } else {
-          alert('주문 취소에 실패했습니다.')
-        }
-      } catch (error) {
-        console.error('주문 취소 실패:', error)
-        alert('주문 취소 중 오류가 발생했습니다.')
-      }
-    },
+		      await this.loadOrderList()
+		    } else {
+		      alert(data.message || '주문 취소에 실패했습니다.')
+		    }
+		  } catch (error) {
+		    console.error('주문 취소 실패:', error)
+		    alert('주문 취소 중 오류가 발생했습니다.')
+		  } finally {
+		    this.loading = false
+		  }
+		},
 		
     formatPrice(price) {
       if (!price) return '0'

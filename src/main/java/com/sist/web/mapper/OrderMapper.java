@@ -1,6 +1,7 @@
 package com.sist.web.mapper;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
@@ -47,11 +48,11 @@ public interface OrderMapper {
     public OrderVO getOrderByMerchantUid(String merchant_uid);
 
     // 사용자 주문 목록 조회
-    @Select("SELECT o.order_id, o.userid, o.store_id, o.merchant_uid, o.total_amount, "
-          + "o.order_status, TO_CHAR(o.order_date, 'YYYY-MM-DD HH24:MI:SS') as dbday "
-          + "FROM orders o "
-          + "WHERE o.userid = #{userid} "
-          + "ORDER BY o.order_date DESC")
+    @Select("SELECT order_id, userid, store_id, merchant_uid, total_amount, "
+          + "order_status, TO_CHAR(order_date, 'YYYY-MM-DD HH24:MI:SS') as dbday "
+          + "FROM orders "
+          + "WHERE userid = #{userid} "
+          + "ORDER BY order_date DESC")
     public List<OrderVO> getUserOrders(String userid);
 
     // 주문 상품 조회
@@ -78,5 +79,37 @@ public interface OrderMapper {
           + "JOIN product_item pi ON oid.item_id = pi.item_id "
           + "WHERE oid.order_item_id = #{order_item_id}")
     public List<OrderItemDetailVO> getOrderItemDetails(int order_item_id);
+    
+    @Select("SELECT order_id, userid, store_id, merchant_uid, total_amount, order_status, "
+      	  + "TO_CHAR(order_date, 'YYYY-MM-DD HH24:MI:SS') dbday "
+      	  + "FROM orders WHERE order_id = #{order_id}")
+    public OrderVO getOrderById(int order_id);
+    
+    // 매장별 주문 목록 조회 (상태별)
+    @Select("<script>"
+          + "SELECT o.order_id, o.userid, o.store_id, o.merchant_uid, o.total_amount, "
+          + "o.order_status, TO_CHAR(o.order_date, 'YYYY-MM-DD HH24:MI:SS') as dbday, "
+          + "m.username "
+          + "FROM orders o "
+          + "JOIN member m ON o.userid = m.userid "
+          + "WHERE o.store_id = #{store_id} "
+          + "<if test='order_status != null and order_status != \"\"'>"
+          + "AND o.order_status = #{order_status} "
+          + "</if>"
+          + "ORDER BY o.order_date DESC"
+          + "</script>")
+    public List<OrderVO> getStoreOrders(@Param("store_id") int store_id, @Param("order_status") String order_status);
+
+    // 오늘의 주문 통계
+    @Select("SELECT "
+          + "COUNT(*) as total_count, "
+          + "SUM(CASE WHEN order_status = 'received' THEN 1 ELSE 0 END) as received_count, "
+          + "SUM(CASE WHEN order_status = 'preparing' THEN 1 ELSE 0 END) as preparing_count, "
+          + "SUM(CASE WHEN order_status = 'ready' THEN 1 ELSE 0 END) as ready_count, "
+          + "SUM(total_amount) as total_amount "
+          + "FROM orders "
+          + "WHERE store_id = #{store_id} "
+          + "AND TO_CHAR(order_date, 'YYYY-MM-DD') = TO_CHAR(SYSDATE, 'YYYY-MM-DD')")
+    public Map<String, Object> getTodayOrderStats(int store_id);
     
 }

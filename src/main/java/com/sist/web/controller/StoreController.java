@@ -48,5 +48,11 @@ public class StoreController {
 		model.addAttribute("main_jsp", "../store/payment.jsp");
 		return "main/main";
 	}
+	
+	@GetMapping("/manager/order")
+	public String store_manager_order(Model model) {
+		model.addAttribute("main_jsp", "../store/order_manage.jsp");
+		return "main/main";
+	}
 
 }

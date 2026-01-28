@@ -1,46 +1,286 @@
-.form-group { margin-bottom: 15px; }
-.form-group label { display: block; margin-bottom: 5px; font-weight: bold; }
-.form-group input, .form-group select { padding: 8px; width: 100%; max-width: 300px; }
-fieldset { margin: 20px 0; padding: 15px; border: 2px solid #ddd; border-radius: 5px; }
-legend { font-weight: bold; padding: 0 10px; }
-.combo-item { 
-    display: flex; 
-    align-items: center; 
-    gap: 10px; 
-    padding: 15px; 
-    background: #f5f5f5; 
-    margin: 5px 0; 
-    border-radius: 5px;
-    border-left: 4px solid #3498db;
+/* 식품 추가 페이지 전용 스타일 */
+#productForm {
+  padding: 40px 30px;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  max-width: 800px;
+  margin: 0 auto;
 }
-.combo-item button { 
-    background: #e74c3c; 
-    color: white; 
-    border: none; 
-    padding: 8px 15px; 
-    border-radius: 3px; 
-    cursor: pointer;
-    flex-shrink: 0;
+
+#productForm .form-group {
+  margin-bottom: 25px;
 }
-.combo-item button:hover {
-    background: #c0392b;
+
+#productForm .form-group label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: 600;
+  color: #ffffff;
+  font-size: 15px;
 }
-.btn-group { display: flex; gap: 10px; margin-top: 20px; }
-.btn-group button { 
-    padding: 12px 24px; 
-    border: none; 
-    border-radius: 5px; 
-    cursor: pointer; 
-    font-size: 16px;
+
+#productForm .form-group input[type="text"],
+#productForm .form-group input[type="number"],
+#productForm .form-group input[type="file"],
+#productForm .form-group select {
+  padding: 12px 15px;
+  width: 100%;
+  max-width: 100%;
+  background: rgba(255, 255, 255, 0.05);
+  border: 2px solid rgba(229, 54, 55, 0.3);
+  border-radius: 8px;
+  color: #ffffff;
+  font-size: 14px;
+  transition: all 0.2s;
 }
-.btn-info { background: #95a5a6; color: white; }
-.btn-primary { background: #3498db; color: white; }
-.price-display { 
-    font-size: 20px; 
-    font-weight: bold; 
-    color: #27ae60; 
-    margin: 10px 0;
+
+#productForm .form-group input[type="text"]:focus,
+#productForm .form-group input[type="number"]:focus,
+#productForm .form-group select:focus {
+  outline: none;
+  border-color: #e53637;
+  box-shadow: 0 0 0 3px rgba(229, 54, 55, 0.1);
+  background: rgba(229, 54, 55, 0.05);
 }
-label, legend, small {
-	color: white;
+
+#productForm .form-group input[type="file"] {
+  color: #ffffff;
+  padding: 10px;
+}
+
+#productForm .form-group select option {
+  background: #1a1a2e;
+  color: #ffffff;
+  padding: 10px;
+}
+
+#productForm fieldset {
+  margin: 30px 0;
+  padding: 25px;
+  border: 2px solid rgba(229, 54, 55, 0.3);
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.03);
+}
+
+#productForm legend {
+  font-weight: 700;
+  padding: 0 15px;
+  color: #ffffff;
+  font-size: 18px;
+}
+
+#productForm .combo-item {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  padding: 20px;
+  background: rgba(33, 150, 243, 0.1);
+  margin: 10px 0;
+  border-radius: 10px;
+  border-left: 4px solid #2196F3;
+  border: 1px solid rgba(33, 150, 243, 0.3);
+  transition: all 0.2s;
+}
+
+#productForm .combo-item:hover {
+  background: rgba(33, 150, 243, 0.15);
+  transform: translateX(5px);
+}
+
+#productForm .combo-item > div {
+  flex: 1;
+}
+
+#productForm .combo-item strong {
+  color: #ffffff;
+  font-size: 16px;
+  display: block;
+  margin-bottom: 5px;
+}
+
+#productForm .combo-item div[style*="font-size: 14px"] {
+  color: #aaa !important;
+  font-size: 14px !important;
+}
+
+#productForm .combo-item button {
+  background: linear-gradient(135deg, #f44336 0%, #e57373 100%);
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 6px;
+  cursor: pointer;
+  flex-shrink: 0;
+  font-weight: 600;
+  transition: all 0.3s;
+  box-shadow: 0 2px 8px rgba(244, 67, 54, 0.3);
+}
+
+#productForm .combo-item button:hover {
+  background: linear-gradient(135deg, #e57373 0%, #f44336 100%);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(244, 67, 54, 0.4);
+}
+
+#productForm #comboList button[type="button"] {
+  padding: 12px 28px;
+  background: linear-gradient(135deg, #4CAF50 0%, #66BB6A 100%);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 15px;
+  font-weight: 600;
+  transition: all 0.3s;
+  box-shadow: 0 4px 12px rgba(76, 175, 80, 0.3);
+  margin-top: 15px;
+}
+
+#productForm #comboList button[type="button"]:hover {
+  background: linear-gradient(135deg, #66BB6A 0%, #4CAF50 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(76, 175, 80, 0.4);
+}
+
+#productForm .btn-group {
+  display: flex;
+  gap: 15px;
+  margin-top: 40px;
+  justify-content: center;
+}
+
+#productForm .btn-group button {
+  padding: 14px 40px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: 600;
+  transition: all 0.3s;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+#productForm .btn-info {
+  background: linear-gradient(135deg, #95a5a6 0%, #bdc3c7 100%);
+  color: white;
+  box-shadow: 0 4px 12px rgba(149, 165, 166, 0.3);
+}
+
+#productForm .btn-info:hover {
+  background: linear-gradient(135deg, #bdc3c7 0%, #95a5a6 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(149, 165, 166, 0.4);
+}
+
+#productForm .btn-primary {
+  background: linear-gradient(135deg, #2196F3 0%, #42A5F5 100%);
+  color: white;
+  box-shadow: 0 4px 12px rgba(33, 150, 243, 0.3);
+}
+
+#productForm .btn-primary:hover {
+  background: linear-gradient(135deg, #42A5F5 0%, #2196F3 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(33, 150, 243, 0.4);
+}
+
+#productForm .price-display {
+  font-size: 28px;
+  font-weight: bold;
+  color: #4CAF50;
+  margin: 15px 0;
+  padding: 20px;
+  background: rgba(76, 175, 80, 0.1);
+  border-radius: 10px;
+  border: 2px solid rgba(76, 175, 80, 0.3);
+  text-align: center;
+  text-shadow: 0 2px 4px rgba(76, 175, 80, 0.3);
+}
+
+#productForm label,
+#productForm legend,
+#productForm small {
+  color: #ffffff;
+}
+
+#productForm small {
+  color: #aaa;
+  font-size: 13px;
+  display: block;
+  margin-top: 5px;
+}
+
+/* 체크박스 스타일 개선 */
+#productForm .form-group label input[type="checkbox"] {
+  width: auto;
+  margin-right: 8px;
+  cursor: pointer;
+}
+
+/* 콤보 구성 목록 제목 */
+#productForm #comboProductForm h4 {
+  color: #ffffff;
+  font-size: 18px;
+  font-weight: 600;
+  margin-bottom: 15px;
+  padding-bottom: 10px;
+  border-bottom: 2px solid rgba(229, 54, 55, 0.3);
+}
+
+/* 숫자 입력 필드 화살표 표시 */
+#productForm input[type="number"] {
+  -moz-appearance: auto;
+}
+
+#productForm input[type="number"]::-webkit-outer-spin-button,
+#productForm input[type="number"]::-webkit-inner-spin-button {
+  -webkit-appearance: auto;
+  opacity: 1;
+}
+
+/* 파일 입력 스타일 개선 */
+#productForm input[type="file"]::file-selector-button {
+  padding: 8px 16px;
+  background: rgba(229, 54, 55, 0.2);
+  border: 1px solid rgba(229, 54, 55, 0.5);
+  border-radius: 6px;
+  color: #ffffff;
+  cursor: pointer;
+  margin-right: 10px;
+  transition: all 0.2s;
+}
+
+#productForm input[type="file"]::file-selector-button:hover {
+  background: rgba(229, 54, 55, 0.3);
+  border-color: #e53637;
+}
+
+/* 반응형 */
+@media (max-width: 768px) {
+  #productForm {
+    padding: 25px 20px;
+  }
+
+  #productForm .btn-group {
+    flex-direction: column;
+  }
+
+  #productForm .btn-group button {
+    width: 100%;
+  }
+
+  #productForm .combo-item {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  #productForm .combo-item button {
+    width: 100%;
+  }
+
+  #productForm .price-display {
+    font-size: 24px;
+  }
 }

@@ -20,6 +20,7 @@ public class OrderVO {
     
     // JOIN용
     private List<OrderItemVO> items; // 주문 상품 목록
+    private String username; // 주문자 이름
     
     // 상태 상수 정의
     public static final String STATUS_RECEIVED = "received";      // 접수

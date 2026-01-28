@@ -35,9 +35,6 @@ pageEncoding="UTF-8"%>
 				<div class="stock-manager">
 					<div class="header">
 						<h2>재고 관리</h2>
-						<a href="product_insert" class="btn btn-sm btn-primary"
-							>식품 메뉴 추가</a
-						>
 						<button @click="store.handleOpenModal" class="btn-add">추가</button>
 					</div>
 
@@ -194,6 +191,11 @@ pageEncoding="UTF-8"%>
 								</p>
 							</div>
 						</div>
+					</div>
+					<div class="text-right">
+						<a href="product_insert" class="btn btn-sm btn-primary"
+							>식품 메뉴 추가</a
+						>
 					</div>
 				</div>
 			</div>

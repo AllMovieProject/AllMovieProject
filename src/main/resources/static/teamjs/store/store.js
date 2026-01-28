@@ -72,23 +72,49 @@ const useStoreStore = defineStore('store', {
   },
 
   actions: {
+		// 극장 목록 조회
+    async loadStoreList() {
+      try {
+        const { data } = await api.get('/store/theater/list')
+        this.store_list = data
+      } catch (error) {
+        console.error('극장 목록 조회 실패:', error)
+      }
+    },
+
+    // 극장 정보 조회
+    async loadStoreInfo(store_id) {
+      try {
+        const { data } = await api.get('/store/info/' + store_id)
+        this.storeName = data.store_name
+      } catch (error) {
+        console.error('극장 정보 조회 실패:', error)
+      }
+    },
+		
     // 재고 목록 조회 (store_id 기반)
     async loadStockList() {
       this.loading = true
       try {
         const { data } = await api.get('/store/list/data', {
 					params: {
-						sid: this.storeId
+						store_id: this.storeId
 					}
 				})
         this.stock_list = data
-				console.log(this.stock_list)
       } catch (error) {
         console.error('재고 목록 조회 실패:', error)
         alert('재고 목록을 불러오는데 실패했습니다.')
       } finally {
         this.loading = false
       }
+    },
+		
+		// 극장 변경
+    async changeStore(store_id) {
+      this.storeId = parseInt(store_id)
+			await this.loadStoreInfo(store_id)
+      await this.loadStockList()
     },
 
     // store_id 설정

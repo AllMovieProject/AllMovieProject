@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.sist.web.service.StoreService;
 import com.sist.web.vo.StoreStockVO;
+import com.sist.web.vo.StoreVO;
 
 import lombok.RequiredArgsConstructor;
 
@@ -24,7 +25,7 @@ public class StoreRestController {
 
 	// Store별 재고 조회 - store_id로 조회
 	@GetMapping("/list/data")
-	public ResponseEntity<List<StoreStockVO>> store_stock_list(@RequestParam("sid") int store_id) {
+	public ResponseEntity<List<StoreStockVO>> store_stock_list(@RequestParam("store_id") int store_id) {
 		List<StoreStockVO> list = null;
 		try {
 			list = sService.storeListData(store_id);
@@ -48,5 +49,27 @@ public class StoreRestController {
 	  }
 	  return new ResponseEntity<>(vo, HttpStatus.OK);
 	}
+	
+	@GetMapping("/theater/list")
+    public ResponseEntity<List<StoreVO>> getStoreList() {
+        try {
+            List<StoreVO> stores = sService.getAllStores();
+            return new ResponseEntity<>(stores, HttpStatus.OK);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @GetMapping("/info/{store_id}")
+    public ResponseEntity<StoreVO> getStoreInfo(@PathVariable("store_id") int store_id) {
+        try {
+            StoreVO store = sService.getStoreById(store_id);
+            return new ResponseEntity<>(store, HttpStatus.OK);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
 
 }

@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 		pageEncoding="UTF-8"%>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
 <!DOCTYPE html>
 <html>
 	<head>
@@ -37,20 +38,33 @@
 						<div class="product__page__content" style="width: 100%">
 							<!-- 극장 정보 -->
 							<div class="product__page__title">
-								<div class="row">
-									<div class="col-lg-8 col-md-8 col-sm-6">
-										<div class="section-title">
-											<h4>{{ store.storeName }} 매점 재고</h4>
-										</div>
-									</div>
-									<div class="col-lg-4 col-md-4 col-sm-6">
-										<div class="product__page__filter">
-											<a href="stock" class="btn btn-sm btn-primary"
-												>재고 관리</a
-											>
-										</div>
-									</div>
-								</div>
+							  <div class="row">
+							    <div class="col-lg-6 col-md-6 col-sm-6">
+							      <div class="section-title">
+							        <h4>{{ store.storeName }}</h4>
+							      </div>
+							    </div>
+							    <div class="col-lg-2 col-md-2 col-sm-6">
+							      <div class="product__page__filter">
+							        <select v-model="store.storeId" @change="store.changeStore(store.storeId)" class="store-select">
+							          <option 
+							            v-for="storeItem in store.store_list" 
+							            :key="storeItem.store_id"
+							            :value="storeItem.store_id"
+							          >
+							            {{ storeItem.store_name }}
+							          </option>
+							        </select>
+							      </div>
+							    </div>
+							    <sec:authorize access="hasRole('MANAGER')">
+							      <div class="col-lg-4 col-md-4 col-sm-6">
+							        <div class="product__page__filter">
+							          <a href="stock" class="btn btn-sm btn-primary">재고 관리</a>
+							        </div>
+							      </div>
+							    </sec:authorize>
+							  </div>
 							</div>
 
 							<!-- 카테고리 및 정렬 -->
@@ -167,6 +181,7 @@
 					const store = useStoreStore();
 
 					onMounted(async () => {
+						await store.loadStoreList();
 						await store.loadStockList();
 					});
 

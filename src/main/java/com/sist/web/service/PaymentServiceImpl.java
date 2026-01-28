@@ -107,4 +107,40 @@ public class PaymentServiceImpl implements PaymentService {
             throw e;
         }
     }
+
+    @Override
+    @Transactional
+    public String refundPayment(String merchant_uid, String reason) {
+        try {
+            // 1. 결제 정보 조회
+            PaymentVO payment = paymentMapper.getPaymentByMerchantUid(merchant_uid);
+            
+            if (payment == null) {
+                return "payment_not_found";
+            }
+            System.err.println("payment:" + payment.getPayment_status());
+            if (!"paid".equals(payment.getPayment_status())) {
+                return "not_paid";
+            }
+
+            // 2. 이니시스 환불 처리 (실제로는 아임포트 API 호출)
+            // TODO: 실제 환불 API 연동
+            // 여기서는 DB 상태만 변경
+            
+            // 3. 결제 상태를 환불로 변경
+            PaymentVO refundPayment = new PaymentVO();
+            refundPayment.setMerchant_uid(merchant_uid);
+            refundPayment.setPayment_status("refunded");
+            paymentMapper.updatePayment(refundPayment);
+
+            // 4. 주문 상태를 취소로 변경
+            orderMapper.updateOrderStatus(merchant_uid, OrderVO.STATUS_CANCELLED);
+
+            return "yes";
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw e;
+        }
+    }
+    
 }
