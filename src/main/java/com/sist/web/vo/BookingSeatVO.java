@@ -5,5 +5,5 @@ import lombok.Data;
 @Data
 public class BookingSeatVO {
 	private int booking_seat_id;
-	private String booking_id, seat_info;
+	private String booking_id, seat_info, seatid_info;
 }

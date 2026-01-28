@@ -41,14 +41,7 @@ public class MemberServiceImpl implements MemberService {
 
 	@Override
 	public List<BookingVO> bookingListData(String id) {
-	    List<BookingVO> bList = mapper.bookingListData(id);
-	    
-		/*
-		 * for (BookingVO vo : bList) { String seatInfo = vo.getBsvo().getSeat_info();
-		 * String }
-		 */
-	    
-		return bList;
+		return mapper.bookingListData(id);
 	}
 
 	@Override
@@ -70,7 +63,6 @@ public class MemberServiceImpl implements MemberService {
 			String[] nowTimeInfo = nowTime.split(":");
 			
 			if (bookingTimeInfo[0].equals(nowTimeInfo[0])) {
-				// 분단위 비교
 				int bookingMin = Integer.parseInt(bookingTimeInfo[1]);
 				int nowMin = Integer.parseInt(nowTimeInfo[1]);
 				
@@ -83,7 +75,7 @@ public class MemberServiceImpl implements MemberService {
 		res = "can";
 		
 		mapper.bookingCancel(booking_id);
-		mapper.bookingSeatCancel(booking_id);
+		// 좌석 정보 가져와서 available_flag 0으로 변경
 		
 		return res;
 	}

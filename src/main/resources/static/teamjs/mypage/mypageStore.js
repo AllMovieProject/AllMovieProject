@@ -59,12 +59,8 @@ const useMyPageStore = defineStore('mypage', {
 			this.bookingList = res.data
 		},
 
-		async bookingCancel(id) {
-			const res = await api.delete('/mypage/bookingCancel', {
-				params: {
-					booking_id: id
-				}
-			})
+		async bookingCancel(bookingId) {
+			const res = await api.patch(`/booking/${bookingId}/cancel`)
 
 			if (res.data === 'can') {
 				this.bookingListData()

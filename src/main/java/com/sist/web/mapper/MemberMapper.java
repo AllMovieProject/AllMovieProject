@@ -2,10 +2,10 @@ package com.sist.web.mapper;
 
 import java.util.List;
 
-import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.Update;
 import org.springframework.stereotype.Repository;
 
 import com.sist.web.vo.BookingVO;
@@ -34,10 +34,6 @@ public interface MemberMapper {
 	
 	public String bookingStartTime(String booking_id);
 	
-	@Delete("DELETE FROM booking_seat WHERE booking_id = #{booking_id}")
-	public void bookingSeatCancel(String booking_id);
-	
-	@Delete("DELETE FROM booking WHERE booking_id = #{booking_id}")
+	@Update("UPDATE booking SET cancel_flag = 1 WHERE booking_id = #{booking_id}")
 	public void bookingCancel(String booking_id);
-	
 }

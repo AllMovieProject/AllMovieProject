@@ -31,8 +31,7 @@ const initialState = () => ({
 
 	selected_seats: [],
 	selected_info: [],
-
-	reservation_seat: 0
+  merchant_uid: ''
 })
 
 const useSeatStore = defineStore('seat', {
@@ -119,6 +118,9 @@ const useSeatStore = defineStore('seat', {
 				name: this.info.schedule_info.mvo.title + ' ' + this.total_count + '매', // 주문명
 				buyer_name: this.user_id,                           // 구매자 이름
 			}
+      console.log(data.merchant_uid)
+      this.merchant_uid = data.merchant_uid
+      // merchant_uid 저장
 
 			IMP.request_pay(data, this.callback);
 		},
@@ -130,16 +132,20 @@ const useSeatStore = defineStore('seat', {
 				alert('결제 성공하셨습니다')
 
 				let seat_info = ''
+        let seatid_info = ''
 				this.selected_info = this.selected_info.sort()
 
 				for (let i = 0; i < this.selected_info.length; i++) {
 					seat_info = seat_info + this.selected_info[i] + ', '
+          seatid_info = seatid_info + this.selected_seats[i] + ','
 				}
 				seat_info = seat_info.substr(0, seat_info.length - 2)
 
 				api.post('/booking/complete', {
 					schedule_id: this.schedule_id,
 					seat_info: seat_info,
+          seatid_info: seatid_info,
+          merchant_uid: this.merchant_uid,
 					user_id: this.user_id
 				})
 

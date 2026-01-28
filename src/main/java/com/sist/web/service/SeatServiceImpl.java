@@ -95,6 +95,7 @@ public class SeatServiceImpl implements SeatService {
 	public void bookingComplete(SeatBookingDTO dto) {
         int schedule_id = dto.getSchedule_id();
         String seat_info = dto.getSeat_info();
+        String seatid_info = dto.getSeatid_info();
         String id = dto.getUser_id();
         
         BookingVO bvo = new BookingVO();
@@ -111,7 +112,7 @@ public class SeatServiceImpl implements SeatService {
 
         BookingSeatVO bsvo = new BookingSeatVO();
         bsvo.setBooking_id(booking_id);
-        
+        bsvo.setSeatid_info(seatid_info);
         bsvo.setSeat_info(seat_info);
         mapper.bookingSeatInsert(bsvo);
 	}
