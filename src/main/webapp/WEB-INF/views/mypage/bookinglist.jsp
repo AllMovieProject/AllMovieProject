@@ -9,6 +9,7 @@
 <body>
 	<h2>예매 내역</h2>
 	<div class="content-box">
+		<h6 class="no_booking" v-if="store.bookingList.length === 0">예매 내역이 없습니다</h6>
 		<div class="ticket-card" v-for="(vo, index) in store.bookingList" :key="index">
 			<div class="ticket-item">
 

@@ -79,6 +79,11 @@
   max-height: 500px;
 }
 
+.no_booking {
+	text-align: center;
+	margin-top: 70px;
+}
+
 .ticket-item {
 	display: flex;
 	align-items: center;

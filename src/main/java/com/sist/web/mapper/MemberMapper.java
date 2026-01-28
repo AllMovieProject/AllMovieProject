@@ -2,6 +2,7 @@ package com.sist.web.mapper;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
@@ -31,5 +32,12 @@ public interface MemberMapper {
 	// 마이페이지
 	public List<BookingVO> bookingListData(String id);
 	
-	public List<SeatVO> bookingSeatListData(String id);
+	public String bookingStartTime(String booking_id);
+	
+	@Delete("DELETE FROM booking_seat WHERE booking_id = #{booking_id}")
+	public void bookingSeatCancel(String booking_id);
+	
+	@Delete("DELETE FROM booking WHERE booking_id = #{booking_id}")
+	public void bookingCancel(String booking_id);
+	
 }
