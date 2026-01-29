@@ -18,8 +18,8 @@ public class BoardRestController {
 	private final BoardService bService;
 	
 	@GetMapping("/board/list_vue/")
-	public ResponseEntity<Map> board_list_vue(@RequestParam("page") int page) {
-		Map map = new HashMap<>();
+	public ResponseEntity<Map<String, Object>> board_list_vue(@RequestParam("page") int page) {
+		Map<String, Object> map = new HashMap<>();
 		try {
 			List<BoardVO> list = bService.boardListData((page-1)*12);
 			int totalpage = bService.boardTotalPage();
@@ -43,9 +43,9 @@ public class BoardRestController {
 	}
 	
 	@PostMapping("/board/insert_vue/")
-	   public ResponseEntity<Map> board_insert_vue(@RequestBody BoardVO vo) {
+	   public ResponseEntity<Map<String, Object>> board_insert_vue(@RequestBody BoardVO vo) {
 		   System.out.println(vo);
-		   Map map = new HashMap();
+		   Map<String, Object> map = new HashMap<>();
 		   try {
 			   bService.boardInsert(vo);
 			   map.put("msg", "yes");
