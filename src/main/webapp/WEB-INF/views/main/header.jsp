@@ -22,12 +22,12 @@
 						<nav class="header__menu mobile-menu">
 							<ul>
 								<li class="active"><a href="/booking">영화 예매</a></li>
-								<li><a href="/">영화 <span
+								<li><a href="/movie/list">영화 <span
 										class="arrow_carrot-down"></span></a>
 									<ul class="dropdown">
+										<li><a href="/movie/list">영화 목록</a></li>
 										<li><a href="./categories.html">현재 상영 영화</a></li>
 										<li><a href="./anime-details.html">상영 예정 영화</a></li>
-										<li><a href="./anime-details.html">영화 목록</a></li>
 									</ul></li>
 								<li><a href="/store/list">매점</a></li>
 								<li><a href="/board/list">이벤트 및 공지사항</a></li>

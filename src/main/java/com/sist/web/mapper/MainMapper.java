@@ -28,7 +28,7 @@ public interface MainMapper {
     
     // Popular - 제작년도 최신순 + 랜덤
     @Select("SELECT * FROM ("
-          + "  SELECT movie_id, title, genre, poster_url "
+          + "  SELECT movie_id, title, genre, poster_url, prod_year "
           + "  FROM movie "
           + "  WHERE poster_url IS NOT NULL "
           + "  AND prod_year IS NOT NULL "

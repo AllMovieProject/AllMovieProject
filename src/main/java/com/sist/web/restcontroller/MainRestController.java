@@ -25,7 +25,7 @@ public class MainRestController {
 	public ResponseEntity<Map<String, List<MovieVO>>> mainList() {
 		Map<String, List<MovieVO>> map = null;
 		try {
-			map = mService.homeListData();
+//			map = mService.homeListData();
 		} catch (Exception e) {
 			e.printStackTrace();
 			return new ResponseEntity<>(map, HttpStatus.INTERNAL_SERVER_ERROR);

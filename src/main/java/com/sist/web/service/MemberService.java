@@ -15,10 +15,6 @@ public interface MemberService {
 	
 	// 마이페이지
 	public List<BookingVO> bookingListData(String id);
-<<<<<<< HEAD
-	public String bookingCancel(String booking_id);
-	
-=======
 	public String bookingCancel(BookingCancelDTO dto);
->>>>>>> 1/29
+	
 }

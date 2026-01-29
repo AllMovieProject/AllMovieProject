@@ -1,12 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="jakarta.tags.core"%>
 <!DOCTYPE html>
 <html>
-
-<head>
-	<title>Anime | Template</title>
-</head>
-
 <body>
 	<!-- Page Preloder -->
 	<div id="preloder">
@@ -33,51 +29,52 @@
 	<section class="product-page spad">
 		<div class="container">
 			<div class="row">
-					<div class="product__page__content" style="width: 100%">
-					
-						<div class="product__page__title">
-							<div class="row">
-								<div class="col-lg-4 col-md-4 col-sm-4">
-									<div class="product__page__filter">
-										<p>Order by:</p>
-										<select>
-											<option value="">추천순</option>
-											<option value="">인기순</option>
-										</select>
-									</div>
-								</div>
-							</div>
-						</div>
-						
-						<div class="row">
-							<div class="col-lg-4 col-md-6 col-sm-6">
-								<div class="product__item">
-									<div class="product__item__pic set-bg" data-setbg="/img/popular/popular-1.jpg">
-										<div class="ep">18 / 18</div>
-										<div class="comment"><i class="fa fa-comments"></i> 11</div>
-										<div class="view"><i class="fa fa-eye"></i> 9141</div>
-									</div>
-									<div class="product__item__text">
-										<ul>
-											<li>Active</li>
-											<li>Movie</li>
-										</ul>
-										<h5><a href="detail?id=1">Sen to Chihiro no Kamikakushi</a></h5>
-									</div>
-								</div>
-							</div>
-						</div>
-						
-					</div>
-					<div class="product__pagination">
-						<a href="#" class="current-page">1</a>
-						<a href="#">2</a>
-						<a href="#">3</a>
-						<a href="#">4</a>
-						<a href="#">5</a>
-						<a href="#"><i class="fa fa-angle-double-right"></i></a>
-					</div>
+				<div class="product__page__content" style="width: 100%">
 				
+					<div class="product__page__title">
+						<div class="row">
+							<div class="col-lg-12 col-md-12 col-sm-12">
+								<div class="product__page__filter">
+									<p>Order by:</p>
+									<select>
+										<option value="">추천순</option>
+										<option value="">인기순</option>
+									</select>
+								</div>
+							</div>
+						</div>
+					</div>
+					
+					<div class="row">
+      				<c:forEach var="vo" items="${data.list}">
+               <div class="col-lg-3 col-md-4 col-sm-4">
+                 <div class="product__item">
+                   <div class="product__item__pic set-bg" data-setbg="${vo.poster_url}">
+                     <div class="view"><i class="fa fa-fire"></i> HOT</div>
+                   </div>
+                   <div class="product__item__text">
+                     <ul>
+                       <li>${vo.genre}</li>
+                     </ul>
+                     <h5><a href="/movie/detail?movie-id=${vo.movie_id}">${vo.title}</a></h5>
+                   </div>
+                 </div>
+               </div>
+             </c:forEach>
+           </div>
+				</div>
+					
+				<div class="product__pagination">
+					<c:if test="${data.startPage > 1}">
+						<a href="?page=${data.startPage - 1}"><i class="fa fa-angle-double-left"></i></a>
+					</c:if>
+					<c:forEach var="i" begin="${data.startPage}" end="${data.endPage}">
+						<a href="?page=${i}" ${i == data.curpage ? 'class="current-page"' : ''}>${i}</a>
+					</c:forEach>
+					<c:if test="${data.endPage < data.totalpage}">
+						<a href="?page=${data.endPage + 1}"><i class="fa fa-angle-double-right"></i></a>
+					</c:if>
+				</div>
 			</div>
 		</div>
 	</section>

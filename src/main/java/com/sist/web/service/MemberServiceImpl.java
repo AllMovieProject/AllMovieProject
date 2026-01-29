@@ -18,18 +18,9 @@ import lombok.RequiredArgsConstructor;
 @Service
 @RequiredArgsConstructor
 public class MemberServiceImpl implements MemberService {
-<<<<<<< HEAD
 	
-	private final MemberMapper mapper;
-	
-	@Override
-	public int memberIdCheck(String userid) {
-		return mapper.memberIdCheck(userid);
-	}
-=======
     private final MemberMapper bMapper;
     private final SeatMapper sMapper;
->>>>>>> 1/29
 
     @Override
     public int memberIdCheck(String userid) {

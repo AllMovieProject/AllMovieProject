@@ -1,12 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="jakarta.tags.core"%>
 <!DOCTYPE html>
 <html>
-
-<head>
-	<title>Anime | Template</title>
-</head>
-
 <body>
 	<!-- Page Preloder -->
 	<div id="preloder">
@@ -87,40 +83,68 @@
 					</div>
 				</div>
 			</div>
-			<div class="row">
+			<div class="row" id="reviewApp">
 				<div class="col-lg-8 col-md-8">
 					<div class="anime__details__review">
 
 						<div class="section-title">
 							<h5>Reviews</h5>
 						</div>
-						<div class="anime__review__item">
+						<div class="anime__review__item" v-for="(rvo, idx) in store.review" :key="idx">
 							<div class="anime__review__item__pic">
-								<img src="img/anime/review-1.jpg" alt="">
+								<img src="/img/anime/review-1.jpg" alt="profile">
 							</div>
 							<div class="anime__review__item__text">
-								<h6>Chris Curry - <span>1 Hour ago</span></h6>
-								<p>whachikan Just noticed that someone categorized this as belonging to the genre
-									"demons" LOL</p>
+								<h6>{{ rvo.id }} - <span>{{ rvo.dbday }}</span></h6>
+								<p>{{ rvo.content }}</p>
 							</div>
 						</div>
 
 					</div>
-					<div class="anime__details__form">
-						<div class="section-title">
-							<h5>Your Comment</h5>
+					<c:if test="${sessionScope.userid != null}">
+						<div class="anime__details__form">
+							<div class="section-title">
+								<h5>Your Comment</h5>
+							</div>
+							<form action="#">
+								<textarea placeholder="Your Comment" v-model="store.content" ref="contentRef"></textarea>
+								<button type="button" @click="store.movieReviewInsert(contentRef)">
+									<i class="fa fa-location-arrow"></i> Review
+								</button>
+							</form>
 						</div>
-						<form action="#">
-							<textarea placeholder="Your Comment"></textarea>
-							<button type="submit"><i class="fa fa-location-arrow"></i> Review</button>
-						</form>
-					</div>
+					</c:if>
 				</div>
 			</div>
 		</div>
 	</section>
 	<!-- Anime Section End -->
+	<script src="/teamjs/commons.js"></script>
+	<script src="/teamjs/movie/movieStore.js"></script>
+	<script>
+		const { createApp, onMounted, ref } = Vue;
+		const { createPinia } = Pinia;
 
+		const app = createApp({
+			setup() {
+				const store = useMovieStore();
+				const params = new URLSearchParams(location.search)
+				const contentRef = ref('')
+
+				onMounted(async () => {
+	    		store.movie_id = params.get('movie-id')
+					await store.movieReviewData();
+				});
+
+				return {
+					store,
+					contentRef
+				};
+			},
+		});
+
+		app.use(createPinia());
+		app.mount('#reviewApp');
+	</script>
 </body>
-
 </html>

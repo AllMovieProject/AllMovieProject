@@ -1,4 +1,6 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<%@ page language="java" contentType="text/html; charset=UTF-8" 
+		pageEncoding="UTF-8" %>
+<%@ taglib prefix="c" uri="jakarta.tags.core"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -11,22 +13,21 @@
     <section class="hero">
       <div class="container">
         <div class="hero__slider owl-carousel">
-          <div v-for="(vo, idx) in store.carouList" :key="idx" 
-               class="hero__items set-bg" 
-               :data-setbg="vo.poster_url">
-            <div class="row">
-              <div class="col-lg-6">
-                <div class="hero__text">
-                  <div class="label">{{ vo.genre }}</div>
-                  <h2>{{ vo.title }}</h2>
-                  <p>{{ vo.plot ? vo.plot.substring(0, 100) + '...' : '영화 줄거리 정보가 없습니다.' }}</p>
-                  <a :href="'/movie/detail?movieId=' + vo.movie_id">
-                    <span>Watch Now</span> <i class="fa fa-angle-right"></i>
-                  </a>
-                </div>
-              </div>
-            </div>
-          </div>
+        	<c:forEach var="vo" items="${data.carouList}">
+	          <div class="hero__items set-bg" data-setbg="${vo.poster_url}">
+	            <div class="row">
+	              <div class="col-lg-6">
+	                <div class="hero__text">
+	                  <div class="label">${ vo.genre }</div>
+	                  <h2>${vo.title}</h2>
+	                  <a href="/movie/detail?movie-id=${vo.movie_id}">
+	                    <span>Watch Now</span> <i class="fa fa-angle-right"></i>
+	                  </a>
+	                </div>
+	              </div>
+	            </div>
+	          </div>
+          </c:forEach>
         </div>
       </div>
     </section>
@@ -54,19 +55,21 @@
               </div>
               
               <div class="row">
-                <div class="col-lg-4 col-md-6 col-sm-6" v-for="(vo, idx) in store.trendList" :key="idx">
-                  <div class="product__item">
-                    <div class="product__item__pic set-bg" :data-setbg="vo.poster_url">
-                      <div class="view"><i class="fa fa-fire"></i> HOT</div>
-                    </div>
-                    <div class="product__item__text">
-                      <ul>
-                        <li>{{ vo.genre }}</li>
-                      </ul>
-                      <h5><a :href="'/movie/detail?movieId=' + vo.movie_id">{{ vo.title }}</a></h5>
-                    </div>
-                  </div>
-                </div>
+        				<c:forEach var="vo" items="${data.trendList}">
+	                <div class="col-lg-4 col-md-6 col-sm-6">
+	                  <div class="product__item">
+	                    <div class="product__item__pic set-bg" data-setbg="${vo.poster_url}">
+	                      <div class="view"><i class="fa fa-fire"></i> HOT</div>
+	                    </div>
+	                    <div class="product__item__text">
+	                      <ul>
+	                        <li>${vo.genre}</li>
+	                      </ul>
+	                      <h5><a href="/movie/detail?movie-id=${vo.movie_id}">${vo.title}</a></h5>
+	                    </div>
+	                  </div>
+	                </div>
+                </c:forEach>
               </div>
             </div>
             
@@ -85,19 +88,21 @@
                 </div>
               </div>
               <div class="row">
-                <div class="col-lg-4 col-md-6 col-sm-6" v-for="(vo, idx) in store.popList" :key="idx">
-                  <div class="product__item">
-                    <div class="product__item__pic set-bg" :data-setbg="vo.poster_url">
-                      <div class="ep">{{ vo.prod_year }}</div>
-                    </div>
-                    <div class="product__item__text">
-                      <ul>
-                        <li>{{ vo.genre }}</li>
-                      </ul>
-                      <h5><a :href="'/movie/detail?movieId=' + vo.movie_id">{{ vo.title }}</a></h5>
-                    </div>
-                  </div>
-                </div>
+        				<c:forEach var="vo" items="${data.popList}">
+	                <div class="col-lg-4 col-md-6 col-sm-6">
+	                  <div class="product__item">
+	                    <div class="product__item__pic set-bg" data-setbg="${vo.poster_url}">
+	                      <div class="ep">${vo.prod_year}</div>
+	                    </div>
+	                    <div class="product__item__text">
+	                      <ul>
+	                        <li>${vo.genre}</li>
+	                      </ul>
+	                      <h5><a href="/movie/detail?movie-id=${vo.movie_id}">${vo.title}</a></h5>
+	                    </div>
+	                  </div>
+	                </div>
+                </c:forEach>
               </div>
             </div>
             
@@ -116,19 +121,21 @@
                 </div>
               </div>
               <div class="row">
-                <div class="col-lg-4 col-md-6 col-sm-6" v-for="(vo, idx) in store.recentList" :key="idx">
-                  <div class="product__item">
-                    <div class="product__item__pic set-bg" :data-setbg="vo.poster_url">
-                      <div class="view"><i class="fa fa-star"></i> NEW</div>
-                    </div>
-                    <div class="product__item__text">
-                      <ul>
-                        <li>{{ vo.genre }}</li>
-                      </ul>
-                      <h5><a :href="'/movie/detail?movieId=' + vo.movie_id">{{ vo.title }}</a></h5>
-                    </div>
-                  </div>
-                </div>
+        				<c:forEach var="vo" items="${data.recentList}">
+	                <div class="col-lg-4 col-md-6 col-sm-6">
+	                  <div class="product__item">
+	                    <div class="product__item__pic set-bg" data-setbg="${vo.poster_url}">
+	                      <div class="view"><i class="fa fa-star"></i> NEW</div>
+	                    </div>
+	                    <div class="product__item__text">
+	                      <ul>
+	                        <li>${vo.genre}</li>
+	                      </ul>
+	                      <h5><a href="/movie/detail?movie-id=${vo.movie_id}">${vo.title}</a></h5>
+	                    </div>
+	                  </div>
+	                </div>
+                </c:forEach>
               </div>
             </div>
           </div>
@@ -147,12 +154,13 @@
                   <li data-filter=".years">Years</li>
                 </ul>
                 <div class="filter__gallery">
-                  <div v-for="(vo, idx) in store.topList" :key="idx"
-                       class="product__sidebar__view__item set-bg mix day week month years"
-                       :data-setbg="vo.poster_url">
-                    <div class="view"><i class="fa fa-eye"></i> {{ Math.floor(Math.random() * 10000) + 1000 }}</div>
-                    <h5><a :href="'/movie/detail?movieId=' + vo.movie_id">{{ vo.title }}</a></h5>
-                  </div>
+        					<c:forEach var="vo" items="${data.recentList}" varStatus="status">
+	                  <div class="product__sidebar__view__item set-bg mix day week month years"
+	                       data-setbg="${vo.poster_url}">
+	                    <div class="view"><i class="fa fa-eye"></i> ${1000 + status.index * 500}</div>
+	                    <h5><a href="/movie/detail?movie-id=${vo.movie_id}">${vo.title}</a></h5>
+	                  </div>
+                  </c:forEach>
                 </div>
               </div>
             </div>
@@ -162,77 +170,5 @@
     </section>
     <!-- Product Section End -->
   </div>
-  
-  <script src="/teamjs/commons.js"></script>
-  <script src="/teamjs/movie/homeStore.js"></script>
-  <script>
-    const { createApp, onMounted, nextTick } = Vue
-    const { createPinia } = Pinia
-    
-    const homeApp = createApp({
-      setup() {
-        const store = useHomeStore()
-        
-        onMounted(async () => {
-          await store.homeListData()
-          
-          // Vue 렌더링 완료 후
-          await nextTick()
-          
-          // 배경 이미지 설정
-          $('.set-bg').each(function () {
-            var bg = $(this).data('setbg')
-            if (bg) {
-              $(this).css('background-image', 'url(' + bg + ')')
-            }
-          })
-          
-          // Owl Carousel 초기화 (기존에 초기화된 것이 있다면 제거 후 재초기화)
-          var hero_s = $('.hero__slider')
-          
-          // 기존 owl-carousel 인스턴스 제거
-          if (hero_s.hasClass('owl-loaded')) {
-            hero_s.trigger('destroy.owl.carousel')
-            hero_s.removeClass('owl-loaded owl-drag')
-          }
-          
-          // 새로 초기화
-          hero_s.owlCarousel({
-            loop: true,
-            margin: 0,
-            items: 1,
-            dots: true,
-            nav: true,
-            navText: ["<span class='arrow_carrot-left'></span>", "<span class='arrow_carrot-right'></span>"],
-            animateOut: 'fadeOut',
-            animateIn: 'fadeIn',
-            smartSpeed: 1200,
-            autoHeight: false,
-            autoplay: true,
-            autoplayTimeout: 5000,
-            mouseDrag: true
-          })
-          
-          // MixItUp 초기화
-          setTimeout(() => {
-            if ($('.filter__gallery').length > 0) {
-              // 기존 MixItUp 인스턴스가 있는지 확인
-              var containerEl = document.querySelector('.filter__gallery')
-              if (!containerEl.mixItUp) {
-                mixitup(containerEl)
-              }
-            }
-          }, 300)
-        })
-        
-        return {
-          store
-        }
-      }
-    })
-    
-    homeApp.use(createPinia())
-    homeApp.mount('#homePage')
-  </script>
 </body>
 </html>
