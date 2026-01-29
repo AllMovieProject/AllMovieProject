@@ -16,5 +16,6 @@ public interface OrderService {
     // 매니저용
     public List<OrderVO> getStoreOrders(int store_id, String order_status);
     public Map<String, Object> getTodayOrderStats(int store_id);
-    public String updateOrderStatusByManager(int order_id, String order_status);
+    public String updateOrderStatusByManager(int order_id, String order_status, int store_id);
+    
 }

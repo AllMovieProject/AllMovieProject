@@ -8,7 +8,8 @@ const useManagerOrderStore = defineStore('managerOrder', {
     currentStatus: 'all', // all, received, preparing, ready
     storeId: 1,
     loading: false,
-    viewingDetail: false
+    viewingDetail: false		,
+    stompClient: null // WebSocket 클라이언트
   }),
 
   getters: {
@@ -40,6 +41,65 @@ const useManagerOrderStore = defineStore('managerOrder', {
   },
 
   actions: {
+		// WebSocket 연결
+		connectWebSocket() {
+		  const socket = new SockJS('/ws')
+		  this.stompClient = Stomp.over(socket)
+		  
+		  this.stompClient.connect({}, (frame) => {
+		    console.log('WebSocket 연결됨:', frame)
+		    
+		    // 매장별 주문 토픽 구독
+		    this.stompClient.subscribe('/topic/orders/' + this.storeId, (message) => {
+		      const updateType = message.body
+		      
+		      if (updateType === 'new') {
+		        // 신규 주문 알림
+		        this.showNotification('새로운 주문이 접수되었습니다!')
+		      }
+		      
+		      // 주문 목록 및 통계 새로고침
+		      this.loadOrders(this.currentStatus)
+		      this.loadStats()
+		    })
+		  }, (error) => {
+		    console.error('WebSocket 연결 오류:', error)
+		    // 연결 실패 시 3초 후 재연결 시도
+		    setTimeout(() => this.connectWebSocket(), 3000)
+		  })
+		},
+	
+		// WebSocket 연결 해제
+		disconnectWebSocket() {
+		  if (this.stompClient && this.stompClient.connected) {
+		    this.stompClient.disconnect()
+		    console.log('WebSocket 연결 해제됨')
+		  }
+		},
+	
+		// 알림 표시
+		showNotification(message) {
+		  // 브라우저 알림 권한 확인
+		  if (Notification.permission === 'granted') {
+		    new Notification('주문 알림', {
+		      body: message,
+		      icon: '/img/logo.png'
+		    })
+		  } else if (Notification.permission !== 'denied') {
+		    Notification.requestPermission().then(permission => {
+		      if (permission === 'granted') {
+		        new Notification('주문 알림', {
+		          body: message,
+		          icon: '/img/logo.png'
+		        })
+		      }
+		    })
+		  }
+		  
+		  // 페이지 내 알림도 표시
+		  alert(message)
+		},
+		
     // 주문 목록 조회
     async loadOrders(status = null) {
       this.loading = true
@@ -52,7 +112,7 @@ const useManagerOrderStore = defineStore('managerOrder', {
         console.error('주문 목록 조회 실패:', error)
         if (error.response?.status === 401) {
           alert('로그인이 필요합니다.')
-          location.href = '/login'
+          location.href = '/member/login'
         }
       } finally {
         this.loading = false
@@ -139,7 +199,7 @@ const useManagerOrderStore = defineStore('managerOrder', {
     async updateStatus(order_id, status) {
       this.loading = true
       try {
-        const { data } = await api.put('/order/manager/status/' + order_id + '/' + status)
+        const { data } = await api.put('/order/manager/status/' + order_id + '/' + status + '?store_id=' + this.storeId)
         
         if (data.result === 'yes') {
           alert(data.message)

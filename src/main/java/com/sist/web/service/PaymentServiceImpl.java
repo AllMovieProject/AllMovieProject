@@ -2,6 +2,7 @@ package com.sist.web.service;
 
 import java.util.List;
 
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -21,6 +22,7 @@ public class PaymentServiceImpl implements PaymentService {
 
     private final PaymentMapper paymentMapper;
     private final OrderMapper orderMapper;
+    private final SimpMessagingTemplate messagingTemplate;
 
     @Override
     @Transactional
@@ -81,6 +83,14 @@ public class PaymentServiceImpl implements PaymentService {
             payment.setPayment_status("paid");
             paymentMapper.updatePayment(payment);
 
+            // 주문 정보 조회하여 store_id 가져오기
+            OrderVO order = orderMapper.getOrderByMerchantUid(merchant_uid);
+            
+            // WebSocket으로 신규 주문 알림 전송
+            if (order != null) {
+                messagingTemplate.convertAndSend("/topic/orders/" + order.getStore_id(), "new");
+            }
+            
             return "yes";
         } catch (Exception e) {
             e.printStackTrace();

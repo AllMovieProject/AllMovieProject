@@ -90,6 +90,7 @@ public class ManagerOrderRestController {
     public ResponseEntity<Map<String, String>> updateOrderStatus(
             @PathVariable("order_id") int order_id,
             @PathVariable("status") String status,
+            @RequestParam("store_id") int store_id,
             HttpSession session) {
         try {
             String userid = (String) session.getAttribute("userid");
@@ -97,7 +98,7 @@ public class ManagerOrderRestController {
                 return new ResponseEntity<>(Map.of("result", "unauthorized"), HttpStatus.UNAUTHORIZED);
             }
             
-            String result = oService.updateOrderStatusByManager(order_id, status);
+            String result = oService.updateOrderStatusByManager(order_id, status, store_id);
             
             String message = "";
             switch (result) {

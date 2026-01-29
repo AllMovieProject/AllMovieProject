@@ -34,7 +34,6 @@
 								<sec:authorize access="isAuthenticated()">
 									<sec:authorize access="hasRole('USER')">
 										<li><a href="/mypage/ticket">예매 내역</a></li>
-										<li><a href="/store/cart">장바구니</a></li>
                   	<li><a href="/mypage">마이페이지</a></li>
                   </sec:authorize>
 									<sec:authorize access="hasRole('MANAGER')">

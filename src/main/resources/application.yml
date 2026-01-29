@@ -16,7 +16,7 @@ spring:
     hikari:
       minimum-idle: 5
       maximum-pool-size: 10
-      idle-timeout: 3000
+      idle-timeout: 600000
       max-lifetime: 1800000 
       connection-timeout: 30000
 
@@ -27,12 +27,12 @@ spring:
       max-request-size: 100MB
 
 # 개발
-file:
-  upload-dir: C:/upload/
+#file:
+#  upload-dir: C:/upload/
 
 # 배포
-#file:
-#  upload-dir: /var/upload/
+file:
+  upload-dir: /var/upload/
 # sudo mkdir -p /var/upload
 # sudo chmod -R 777 /var/upload
 #services:

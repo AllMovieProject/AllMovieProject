@@ -1,85 +1,131 @@
+/* 상품 상세 페이지 전용 스타일 */
+.blog__details__content {
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 12px;
+  padding: 40px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
 .product-detail-image {
   width: 100%;
   max-height: 500px;
   object-fit: cover;
-  border-radius: 8px;
-  margin-bottom: 20px;
+  border-radius: 12px;
+  margin-bottom: 30px;
+  border: 2px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
 }
 
 .badge-combo-detail {
   display: inline-block;
-  background-color: #e53637;
+  background: linear-gradient(135deg, #e53637 0%, #ff6b6b 100%);
   color: white;
-  padding: 5px 15px;
-  border-radius: 3px;
+  padding: 8px 20px;
+  border-radius: 20px;
   font-size: 14px;
   font-weight: bold;
-  margin-bottom: 15px;
+  margin-bottom: 20px;
+  box-shadow: 0 4px 12px rgba(229, 54, 55, 0.4);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.blog__details__item__text h4 {
+  color: #ffffff;
+  font-size: 32px;
+  font-weight: 700;
+  margin-bottom: 25px;
 }
 
 .price-section {
-  margin: 20px 0;
+  margin: 30px 0;
+  padding: 25px;
+  background: rgba(229, 54, 55, 0.1);
+  border-radius: 12px;
+  border: 2px solid rgba(229, 54, 55, 0.3);
 }
 
 .original-price {
-  font-size: 24px;
+  font-size: 28px;
   font-weight: bold;
-  color: #333;
+  color: #ffffff;
 }
 
 .discount-badge {
   display: inline-block;
-  background-color: #e53637;
+  background: linear-gradient(135deg, #4CAF50 0%, #66BB6A 100%);
   color: white;
-  padding: 3px 8px;
-  border-radius: 3px;
+  padding: 5px 12px;
+  border-radius: 12px;
   font-size: 14px;
-  margin-left: 10px;
+  margin-left: 15px;
+  box-shadow: 0 2px 8px rgba(76, 175, 80, 0.3);
 }
 
 .final-price {
-  font-size: 28px;
+  font-size: 32px;
   font-weight: bold;
   color: #e53637;
-  margin-top: 10px;
+  margin-top: 15px;
+  text-shadow: 0 2px 4px rgba(229, 54, 55, 0.3);
 }
 
 .stock-info-detail {
-  margin: 15px 0;
-  padding: 10px;
-  background-color: #f5f5f5;
-  border-radius: 4px;
+  margin: 20px 0;
+  padding: 15px 20px;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 8px;
+  color: #ffffff;
+  font-size: 16px;
+  border-left: 4px solid #2196F3;
+}
+
+.stock-info-detail strong {
+  color: #ffffff;
+  margin-right: 10px;
 }
 
 .quantity-control {
   display: flex;
   align-items: center;
-  gap: 10px;
-  margin: 15px 0;
+  gap: 15px;
+  margin: 25px 0;
+  padding: 20px;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .quantity-btn {
-  width: 35px;
-  height: 35px;
-  border: 1px solid #ddd;
-  background: white;
+  width: 45px;
+  height: 45px;
+  border: 2px solid rgba(229, 54, 55, 0.3);
+  background: rgba(255, 255, 255, 0.05);
+  color: #ffffff;
   cursor: pointer;
-  font-size: 16px;
-  border-radius: 4px;
+  font-size: 20px;
+  font-weight: bold;
+  border-radius: 8px;
+  transition: all 0.2s;
 }
 
 .quantity-btn:hover {
-  background-color: #f5f5f5;
+  background: rgba(229, 54, 55, 0.2);
+  border-color: #e53637;
+  transform: scale(1.05);
 }
 
 .quantity-display {
-  width: 50px;
-  height: 35px;
+  width: 70px;
+  height: 45px;
   text-align: center;
-  line-height: 35px;
-  border: 1px solid #ddd;
-  border-radius: 4px;
+  line-height: 45px;
+  border: 2px solid rgba(229, 54, 55, 0.3);
+  border-radius: 8px;
   font-weight: bold;
+  font-size: 18px;
+  background: rgba(255, 255, 255, 0.05);
+  color: #ffffff;
 }
 
 .combo-options {
@@ -90,158 +136,220 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 15px;
+  margin-bottom: 20px;
 }
 
 .option-quantity-control {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 10px;
 }
 
 .action-buttons {
   display: flex;
-  gap: 10px;
-  margin-top: 30px;
+  gap: 15px;
+  margin-top: 40px;
 }
 
 .btn-cart {
   flex: 1;
-  padding: 15px;
-  background-color: #333;
+  padding: 18px;
+  background: linear-gradient(135deg, #333 0%, #555 100%);
   color: white;
   border: none;
-  border-radius: 4px;
+  border-radius: 8px;
   font-size: 16px;
+  font-weight: 600;
   cursor: pointer;
-  transition: background-color 0.3s;
+  transition: all 0.3s;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
 }
 
 .btn-cart:hover {
-  background-color: #555;
+  background: linear-gradient(135deg, #555 0%, #333 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.4);
 }
 
 .btn-payment {
   flex: 1;
-  padding: 15px;
-  background-color: #e53637;
+  padding: 18px;
+  background: linear-gradient(135deg, #e53637 0%, #ff6b6b 100%);
   color: white;
   border: none;
-  border-radius: 4px;
+  border-radius: 8px;
   font-size: 16px;
+  font-weight: 600;
   cursor: pointer;
-  transition: background-color 0.3s;
+  transition: all 0.3s;
+  box-shadow: 0 4px 12px rgba(229, 54, 55, 0.3);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
 }
 
 .btn-payment:hover {
-  background-color: #c62828;
+  background: linear-gradient(135deg, #ff6b6b 0%, #e53637 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(229, 54, 55, 0.4);
 }
 
 .description-section {
   margin-top: 30px;
-  padding: 20px;
-  background-color: #1e1e1e;
-  border-radius: 8px;
+  padding: 25px;
+  background: rgba(255, 255, 255, 0.03);
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .description-section pre {
-  color: white;
+  color: #ffffff;
   white-space: pre-wrap;
   word-wrap: break-word;
   margin: 0;
+  font-size: 15px;
+  line-height: 1.6;
 }
 
 .total-price-section {
   margin: 30px 0;
-  padding: 20px;
-  background-color: #f5f5f5;
-  border-radius: 8px;
+  padding: 25px;
+  background: linear-gradient(135deg, rgba(76, 175, 80, 0.1) 0%, rgba(76, 175, 80, 0.05) 100%);
+  border-radius: 12px;
+  border: 2px solid rgba(76, 175, 80, 0.3);
 }
 
 .total-label {
   font-size: 18px;
-  color: #666;
+  color: #aaa;
+  font-weight: 600;
 }
 
 .total-amount {
-  font-size: 32px;
+  font-size: 36px;
   font-weight: bold;
-  color: #e53637;
+  color: #4CAF50;
   margin-top: 10px;
+  text-shadow: 0 2px 4px rgba(76, 175, 80, 0.3);
 }
 
 .form h3 {
-  color: white;
-  margin-bottom: 20px;
+  color: #ffffff;
+  margin-bottom: 25px;
+  font-size: 24px;
+  font-weight: 700;
+  padding-bottom: 15px;
+  border-bottom: 2px solid rgba(229, 54, 55, 0.3);
 }
 
 .option-quantity-label {
   font-weight: normal;
-  color: #999;
+  color: #aaa;
   font-size: 14px;
-}
-
-/* 수량 컨트롤 관련 CSS는 전체 수량용만 남김 */
-.quantity-control {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  margin: 20px 0;
 }
 
 .option-item {
   margin-bottom: 30px;
-  padding: 20px;
-  background-color: #2a2a2a;
-  border-radius: 8px;
+  padding: 25px;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  transition: all 0.2s;
+}
+
+.option-item:hover {
+  background: rgba(255, 255, 255, 0.08);
+  border-color: rgba(229, 54, 55, 0.3);
 }
 
 .option-category-label {
   font-weight: bold;
   color: #e53637;
-  font-size: 18px;
-  margin-bottom: 15px;
-  padding-bottom: 10px;
-  border-bottom: 1px solid #444;
+  font-size: 20px;
+  margin-bottom: 20px;
+  padding-bottom: 12px;
+  border-bottom: 2px solid rgba(229, 54, 55, 0.3);
 }
 
 .option-select-wrapper {
-  margin-bottom: 15px;
+  margin-bottom: 18px;
 }
 
 .option-label {
   display: block;
   font-weight: 600;
-  color: white;
-  font-size: 14px;
-  margin-bottom: 8px;
+  color: #ffffff;
+  font-size: 15px;
+  margin-bottom: 10px;
 }
 
 .option-select {
   width: 100%;
-  padding: 12px;
-  border: 1px solid #444;
-  border-radius: 4px;
+  padding: 14px 16px;
+  border: 2px solid rgba(229, 54, 55, 0.3);
+  border-radius: 8px;
   font-size: 14px;
-  background-color: #1a1a1a;
-  color: white;
+  background: rgba(255, 255, 255, 0.05);
+  color: #ffffff;
   cursor: pointer;
+  transition: all 0.2s;
 }
 
 .option-select:hover {
-  border-color: #666;
+  border-color: #e53637;
+  background: rgba(229, 54, 55, 0.1);
+}
+
+.option-select:focus {
+  outline: none;
+  border-color: #e53637;
+  box-shadow: 0 0 0 3px rgba(229, 54, 55, 0.1);
 }
 
 .option-select option {
-  background-color: #1a1a1a;
-  color: white;
-  padding: 10px;
+  background: #1a1a2e;
+  color: #ffffff;
+  padding: 12px;
 }
 
 .upgrade-info {
-  font-size: 12px;
-  color: #888;
+  font-size: 13px;
+  color: #999;
   margin-top: 15px;
-  padding-top: 10px;
-  border-top: 1px solid #333;
+  padding-top: 12px;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  font-style: italic;
+}
+
+/* 반응형 */
+@media (max-width: 768px) {
+  .blog__details__content {
+    padding: 25px 20px;
+  }
+
+  .blog__details__item__text h4 {
+    font-size: 24px;
+  }
+
+  .action-buttons {
+    flex-direction: column;
+  }
+
+  .btn-cart,
+  .btn-payment {
+    width: 100%;
+  }
+
+  .total-amount {
+    font-size: 28px;
+  }
+
+  .price-section {
+    padding: 20px;
+  }
+
+  .original-price {
+    font-size: 24px;
+  }
 }
