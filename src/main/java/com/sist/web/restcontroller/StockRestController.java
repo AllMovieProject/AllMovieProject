@@ -24,7 +24,7 @@ public class StockRestController {
 	private final StockService sService;
 
 	@GetMapping("/manager/list")
-	public ResponseEntity<List<StoreStockVO>> manager_stock_list(HttpSession session) {
+	public ResponseEntity<List<StoreStockVO>> managerStockList(HttpSession session) {
 		List<StoreStockVO> list = null;
 		try {
 			String userid = (String) session.getAttribute("userid");
@@ -37,7 +37,7 @@ public class StockRestController {
 	}
 	
 	@PostMapping("/manager/insert")
-	public ResponseEntity<String> manager_stock_insert(@RequestBody List<StoreStockVO> list, HttpSession session) {
+	public ResponseEntity<String> managerStockInsert(@RequestBody List<StoreStockVO> list, HttpSession session) {
 		String res = "no";
 		try {
 			String userid = (String) session.getAttribute("userid");

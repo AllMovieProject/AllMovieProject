@@ -8,21 +8,22 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.sist.web.service.BoardService;
 import com.sist.web.vo.BoardVO;
-import com.sist.web.vo.HelpDeskVO;
 
 import lombok.RequiredArgsConstructor;
 
 @Controller
 @RequiredArgsConstructor
+@RequestMapping("/board")
 public class BoardController {
+	
 	private final BoardService bService;
 	
-	@GetMapping("/board/list")
+	@GetMapping("/list")
 	public String board_list(@RequestParam(name = "page", required = false)String page, Model model) {
 		if(page == null)
 			page = "1";
@@ -40,7 +41,7 @@ public class BoardController {
 		return "main/main";
 	}
 	
-	@GetMapping("/board/detail")
+	@GetMapping("/detail")
 	public String board_detail(@RequestParam("bno") int bno, Model model) {
 		BoardVO vo = bService.boardDetailData(bno);
 		
@@ -49,7 +50,7 @@ public class BoardController {
 		return "main/main";
 	}
 	
-	@GetMapping("/board/insert")
+	@GetMapping("/insert")
 	public String board_insert(Model model) {
 		System.out.println("board_insert");
 		String cateGroup = "BOARD";
@@ -60,14 +61,14 @@ public class BoardController {
 		return "main/main";
 	}
 	
-	@PostMapping("/board/insert_ok")
+	@PostMapping("/insert_ok")
 	public String board_insert_ok(@ModelAttribute BoardVO vo) {
 		vo.setId("admin");
 		bService.boardInsert(vo);
 		return "redirect:/board/list";
 	}
 	
-	@GetMapping("/board/update")
+	@GetMapping("/update")
 	public String board_update(@RequestParam("bno") int bno, Model model) {
 	    BoardVO vo = bService.boardUpdateData(bno);
 	    
@@ -80,19 +81,19 @@ public class BoardController {
 	    return "main/main";
 	}
 	
-	@PostMapping("/board/update_ok")
+	@PostMapping("/update_ok")
 	public String board_update_ok(@ModelAttribute BoardVO vo) {
 	    bService.boardUpdate(vo);
 	    return "redirect:/board/detail?bno=" + vo.getBno();
 	}
 	
-	@GetMapping("/board/delete")
+	@GetMapping("/delete")
 	public String board_delete(@RequestParam("bno") int bno, Model model) {
 	    model.addAttribute("bno", bno);
 	    return "board/delete";
 	}
 	
-	@PostMapping("/board/delete_ok")
+	@PostMapping("/delete_ok")
 	public String board_delete_ok(@RequestParam("bno") int bno) {
 	    bService.boardDelete(bno);
 	    return "redirect:/board/list";

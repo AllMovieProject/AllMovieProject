@@ -1,6 +1,6 @@
 package com.sist.web.mapper;
 
-import java.util.*;
+import java.util.List;
 
 import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;
@@ -13,13 +13,14 @@ import com.sist.web.vo.BoardVO;
 
 @Mapper
 public interface BoardMapper {	
+	
 	@Select("SELECT b.bno, b.bcate, c.cate_name as bcateName, b.bhit, b.id, b.bsubject, TO_CHAR(b.bregdate, 'yyyy-mm-dd HH24:MI:SS') as bdbday "
-			+ "FROM board b "
-			+ "JOIN commons_category c "
-			+ "ON b.bcate = c.cate_no "
-			+ "AND c.cate_group = 'BOARD' "			
-			+ "ORDER BY b.bno DESC "
-			+ "OFFSET #{start} ROWS FETCH NEXT 12 ROWS ONLY")
+		  + "FROM board b "
+		  + "JOIN commons_category c "
+		  + "ON b.bcate = c.cate_no "
+		  + "AND c.cate_group = 'BOARD' "			
+		  + "ORDER BY b.bno DESC "
+		  + "OFFSET #{start} ROWS FETCH NEXT 12 ROWS ONLY")
 	public List<BoardVO> boardListData(int start);
 	
 	@Select("SELECT CEIL(COUNT(*)/12.0) FROM board")
@@ -27,36 +28,36 @@ public interface BoardMapper {
 	
 	// 데이터 상세보기 
     @Update("UPDATE board SET "
-	 	   +"bhit = bhit + 1 "
-	 	   +"WHERE bno = #{bno}")
+	 	  + "bhit = bhit + 1 "
+	 	  + "WHERE bno = #{bno}")
     public void boardHitIncrement(int bno);
     @Select("SELECT bno, id, bsubject, bcontent, TO_CHAR(bregdate,'yyyy-mm-dd') as bdbday, bhit "
-	 	   +"FROM board "
-	 	   +"WHERE bno = #{bno}")
+	 	  + "FROM board "
+	 	  + "WHERE bno = #{bno}")
     public BoardVO boardDetailData(int bno);
 	
 	// 데이터 추가 
 	@SelectKey(keyProperty = "bno", resultType = int.class,
-			before = true,
-			statement = "SELECT NVL(MAX(bno) + 1, 1) as bno FROM board")
+			   before = true,
+			   statement = "SELECT NVL(MAX(bno) + 1, 1) as bno FROM board")
    
 	@Insert("INSERT INTO board (bno, bcate, id, bsubject, bcontent, bregdate, bhit) "
-			+"VALUES (#{bno}, #{bcate}, #{id}, #{bsubject}, #{bcontent}, SYSDATE, 0)")			
+		  + "VALUES (#{bno}, #{bcate}, #{id}, #{bsubject}, #{bcontent}, SYSDATE, 0)")			
 	public void boardInsert(BoardVO vo);
 	
 	@Select("SELECT CATE_NO AS cateNo, CATE_NAME AS cateName "
-    		+ "FROM COMMONS_CATEGORY "
-    		+ "WHERE CATE_GROUP = #{cateGroup} ORDER BY 1")
+    	  + "FROM COMMONS_CATEGORY "
+    	  + "WHERE CATE_GROUP = #{cateGroup} ORDER BY 1")
      public List<BoardVO> boardCateData(String cateGroup);
 	
 	// 테이터 추가
 	@Update("UPDATE board SET "
-		      + "bsubject = #{bsubject}, bcontent = #{bcontent}, bcate = #{bcate} "
-		      + "WHERE bno = #{bno}")
+		  + "bsubject = #{bsubject}, bcontent = #{bcontent}, bcate = #{bcate} "
+		  + "WHERE bno = #{bno}")
 		public void boardUpdate(BoardVO vo);
     
 	@Delete("DELETE FROM board "
-			+ "WHERE bno = #{bno}")
+		  + "WHERE bno = #{bno}")
 	public void boardDelete(int bno);
 	
 }

@@ -15,6 +15,7 @@ import lombok.RequiredArgsConstructor;
 @Service
 @RequiredArgsConstructor
 public class MemberServiceImpl implements MemberService {
+	
 	private final MemberMapper mapper;
 	
 	@Override

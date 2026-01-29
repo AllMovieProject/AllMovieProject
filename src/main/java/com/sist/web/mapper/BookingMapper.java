@@ -31,4 +31,5 @@ public interface BookingMapper {
 	      + "WHERE schedule_id = #{id} "
 	      + "AND reservation_flag = 0")
 	public int scheduleReservatedSeatCount(int scheuld_id);
+	
 }

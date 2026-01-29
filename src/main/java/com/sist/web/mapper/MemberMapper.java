@@ -12,8 +12,8 @@ import com.sist.web.vo.BookingVO;
 import com.sist.web.vo.MemberVO;
 
 @Mapper
-@Repository
 public interface MemberMapper {
+	
 	@Select("SELECT COUNT(*) FROM member WHERE userid = #{userid}")
 	public int memberIdCheck(String userid);
 	
@@ -35,4 +35,5 @@ public interface MemberMapper {
 	
 	@Update("UPDATE booking SET cancel_flag = 1 WHERE booking_id = #{booking_id}")
 	public void bookingCancel(String booking_id);
+	
 }

@@ -30,7 +30,7 @@ public class ManagerOrderRestController {
 
     // 매니저의 매장 조회
     @GetMapping("/store-id")
-    public ResponseEntity<Integer> get_store_id(HttpSession session) {
+    public ResponseEntity<Integer> getStoreId(HttpSession session) {
         try {
             String userid = (String) session.getAttribute("userid");
             if (userid == null) {

@@ -65,11 +65,11 @@ pipeline {
 				sshagent(credentials: ['SERVER_KEY']) {
 					sh """
 							ssh-keyscan -t ed25519 ${EC2_HOST} >> ~/.ssh/known_hosts
-							ssh -o StrictHostKeyChecking=no ${EC2_USER}@${EC2_HOST} << 'EOF'
+							ssh -o StrictHostKeyChecking=no ${EC2_USER}@${EC2_HOST} '
 								docker compose -f ${COMPOSE_FILE} down || true
 								docker pull ${DOCKER_IMAGE}
 								docker compose -f ${COMPOSE_FILE} up -d
-EOF
+								'
 						 """
 				}
 			}

@@ -6,6 +6,7 @@ import com.sist.web.vo.BookingVO;
 import com.sist.web.vo.MemberVO;
 
 public interface MemberService {
+	
 	public int memberIdCheck(String userid);
 	public void memberInsert(MemberVO vo);
 	public void memberAuthorityInsert(String userid);
@@ -14,4 +15,5 @@ public interface MemberService {
 	// 마이페이지
 	public List<BookingVO> bookingListData(String id);
 	public String bookingCancel(String booking_id);
+	
 }

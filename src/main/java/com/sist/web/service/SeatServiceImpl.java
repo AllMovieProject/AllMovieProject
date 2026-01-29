@@ -21,7 +21,8 @@ import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
-public class SeatServiceImpl implements SeatService {	
+public class SeatServiceImpl implements SeatService {
+	
 	private final SeatMapper mapper;
 
 	@Override

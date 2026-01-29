@@ -21,6 +21,7 @@ import lombok.RequiredArgsConstructor;
 @EnableWebSecurity
 @RequiredArgsConstructor
 public class SecurityConfig {
+	
     private final DataSource dataSource;
     private final LoginFailHandler loginFailHandler;
     private final LoginSuccessHandler loginSuccessHandler;
@@ -33,7 +34,7 @@ public class SecurityConfig {
                     auth -> auth.requestMatchers("/", "/member/**").permitAll()
                         .requestMatchers("/admin/**").hasRole("ADMIN")
                         .requestMatchers("/*/manager/**").hasRole("MANAGER")
-                        .requestMatchers("/cart/*").hasRole("USER")
+                        .requestMatchers("/cart/**").hasRole("USER")
                         .requestMatchers("/upload/**").permitAll()
                         .anyRequest().permitAll())
             .formLogin(

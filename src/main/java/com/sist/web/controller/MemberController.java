@@ -16,6 +16,7 @@ import lombok.RequiredArgsConstructor;
 @Controller
 @RequiredArgsConstructor
 public class MemberController {
+	
 	private final BCryptPasswordEncoder encoder;
 	private final MemberService mService;
 

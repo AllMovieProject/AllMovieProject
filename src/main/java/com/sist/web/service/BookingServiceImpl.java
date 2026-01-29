@@ -24,6 +24,7 @@ import lombok.RequiredArgsConstructor;
 @Service
 @RequiredArgsConstructor
 public class BookingServiceImpl implements BookingService {
+	
     private final BookingMapper mapper;
 
     @Override

@@ -57,7 +57,7 @@ public class OrderRestController {
     }
     
     @PutMapping("/cancel/{order_id}")
-    public ResponseEntity<Map<String, String>> cancelOrder(@PathVariable("order_id") int order_id) {
+    public ResponseEntity<Map<String, String>> orderCancel(@PathVariable("order_id") int order_id) {
         try {
             String result = oService.cancelOrder(order_id);
             

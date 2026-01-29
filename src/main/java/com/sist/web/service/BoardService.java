@@ -5,6 +5,7 @@ import java.util.List;
 import com.sist.web.vo.BoardVO;
 
 public interface BoardService {
+	
 	public List<BoardVO> boardListData(int start);
 	public int boardTotalPage();
 	public void boardInsert(BoardVO vo);	
@@ -13,4 +14,5 @@ public interface BoardService {
 	public BoardVO boardUpdateData(int bno);
     public void boardUpdate(BoardVO vo);
     public void boardDelete(int bno);
+    
 }

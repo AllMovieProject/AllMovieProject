@@ -6,7 +6,6 @@ import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
-import org.springframework.stereotype.Repository;
 
 import com.sist.web.vo.BookingSeatVO;
 import com.sist.web.vo.BookingVO;
@@ -16,7 +15,6 @@ import com.sist.web.vo.ScheduleVO;
 import com.sist.web.vo.SeatVO;
 
 @Mapper
-@Repository
 public interface SeatMapper {
 
 	@Select("SELECT DISTINCT se.seat_row "
@@ -68,4 +66,5 @@ public interface SeatMapper {
 	
 	@Insert("INSERT INTO booking_seat(booking_seat_id, booking_id, seat_info, seatid_info) VALUES(bookingseat_id_seq.NEXTVAL, #{booking_id}, #{seat_info}, #{seatid_info})")
 	public void bookingSeatInsert(BookingSeatVO vo);
+	
 }

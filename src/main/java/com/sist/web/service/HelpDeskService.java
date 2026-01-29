@@ -5,6 +5,7 @@ import java.util.List;
 import com.sist.web.vo.HelpDeskVO;
 
 public interface HelpDeskService {
+	
 	public List<HelpDeskVO> helpDeskListData(int start);
 	public int helpDeskTotalPage();	
 	public HelpDeskVO helpDeskDetailData(int hno);
@@ -13,4 +14,5 @@ public interface HelpDeskService {
 	public HelpDeskVO helpdeskUpdateData(int hno);
 	public void helpdeskUpdate(HelpDeskVO vo);
 	public void helpdeskDelete(int hno);
+	
 }

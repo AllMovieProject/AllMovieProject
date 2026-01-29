@@ -30,7 +30,7 @@ public class CartRestController {
 	private final CartService cService;
 
 	@GetMapping("/list")
-	public ResponseEntity<List<CartVO>> cart_list(HttpSession session) {
+	public ResponseEntity<List<CartVO>> cartList(HttpSession session) {
 		List<CartVO> list = null;
 		try {
 			String userid = (String) session.getAttribute("userid");
@@ -46,7 +46,7 @@ public class CartRestController {
 	}
 
 	@PostMapping("/add")
-	public ResponseEntity<String> cart_add(@RequestBody Map<String, Object> requestData, HttpSession session) {
+	public ResponseEntity<String> cartAdd(@RequestBody Map<String, Object> requestData, HttpSession session) {
 		String res = "no";
 		try {
 			String userid = (String) session.getAttribute("userid");
@@ -84,7 +84,7 @@ public class CartRestController {
 	}
 
 	@PutMapping("/update/{cart_id}/{quantity}")
-	public ResponseEntity<String> cart_update(
+	public ResponseEntity<String> cartUpdate(
 		@PathVariable("cart_id") int cart_id,
 		@PathVariable("quantity") int quantity) {
 		String res = "no";
@@ -98,7 +98,7 @@ public class CartRestController {
 	}
 
 	@DeleteMapping("/delete/{cart_id}")
-	public ResponseEntity<String> cart_delete(@PathVariable("cart_id") int cart_id) {
+	public ResponseEntity<String> cartDelete(@PathVariable("cart_id") int cart_id) {
 		String res = "no";
 		try {
 			res = cService.deleteCart(cart_id);
@@ -110,7 +110,7 @@ public class CartRestController {
 	}
 
 	@DeleteMapping("/delete-selected")
-	public ResponseEntity<String> cart_delete_selected(@RequestBody List<Integer> cartIds) {
+	public ResponseEntity<String> cartDeleteSelected(@RequestBody List<Integer> cartIds) {
 		String res = "no";
 		try {
 			res = cService.deleteSelectedCart(cartIds);
@@ -122,7 +122,7 @@ public class CartRestController {
 	}
 
 	@DeleteMapping("/delete-all")
-	public ResponseEntity<String> cart_delete_all(HttpSession session) {
+	public ResponseEntity<String> cartDeleteAll(HttpSession session) {
 		String res = "no";
 		try {
 			String userid = (String) session.getAttribute("userid");

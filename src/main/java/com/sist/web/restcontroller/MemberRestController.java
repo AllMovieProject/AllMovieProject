@@ -20,10 +20,11 @@ import lombok.RequiredArgsConstructor;
 @RestController
 @RequiredArgsConstructor
 public class MemberRestController {
+	
 	private final MemberService mService;
 	
 	@GetMapping("/member/idCheck_vue/")
-	public String member_idcheck(@RequestParam("userid") String userid) {
+	public String memberIdCheck(@RequestParam("userid") String userid) {
 		int count = mService.memberIdCheck(userid);
 		return String.valueOf(count);
 	}

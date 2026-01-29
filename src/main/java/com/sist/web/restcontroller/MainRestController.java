@@ -22,7 +22,7 @@ public class MainRestController {
 	private final MainService mService;
 	
 	@GetMapping("/list_vue")
-	public ResponseEntity<Map<String, List<MovieVO>>> main_list_vue() {
+	public ResponseEntity<Map<String, List<MovieVO>>> mainList() {
 		Map<String, List<MovieVO>> map = null;
 		try {
 			map = mService.homeListData();
