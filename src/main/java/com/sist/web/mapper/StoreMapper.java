@@ -8,7 +8,6 @@ import org.apache.ibatis.annotations.Result;
 import org.apache.ibatis.annotations.Results;
 import org.apache.ibatis.annotations.Select;
 
-import com.sist.web.vo.ProductComboVO;
 import com.sist.web.vo.StoreStockVO;
 import com.sist.web.vo.StoreVO;
 

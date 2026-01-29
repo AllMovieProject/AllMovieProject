@@ -62,6 +62,7 @@ public class CartRestController {
 			cartVO.setQuantity((Integer) requestData.get("quantity"));
 			
 			// Cart Items 정보
+			@SuppressWarnings("unchecked")
 			List<Map<String, Object>> optionsData = (List<Map<String, Object>>) requestData.get("options");
 			List<CartItemVO> items = new ArrayList<>();
 			

@@ -10,7 +10,6 @@ import org.springframework.stereotype.Repository;
 
 import com.sist.web.vo.BookingVO;
 import com.sist.web.vo.MemberVO;
-import com.sist.web.vo.SeatVO;
 
 @Mapper
 @Repository

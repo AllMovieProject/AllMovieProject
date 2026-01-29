@@ -1,9 +1,7 @@
 package com.sist.web.service;
 
-import java.util.HashMap;
 import java.util.List;
 
-import com.sist.web.vo.BoardVO;
 import com.sist.web.vo.HelpDeskVO;
 
 public interface HelpDeskService {

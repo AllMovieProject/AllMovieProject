@@ -9,8 +9,6 @@ import org.springframework.stereotype.Service;
 import com.sist.web.mapper.MemberMapper;
 import com.sist.web.vo.BookingVO;
 import com.sist.web.vo.MemberVO;
-import com.sist.web.vo.ScheduleVO;
-import com.sist.web.vo.SeatVO;
 
 import lombok.RequiredArgsConstructor;
 
