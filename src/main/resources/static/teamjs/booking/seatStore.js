@@ -118,9 +118,7 @@ const useSeatStore = defineStore('seat', {
 				name: this.info.schedule_info.mvo.title + ' ' + this.total_count + '매', // 주문명
 				buyer_name: this.user_id,                           // 구매자 이름
 			}
-      console.log(data.merchant_uid)
       this.merchant_uid = data.merchant_uid
-      // merchant_uid 저장
 
 			IMP.request_pay(data, this.callback);
 		},
@@ -145,8 +143,8 @@ const useSeatStore = defineStore('seat', {
 					schedule_id: this.schedule_id,
 					seat_info: seat_info,
           seatid_info: seatid_info,
-          merchant_uid: this.merchant_uid,
-					user_id: this.user_id
+					user_id: this.user_id,
+          merchant_uid: this.merchant_uid
 				})
 
 				location.href = '/'
@@ -195,7 +193,9 @@ const useSeatStore = defineStore('seat', {
 			this.seatValidation(this.datas.seatId_list[no].seat_id)
 
 			this.selected_seats.push(this.datas.seatId_list[no].seat_id)
-			this.selected_info.push(row + (cindex + 1))
+      let col = String(cindex + 1).padStart(2, "0")
+			this.selected_info.push(row + col)
+      
 			this.priceCounter()
 		},
 

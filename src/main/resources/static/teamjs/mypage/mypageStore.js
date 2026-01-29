@@ -59,8 +59,11 @@ const useMyPageStore = defineStore('mypage', {
 			this.bookingList = res.data
 		},
 
-		async bookingCancel(bookingId) {
-			const res = await api.patch(`/booking/${bookingId}/cancel`)
+		async bookingCancel(bookingId, scheduleId) {
+			const res = await api.patch('/mypage/bookingCancel', {
+        bookingId: bookingId,
+        scheduleId: scheduleId
+      })
 
 			if (res.data === 'can') {
 				this.bookingListData()

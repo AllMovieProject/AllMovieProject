@@ -8,5 +8,5 @@ import lombok.Data;
 public class SeatBookingDTO {
     private Integer schedule_id;
     private List<Integer> selected_seats;
-    private String user_id, seat_info, seatid_info;
+    private String user_id, seat_info, seatid_info, merchant_uid;
 }

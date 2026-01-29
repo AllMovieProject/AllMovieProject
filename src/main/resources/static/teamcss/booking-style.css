@@ -103,61 +103,65 @@
 	height: 480px;
 }
 
-.schedule_info {
-	display: flex;
-	align-items: center;
-	justify-content: space-between;
+.schedule_wrap {
+  border-top: 1px solid #e5e5e5;
+}
+
+.schedule_row {
+  display: flex;
+  align-items: center;
+  padding: 20px 16px;
+  border-bottom: 1px solid #e5e5e5;
+  cursor: pointer;
+}
+
+.schedule_row:hover {
+  background-color: #f8f9fa;
 }
 
 .time {
-	width: 120px;
-	font-size: 18px;
-	font-weight: bold;
+  width: 160px;
+  font-size: 20px;
 }
 
 .time span {
-	font-size: 13px;
-	font-weight: normal;
-	color: #666;
-	margin-left: 4px;
+  font-size: 16px;
+  color: #777;
 }
 
 .movie_info {
-	flex: 1;
-	padding-left: 10px;
+  flex: 1;
 }
 
 .movie_info .title {
-	font-size: 15px;
-	font-weight: 600;
+  font-weight: 600;
+  margin-bottom: 4px;
 }
 
 .movie_info .type {
-	font-size: 13px;
-	color: #777;
-	margin-top: 2px;
+  font-size: 14px;
+  color: #888;
 }
 
 .theater_info {
-	width: 160px;
-	text-align: right;
-	font-size: 13px;
-	color: #444;
+  width: 120px;
+  text-align: center;
+  color: #444;
 }
 
 .seat_count {
-	width: 90px;
-	text-align: right;
-	font-size: 14px;
+  width: 100px;
+  text-align: right;
+  font-size: 16px;
 }
 
 .seat_count .remain {
-	color: #0a84ff;
-	font-weight: bold;
+  color: #2563eb; /* 파란 숫자 */
+  font-weight: 600;
 }
 
 .seat_count .total {
-	color: #777;
+  color: #777;
 }
 /*---------------------
   Seat CSS

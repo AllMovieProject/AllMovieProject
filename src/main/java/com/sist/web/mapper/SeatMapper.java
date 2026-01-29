@@ -61,7 +61,7 @@ public interface SeatMapper {
 	@Select("SELECT booking_id_seq.NEXTVAL FROM DUAL")
 	public int bookingIdSequenceData();
 	
-	@Insert("INSERT INTO booking(booking_id, schedule_id, member_id) VALUES(#{booking_id}, #{schedule_id}, #{member_id})")
+	@Insert("INSERT INTO booking(booking_id, schedule_id, member_id, merchant_uid) VALUES(#{booking_id}, #{schedule_id}, #{member_id}, #{merchant_uid})")
 	public void bookingInsert(BookingVO vo);
 	
 	@Insert("INSERT INTO booking_seat(booking_seat_id, booking_id, seat_info, seatid_info) VALUES(bookingseat_id_seq.NEXTVAL, #{booking_id}, #{seat_info}, #{seatid_info})")

@@ -15,13 +15,16 @@
 					<table class="table table-bordered">
 						<tr>
 							<td class="pageBtn" @click="store.prevDateBtn">&lt;</td>
-							<td v-for="(dvo, index) in store.dateList" class="booking_data"  
-								:class="{'table-active': store.booking_date === dvo.date_data }" :key="index">
-								<div v-if="dvo.available_flag === 1" @click="store.dateUpdate(dvo.date_data)"
-								 :class="[{'saturday': dvo.sday.includes('토')}, {'sunday': dvo.sday.includes('일')}]">
-								  {{ dvo.sday }}
-								</div>
-								<div class="disable_data" v-if="dvo.available_flag === 0">{{ dvo.sday }}</div></td>
+							<td v-for="(dvo, index) in store.dateList" class="booking_data"
+								:class="{'table-active': store.booking_date === dvo.date_data }"
+								:key="index">
+								<div v-if="dvo.available_flag === 1"
+									@click="store.dateUpdate(dvo.date_data)"
+									:class="[{'saturday': dvo.sday.includes('토')}, {'sunday': dvo.sday.includes('일')}]">
+									{{ dvo.sday }}</div>
+								<div class="disable_data" v-if="dvo.available_flag === 0">{{
+									dvo.sday }}</div>
+							</td>
 							<td class="pageBtn" @click="store.nextDateBtn">&gt;</td>
 						</tr>
 					</table>
@@ -92,12 +95,14 @@
 					</div>
 					<div class="v-line"></div>
 					<div class="booking_schedule">
-						<form action="/booking/seat" method="post" ref="form">
-							<table class="table">
+
+						
+							<!-- <table class="table">
 								<tbody>
-									<tr v-for="svo in store.datas.schedule_list"
-										:key="svo.schedule_id">
-										<td class="booking_data" @click="store.seatPage(form)">
+									<tr v-for="(svo, index) in store.datas.schedule_list"
+										:key="index">
+										<td class="booking_data"
+											@click="store.seatPage(form, svo.schedule_id)">
 											<div class="schedule_list">
 												<input type="hidden" name="id" :value="svo.schedule_id" />
 
@@ -126,12 +131,43 @@
 											</div>
 										</td>
 									</tr>
+
 									<tr>
 										<td></td>
 									</tr>
 								</tbody>
-							</table>
-						</form>
+
+							</table> -->
+							<div class="schedule_wrap">
+							<form action="/booking/seat" method="post" ref="form">
+								<div class="schedule_row"
+									v-for="(svo, index) in store.datas.schedule_list" :key="index"
+									@click="store.seatPage(form)">
+									<input type="hidden" name="id"
+										:value="svo.schedule_id" />
+
+									<div class="time">
+										<strong>{{ svo.starttime }} ~ </strong> <span>{{
+											svo.endtime }}</span>
+									</div>
+
+									<div class="movie_info">
+										<div class="title">{{ svo.mvo.title }}</div>
+										<div class="type">{{ svo.mvo.movie_type }}</div>
+									</div>
+
+									<div class="theater_info">
+										<div>{{ svo.tvo.theater_name }}</div>
+										<div>{{ svo.scvo.screen_name }}</div>
+									</div>
+
+									<div class="seat_count">
+										<span class="remain">{{ svo.available_count }}</span> / <span
+											class="total">{{ svo.total_count }}</span>
+									</div>
+								</div>
+								</form>
+							</div>
 					</div>
 					<div class="v-line"></div>
 				</div>

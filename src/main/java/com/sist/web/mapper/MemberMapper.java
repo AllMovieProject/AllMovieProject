@@ -33,6 +33,9 @@ public interface MemberMapper {
 	
 	public String bookingStartTime(String booking_id);
 	
+	@Select("SELECT seatid_info FROM booking_seat WHERE booking_id = #{booking_id}")
+	public String bookingSeatIdData(String booking_id);
+	
 	@Update("UPDATE booking SET cancel_flag = 1 WHERE booking_id = #{booking_id}")
 	public void bookingCancel(String booking_id);
 	
