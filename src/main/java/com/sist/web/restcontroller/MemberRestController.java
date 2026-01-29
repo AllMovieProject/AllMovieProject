@@ -7,9 +7,11 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.sist.web.dto.BookingCancelDTO;
 import com.sist.web.service.MemberService;
 import com.sist.web.vo.BookingVO;
 import com.sist.web.vo.MemberVO;
@@ -44,13 +46,12 @@ public class MemberRestController {
         return new ResponseEntity<>(list, HttpStatus.OK);
 	}
 	
-	@PatchMapping("/mypage/{bookingId}/cancel")
-	public ResponseEntity<String> bookingCancel(@PathVariable String booking_id) {
+	@PatchMapping("/mypage/bookingCancel")
+	public ResponseEntity<String> bookingCancel(@RequestBody BookingCancelDTO dto) {
 		String res = "";
 		
 	    try {
-	    	res = mService.bookingCancel(booking_id);
-	    	System.out.println(res);
+	    	res = mService.bookingCancel(dto);
 	    } catch (Exception e) {
 	        e.printStackTrace();
 	        return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);

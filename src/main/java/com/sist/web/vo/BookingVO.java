@@ -8,7 +8,7 @@ import lombok.Data;
 public class BookingVO {
     private Date booking_date;
 	private int schedule_id, cancel_flag;
-	private String booking_id, member_id;
+	private String booking_id, member_id, merchant_uid;
 	
 	private ScheduleVO svo = new ScheduleVO();
 	private MovieVO mvo = new MovieVO();

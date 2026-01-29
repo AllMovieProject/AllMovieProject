@@ -150,7 +150,7 @@ public class BookingServiceImpl implements BookingService {
         String[] weekDays = {"", "일", "월", "화", "수", "목", "금", "토"};
         String dayOfWeekStr = "";
         
-		for(int i = 0; i < differenceInDays; i++) {
+		for(int i = 0; i < differenceInDays + LIST_LEN; i++) {
 			date = String.format("%04d-%02d-%02d", year, month, day);
 			vo.setAvailable_flag(0);
 			

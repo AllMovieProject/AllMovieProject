@@ -41,7 +41,7 @@
 				<!-- 상태 / 버튼 -->
 				<div class="ticket-action">
 					<span class="status done">{{ vo.cancel_flag === 0 ? '예매 완료' : '취소 완료' }}</span>
-					<button class="btn cancel" v-if="vo.cancel_flag === 0" @click="store.bookingCancel(vo.booking_id)">예매취소</button>
+					<button class="btn cancel" v-if="vo.cancel_flag === 0" @click="store.bookingCancel(vo.booking_id, vo.schedule_id)">예매취소</button>
 				</div>
 
 			</div>

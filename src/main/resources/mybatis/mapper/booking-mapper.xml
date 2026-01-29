@@ -125,15 +125,13 @@
     schedule_seat ss ON s.schedule_id = ss.schedule_id
 
     WHERE s.start_time >= SYSDATE
+      AND t.theater_id = #{theater}
     <if test="date != null and date != ''">
       AND s.start_time >= TO_DATE(#{date}, 'yyyy-mm-dd')
       AND s.start_time &lt; TO_DATE(#{date}, 'yyyy-mm-dd') + 1
     </if>
     <if test="movie != null and movie != 0">
       AND m.movie_id = #{movie}
-    </if>
-    <if test="theater != null and theater != ''">
-      AND t.theater_id = #{theater}
     </if>
     ORDER BY s.start_time ASC
   </select>

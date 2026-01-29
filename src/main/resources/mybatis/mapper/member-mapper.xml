@@ -49,7 +49,8 @@
     LEFT JOIN booking_seat bs ON b.booking_id = bs.booking_id
     
     WHERE s.start_time >= SYSDATE AND b.member_id = #{id}
-    ORDER BY starttime DESC
+    AND b.cancel_flag = 0
+    ORDER BY sday ASC, starttime ASC
   </select>
   
   <select id="bookingStartTime" resultType="string"
