@@ -223,7 +223,7 @@
   </div>
 
   <script src="/teamjs/commons.js"></script>
-  <script src="/teamjs/order/orderTracking.js"></script>
+  <script src="/teamjs/mypage/orderTracking.js"></script>
   <script>
     const { createApp, onMounted, onUnmounted } = Vue
     const { createPinia } = Pinia

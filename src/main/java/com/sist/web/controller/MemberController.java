@@ -45,4 +45,11 @@ public class MemberController {
 		model.addAttribute("main_jsp", "../mypage/mypage_main.jsp");
 		return "main/main";
 	}
+	
+	@GetMapping("/mypage/order/tracking")
+    public String order_tracking(Model model) {
+        model.addAttribute("main_jsp", "../mypage/orderTracking.jsp");
+		return "main/main";
+    }
+	
 }

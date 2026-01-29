@@ -112,7 +112,7 @@
   <script src="/teamjs/commons.js"></script>
   <script src="/teamjs/store/managerOrder.js"></script>
   <script>
-    const { createApp, onMounted } = Vue
+    const { createApp, onMounted, onUnmounted } = Vue
     const { createPinia } = Pinia
 
     const app = createApp({

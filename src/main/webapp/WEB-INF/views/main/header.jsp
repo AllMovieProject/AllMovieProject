@@ -22,7 +22,7 @@
 						<nav class="header__menu mobile-menu">
 							<ul>
 								<li class="active"><a href="/booking">영화 예매</a></li>
-								<li><a href="./categories.html">영화 <span
+								<li><a href="/">영화 <span
 										class="arrow_carrot-down"></span></a>
 									<ul class="dropdown">
 										<li><a href="./categories.html">현재 상영 영화</a></li>
@@ -33,7 +33,6 @@
 								<li><a href="/board/list">이벤트 및 공지사항</a></li>
 								<sec:authorize access="isAuthenticated()">
 									<sec:authorize access="hasRole('USER')">
-										<li><a href="/mypage/ticket">예매 내역</a></li>
                   	<li><a href="/mypage">마이페이지</a></li>
                   </sec:authorize>
 									<sec:authorize access="hasRole('MANAGER')">
@@ -59,13 +58,12 @@
 										</ul></li>
 								</sec:authorize>
 								<sec:authorize access="isAuthenticated()">
-									<li><a href="/mypage/ticket"><span class="icon_profile"></span></a>
+									<li><a href="/mypage"><span class="icon_profile"></span></a>
 										<ul class="dropdown">
 											<li><a href="/member/logout">로그아웃</a></li>
 											<sec:authorize access="hasRole('USER')">
-												<li><a href="/mypage/ticket">예매 내역</a></li>
-												<li><a href="/store/cart">장바구니</a></li>
                       	<li><a href="/mypage">마이페이지</a></li>
+												<li><a href="/store/cart">장바구니</a></li>
                       </sec:authorize>
 										</ul></li>
 								</sec:authorize>
