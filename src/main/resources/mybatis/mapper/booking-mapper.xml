@@ -42,10 +42,7 @@
 
     WHERE
     s.start_time >= SYSDATE
-    <if test="date != null and date != ''">
-      AND s.start_time >= TO_DATE(#{date}, 'yyyy-mm-dd')
-      AND s.start_time &lt; TO_DATE(#{date}, 'yyyy-mm-dd') + 1
-    </if>
+
     <if test="region != null and region != 0">
       AND t.region_no = #{region}
     </if>
