@@ -21,6 +21,10 @@
 /*---------------------
   Booking CSS
 -----------------------*/
+#bookingMain {
+	margin-top: 50px;
+}
+
 .booking_row {
 	background-color: white;
 	width: 100%;
