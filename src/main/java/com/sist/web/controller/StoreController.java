@@ -13,7 +13,8 @@ import jakarta.servlet.http.HttpSession;
 public class StoreController {
 	
 	@GetMapping("/list")
-	public String store_list(Model model) {
+	public String store_list(Model model, HttpSession session) {
+		model.addAttribute("userid", session.getAttribute("userid"));
 		model.addAttribute("main_jsp", "../store/list.jsp");
 		return "main/main";
 	}

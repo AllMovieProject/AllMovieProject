@@ -110,7 +110,7 @@
   </div>
 
   <script src="/teamjs/commons.js"></script>
-  <script src="/teamjs/store/managerOrder.js"></script>
+  <script src="/teamjs/store/managerOrderStore.js"></script>
   <script>
     const { createApp, onMounted, onUnmounted } = Vue
     const { createPinia } = Pinia

@@ -68,4 +68,48 @@ public interface StoreMapper {
           + "WHERE store_id = #{store_id}")
     public StoreVO getStoreById(int store_id);
 
+    // 사용자 위치 기반 극장 거리
+    @Select("SELECT store_id, s.theater_id, store_name, "
+          + "  ROUND("
+          + "    6371 * ACOS("
+          + "      COS(#{userLat} * 3.14159265359 / 180) * "
+          + "      COS(theater_lat * 3.14159265359 / 180) * "
+          + "      COS((theater_lng - #{userLng}) * 3.14159265359 / 180) + "
+          + "      SIN(#{userLat} * 3.14159265359 / 180) * "
+          + "      SIN(theater_lat * 3.14159265359 / 180)"
+          + "    ), 1"
+          + "  ) as distance "
+          + "FROM theater t "
+          + "JOIN store s ON t.theater_id = s.theater_id "
+          + "WHERE s.store_id = #{store_id} "
+          + "AND theater_lat IS NOT NULL "
+          + "AND theater_lng IS NOT NULL "
+          + "ORDER BY distance")
+    public StoreVO storeDistanceData(
+        @Param("userLat") double userLat, 
+        @Param("userLng") double userLng,
+        @Param("store_id") int store_id
+    );
+
+    // 사용자 위치 기반 극장 목록 (거리 계산 포함)
+    @Select("SELECT store_id, s.theater_id, store_name, userid, "
+            + "  ROUND("
+            + "    6371 * ACOS("
+            + "      COS(#{userLat} * 3.14159265359 / 180) * "
+            + "      COS(theater_lat * 3.14159265359 / 180) * "
+            + "      COS((theater_lng - #{userLng}) * 3.14159265359 / 180) + "
+            + "      SIN(#{userLat} * 3.14159265359 / 180) * "
+            + "      SIN(theater_lat * 3.14159265359 / 180)"
+            + "    ), 1"
+            + "  ) as distance "
+            + "FROM theater t "
+            + "JOIN store s ON t.theater_id = s.theater_id "
+            + "WHERE theater_lat IS NOT NULL "
+            + "AND theater_lng IS NOT NULL "
+            + "ORDER BY distance")
+      public List<StoreVO> storeNearByDistance(
+          @Param("userLat") double userLat, 
+          @Param("userLng") double userLng
+      );
+    
 }

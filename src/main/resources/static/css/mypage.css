@@ -139,6 +139,14 @@
 	cursor: pointer;
 }
 
+.btn.order-tracking {
+	width: 120px;
+	background: #e74c3c;
+	color: #fff;
+	border: none;
+	margin-bottom: 5px;
+}
+
 .btn.outline {
 	background: #fff;
 	border: 1px solid #ccc;

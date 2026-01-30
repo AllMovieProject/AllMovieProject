@@ -46,13 +46,13 @@
 							    </div>
 							    <div class="col-lg-2 col-md-2 col-sm-6">
 							      <div class="product__page__filter">
-							        <select v-model="store.storeId" @change="store.changeStore(store.storeId)" class="store-select">
+							        <select v-model="store.storeId" @change="store.changeStore()" class="store-select">
 							          <option 
-							            v-for="storeItem in store.store_list" 
-							            :key="storeItem.store_id"
-							            :value="storeItem.store_id"
+							            v-for="storeInfo in store.store_list" 
+							            :key="storeInfo.store_id"
+							            :value="storeInfo.store_id"
 							          >
-							            {{ storeItem.store_name }}
+							            {{ storeInfo.store_name }}
 							          </option>
 							        </select>
 							      </div>
@@ -171,28 +171,30 @@
 		</div>
 
 		<script src="/teamjs/commons.js"></script>
-		<script src="/teamjs/store/store.js"></script>
+		<script src="/teamjs/store/storeStore.js"></script>
 		<script>
-			const { createApp, onMounted } = Vue;
-			const { createPinia } = Pinia;
+			const { createApp, onMounted } = Vue
+			const { createPinia } = Pinia
 
 			const app = createApp({
 				setup() {
-					const store = useStoreStore();
+					const store = useStoreStore()
 
 					onMounted(async () => {
-						await store.loadStoreList();
-						await store.loadStockList();
-					});
+						store.user_id = '${sessionScope.userid}'
+						await store.loadNearbyStores()
+						await store.loadStoreDistance()
+						await store.loadStockList()
+					})
 
 					return {
-						store,
-					};
+						store
+					}
 				},
-			});
+			})
 
-			app.use(createPinia());
-			app.mount('#app');
+			app.use(createPinia())
+			app.mount('#app')
 		</script>
 	</body>
 </html>

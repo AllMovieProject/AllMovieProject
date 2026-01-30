@@ -10,8 +10,8 @@
 
     <!-- 주문 내역 리스트 -->
     <div v-else-if="store.orderList.length > 0">
-    	<div>
-    		<a href="/mypage/order/tracking" class="btn cancel">주문 현황 조회</a>
+    	<div class="text-right">
+    		<a href="/mypage/order/tracking" class="btn order-tracking">주문 현황 조회</a>
     	</div>
       <div v-for="order in store.orderList" :key="order.order_id" class="order-item">
         <!-- 주문 헤더 -->

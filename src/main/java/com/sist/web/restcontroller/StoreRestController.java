@@ -71,5 +71,33 @@ public class StoreRestController {
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+    
+    @GetMapping("/distance")
+    public ResponseEntity<StoreVO> storeDistanceData(
+            @RequestParam("userLat") double userLat,
+            @RequestParam("userLng") double userLng,
+            @RequestParam("storeId") int store_id) {
+        try {
+            StoreVO store = sService.storeDistanceData(userLat, userLng, store_id);
+            System.out.println(store.getStore_name());
+            return new ResponseEntity<>(store, HttpStatus.OK);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @GetMapping("/nearby")
+    public ResponseEntity<List<StoreVO>> storeNearByDistance(
+            @RequestParam("userLat") double userLat,
+            @RequestParam("userLng") double userLng) {
+        try {
+            List<StoreVO> stores = sService.storeNearByDistance(userLat, userLng);
+            return new ResponseEntity<>(stores, HttpStatus.OK);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
 
 }

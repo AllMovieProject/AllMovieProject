@@ -41,4 +41,14 @@ public class StoreServiceImpl implements StoreService {
         return mapper.getStoreById(store_id);
     }
 
+	@Override
+	public StoreVO storeDistanceData(double userLat, double userLng, int store_id) {
+		return mapper.storeDistanceData(userLat, userLng, store_id);
+	}
+
+	@Override
+	public List<StoreVO> storeNearByDistance(double userLat, double userLng) {
+		return mapper.storeNearByDistance(userLat, userLng);
+	}
+
 }

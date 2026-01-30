@@ -223,6 +223,7 @@ const useProductStore = defineStore('product', {
 			}
 
 			alert('식품이 추가되었습니다!')
+			location.href = '/store/stock'
 		},
 	},
 })

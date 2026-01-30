@@ -7,5 +7,6 @@ public class StoreVO {
 	
 	private int store_id;
 	private String theater_id, store_name, userid;
+	private double distance;
 
 }

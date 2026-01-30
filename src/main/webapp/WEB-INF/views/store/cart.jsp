@@ -151,7 +151,7 @@
   </div>
 
   <script src="/teamjs/commons.js"></script>
-  <script src="/teamjs/store/cart.js"></script>
+  <script src="/teamjs/store/cartStore.js"></script>
   <script>
     const { createApp, onMounted } = Vue
     const { createPinia } = Pinia

@@ -12,5 +12,7 @@ public interface StoreService {
 	public int getStoreId(String userid);
 	public List<StoreVO> getAllStores();
     public StoreVO getStoreById(int store_id);
+    public StoreVO storeDistanceData(double userLat, double userLng, int store_id);
+    public List<StoreVO> storeNearByDistance(double userLat, double userLng);
 
 }

@@ -123,7 +123,7 @@
   </div>
 
   <script src="/teamjs/commons.js"></script>
-  <script src="/teamjs/store/payment.js"></script>
+  <script src="/teamjs/store/paymentStore.js"></script>
   <script>
     const { createApp, onMounted } = Vue
     const { createPinia } = Pinia

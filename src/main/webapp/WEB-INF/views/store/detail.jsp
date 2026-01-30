@@ -153,7 +153,7 @@
     <!-- Blog Details Section End -->
   </div>
   <script src="/teamjs/commons.js"></script>
-  <script src="/teamjs/store/storeDetail.js"></script>
+  <script src="/teamjs/store/storeDetailStore.js"></script>
   <script>
     const { createApp, onMounted } = Vue
     const { createPinia } = Pinia
