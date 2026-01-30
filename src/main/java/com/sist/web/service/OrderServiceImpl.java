@@ -79,8 +79,9 @@ public class OrderServiceImpl implements OrderService {
     
     @Override
     public List<OrderVO> getStoreOrders(int store_id, String order_status) {
-        List<OrderVO> orders = mapper.getStoreOrders(store_id, order_status);
+    	return mapper.getStoreOrders(store_id, order_status);
         // 각 주문의 상품 정보 조회
+        /* n+1 문제 발생
         for (OrderVO order : orders) {
             order.setItems(mapper.getOrderItems(order.getOrder_id()));
             // 각 상품의 옵션 조회
@@ -90,7 +91,7 @@ public class OrderServiceImpl implements OrderService {
                 }
             }
         }
-        return orders;
+        return orders;*/
     }
 
     @Override

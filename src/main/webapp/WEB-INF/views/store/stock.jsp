@@ -44,29 +44,29 @@ pageEncoding="UTF-8"%>
 						<table v-if="store.stock_list.length > 0">
 							<thead>
 								<tr>
-									<th>상품명</th>
-									<th>이미지</th>
-									<th>가격</th>
-									<th>할인가</th>
-									<th>재고수량</th>
-									<th>등록일</th>
+									<th class="text-center">상품명</th>
+									<th class="text-center">이미지</th>
+									<th class="text-center">가격</th>
+									<th class="text-center">할인가</th>
+									<th class="text-center">재고수량</th>
+									<th class="text-center">등록일</th>
 								</tr>
 							</thead>
 							<tbody>
 								<tr v-for="stock in store.stock_list" :key="stock.stock_id">
-									<td>{{ stock.pvo.product_name }}</td>
-									<td>
+									<td class="text-center">{{ stock.pvo.product_name }}</td>
+									<td class="text-center">
 										<img
 											v-if="stock.pvo.product_image"
-											:src="`/upload/${stock.pvo.product_image}`"
+											:src="'/upload/' + stock.pvo.product_image"
 											alt="상품이미지"
 											class="product-image"
 										/>
 									</td>
-									<td>{{ store.formatPrice(stock.pvo.product_price) }}원</td>
-									<td>{{ stock.pvo.discount }}원</td>
-									<td>{{ stock.stock_quantity }}개</td>
-									<td>{{ stock.dbday }}</td>
+									<td class="text-center">{{ store.formatPrice(stock.pvo.product_price) }}원</td>
+									<td class="text-center">{{ stock.pvo.discount }}원</td>
+									<td class="text-center">{{ stock.stock_quantity }}개</td>
+									<td class="text-center">{{ stock.dbday }}</td>
 								</tr>
 							</tbody>
 						</table>

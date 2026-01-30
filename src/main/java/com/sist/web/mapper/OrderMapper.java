@@ -42,17 +42,17 @@ public interface OrderMapper {
     public void updateOrderStatusById(@Param("order_id") int order_id, @Param("order_status") String order_status);
 
     // 주문 상세 조회 (merchant_uid)
-    @Select("SELECT order_id, userid, store_id, merchant_uid, total_amount, order_status, "
+    /*@Select("SELECT order_id, userid, store_id, merchant_uid, total_amount, order_status, "
     	  + "TO_CHAR(order_date, 'YYYY-MM-DD HH24:MI:SS') dbday "
-    	  + "FROM orders WHERE merchant_uid = #{merchant_uid}")
+    	  + "FROM orders WHERE merchant_uid = #{merchant_uid}")*/
     public OrderVO getOrderByMerchantUid(String merchant_uid);
 
     // 사용자 주문 목록 조회
-    @Select("SELECT order_id, userid, store_id, merchant_uid, total_amount, "
+    /*@Select("SELECT order_id, userid, store_id, merchant_uid, total_amount, "
           + "order_status, TO_CHAR(order_date, 'YYYY-MM-DD HH24:MI:SS') as dbday "
           + "FROM orders "
           + "WHERE userid = #{userid} "
-          + "ORDER BY order_date DESC")
+          + "ORDER BY order_date DESC")*/
     public List<OrderVO> getUserOrders(String userid);
 
     // 주문 상품 조회
@@ -86,7 +86,7 @@ public interface OrderMapper {
     public OrderVO getOrderById(int order_id);
     
     // 매장별 주문 목록 조회 (상태별)
-    @Select("<script>"
+    /*@Select("<script>"
           + "SELECT o.order_id, o.userid, o.store_id, o.merchant_uid, o.total_amount, "
           + "o.order_status, TO_CHAR(o.order_date, 'YYYY-MM-DD HH24:MI:SS') as dbday, "
           + "m.username "
@@ -97,7 +97,7 @@ public interface OrderMapper {
           + "AND o.order_status = #{order_status} "
           + "</if>"
           + "ORDER BY o.order_date DESC"
-          + "</script>")
+          + "</script>")*/
     public List<OrderVO> getStoreOrders(@Param("store_id") int store_id, @Param("order_status") String order_status);
 
     // 오늘의 주문 통계

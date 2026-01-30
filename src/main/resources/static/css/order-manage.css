@@ -157,6 +157,13 @@
   border: 1px solid #ddd;
 }
 
+.btn-back {
+  background: #e74c3c;
+  color: #fff;
+  border: none;
+  margin-bottom: 5px;
+}
+
 .empty-orders {
   text-align: center;
   padding: 80px 20px;

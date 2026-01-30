@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+ "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sist.web.mapper.OrderMapper">
+
+  <!-- ResultMap: 주문 상품 옵션 상세 -->
+  <resultMap id="orderItemDetailResultMap" type="com.sist.web.vo.OrderItemDetailVO">
+    <id property="order_item_detail_id" column="order_item_detail_id"/>
+    <result property="order_item_id" column="order_item_id"/>
+    <result property="item_id" column="item_id"/>
+    <result property="quantity" column="detail_quantity"/>
+    
+    <!-- ProductItemVO 매핑 -->
+    <association property="ivo" javaType="com.sist.web.vo.ProductItemVO">
+      <result property="item_name" column="item_name"/>
+      <result property="item_size" column="item_size"/>
+    </association>
+  </resultMap>
+
+  <!-- ResultMap: 주문 상품 -->
+  <resultMap id="orderItemResultMap" type="com.sist.web.vo.OrderItemVO">
+    <id property="order_item_id" column="order_item_id"/>
+    <result property="order_id" column="order_id"/>
+    <result property="product_id" column="product_id"/>
+    <result property="quantity" column="item_quantity"/>
+    <result property="price" column="item_price"/>
+    
+    <!-- StoreProductVO 매핑 -->
+    <association property="pvo" javaType="com.sist.web.vo.StoreProductVO">
+      <result property="product_name" column="product_name"/>
+      <result property="product_image" column="product_image"/>
+      <result property="is_combo" column="is_combo"/>
+    </association>
+    
+    <!-- 주문 상품 옵션 목록 (Collection) -->
+    <collection property="details" ofType="com.sist.web.vo.OrderItemDetailVO"
+                resultMap="orderItemDetailResultMap"/>
+  </resultMap>
+
+  <!-- ResultMap: 주문 (전체) -->
+  <resultMap id="orderFullResultMap" type="com.sist.web.vo.OrderVO">
+    <id property="order_id" column="order_id"/>
+    <result property="userid" column="userid"/>
+    <result property="store_id" column="store_id"/>
+    <result property="merchant_uid" column="merchant_uid"/>
+    <result property="total_amount" column="total_amount"/>
+    <result property="order_status" column="order_status"/>
+    <result property="dbday" column="dbday"/>
+    <result property="username" column="username"/>
+    
+    <!-- 주문 상품 목록 (Collection) -->
+    <collection property="items" ofType="com.sist.web.vo.OrderItemVO"
+                resultMap="orderItemResultMap"/>
+  </resultMap>
+
+  <!-- 매장별 주문 목록 조회 (단일 쿼리로 모든 데이터 조회) -->
+  <select id="getStoreOrders" resultMap="orderFullResultMap">
+    SELECT 
+      o.order_id,
+      o.userid,
+      o.store_id,
+      o.merchant_uid,
+      o.total_amount,
+      o.order_status,
+      TO_CHAR(o.order_date, 'YYYY-MM-DD HH24:MI:SS') as dbday,
+      m.username,
+      
+      oi.order_item_id,
+      oi.product_id,
+      oi.quantity as item_quantity,
+      oi.price as item_price,
+      
+      sp.product_name,
+      sp.product_image,
+      sp.is_combo,
+      
+      oid.order_item_detail_id,
+      oid.item_id,
+      oid.quantity as detail_quantity,
+      
+      pi.item_name,
+      pi.item_size
+      
+    FROM orders o
+    JOIN member m ON o.userid = m.userid
+    LEFT JOIN order_item oi ON o.order_id = oi.order_id
+    LEFT JOIN store_product sp ON oi.product_id = sp.product_id
+    LEFT JOIN order_item_detail oid ON oi.order_item_id = oid.order_item_id
+    LEFT JOIN product_item pi ON oid.item_id = pi.item_id
+    
+    WHERE o.store_id = #{store_id}
+    <if test="order_status != null and order_status != ''">
+      AND o.order_status = #{order_status}
+    </if>
+    
+    ORDER BY o.order_date DESC, oi.order_item_id, oid.order_item_detail_id
+  </select>
+
+  <!-- merchant_uid로 주문 조회 (단일 쿼리) -->
+  <select id="getOrderByMerchantUid" resultMap="orderFullResultMap">
+    SELECT 
+      o.order_id,
+      o.userid,
+      o.store_id,
+      o.merchant_uid,
+      o.total_amount,
+      o.order_status,
+      TO_CHAR(o.order_date, 'YYYY-MM-DD HH24:MI:SS') as dbday,
+      m.username,
+      
+      oi.order_item_id,
+      oi.product_id,
+      oi.quantity as item_quantity,
+      oi.price as item_price,
+      
+      sp.product_name,
+      sp.product_image,
+      sp.is_combo,
+      
+      oid.order_item_detail_id,
+      oid.item_id,
+      oid.quantity as detail_quantity,
+      
+      pi.item_name,
+      pi.item_size
+      
+    FROM orders o
+    JOIN member m ON o.userid = m.userid
+    LEFT JOIN order_item oi ON o.order_id = oi.order_id
+    LEFT JOIN store_product sp ON oi.product_id = sp.product_id
+    LEFT JOIN order_item_detail oid ON oi.order_item_id = oid.order_item_id
+    LEFT JOIN product_item pi ON oid.item_id = pi.item_id
+    
+    WHERE o.merchant_uid = #{merchant_uid}
+    
+    ORDER BY oi.order_item_id, oid.order_item_detail_id
+  </select>
+
+  <!-- 사용자별 주문 목록 조회 (단일 쿼리) -->
+  <select id="getUserOrders" resultMap="orderFullResultMap">
+    SELECT 
+      o.order_id,
+      o.userid,
+      o.store_id,
+      o.merchant_uid,
+      o.total_amount,
+      o.order_status,
+      TO_CHAR(o.order_date, 'YYYY-MM-DD HH24:MI:SS') as dbday,
+      m.username,
+      
+      oi.order_item_id,
+      oi.product_id,
+      oi.quantity as item_quantity,
+      oi.price as item_price,
+      
+      sp.product_name,
+      sp.product_image,
+      sp.is_combo,
+      
+      oid.order_item_detail_id,
+      oid.item_id,
+      oid.quantity as detail_quantity,
+      
+      pi.item_name,
+      pi.item_size
+      
+    FROM orders o
+    JOIN member m ON o.userid = m.userid
+    LEFT JOIN order_item oi ON o.order_id = oi.order_id
+    LEFT JOIN store_product sp ON oi.product_id = sp.product_id
+    LEFT JOIN order_item_detail oid ON oi.order_item_id = oid.order_item_id
+    LEFT JOIN product_item pi ON oid.item_id = pi.item_id
+    
+    WHERE o.userid = #{userid}
+    
+    ORDER BY o.order_date DESC, oi.order_item_id, oid.order_item_detail_id
+  </select>
+
+</mapper>
