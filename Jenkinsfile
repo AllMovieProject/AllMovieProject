@@ -5,7 +5,7 @@ pipeline {
 		DOCKER_IMAGE = "necteo/all-movie"
 		DOCKER_TAG = "latest"
 		CONTAINER = "all-movie"
-		EC2_HOST = "100.53.33.30"
+		EC2_HOST = "54.147.137.211"
 		EC2_USER = "ubuntu"
 		PORT = "8000"
 		COMPOSE_FILE = "~/app/docker-compose.yml"
