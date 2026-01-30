@@ -5,7 +5,7 @@ pipeline {
 		DOCKER_IMAGE = "necteo/all-movie"
 		DOCKER_TAG = "latest"
 		CONTAINER = "all-movie"
-		EC2_HOST = "34.224.165.166"
+		EC2_HOST = "100.53.33.30"
 		EC2_USER = "ubuntu"
 		PORT = "8000"
 		COMPOSE_FILE = "~/app/docker-compose.yml"
@@ -62,7 +62,7 @@ pipeline {
 		stage('Deploy Docker Compose') {
 			steps {
 				echo 'Add SSH key'
-				sshagent(credentials: ['SERVER_KEY']) {
+				sshagent(credentials: ['SERVER_SSH_KEY']) {
 					sh """
 							ssh-keyscan -t ed25519 ${EC2_HOST} >> ~/.ssh/known_hosts
 							ssh -o StrictHostKeyChecking=no ${EC2_USER}@${EC2_HOST} '
