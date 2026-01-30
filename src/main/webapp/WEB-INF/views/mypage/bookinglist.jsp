@@ -20,7 +20,7 @@
 
 				<!-- 영화 정보 -->
 				<div class="ticket-detail">
-					<h3 class="movie-title">{{ vo.mvo.title }}</h3>
+					<h3 class="movie-title">{{ vo.mvo.title }}&nbsp;&nbsp;(예매 번호 : {{ vo.booking_id }})</h3>
 
 					<div class="info-grid">
 						<div>
