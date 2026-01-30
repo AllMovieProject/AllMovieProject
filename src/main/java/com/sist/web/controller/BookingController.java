@@ -11,15 +11,7 @@ public class BookingController {
 
     @GetMapping("/booking")
     public String booking_main(Model model) {
-        model.addAttribute("main_jsp", "../booking/booking.jsp");
+        model.addAttribute("main_jsp", "../booking/bookingMain.jsp");
         return "main/main";
     }
-
-    @PostMapping("/booking/seat")
-	public String booking_seat(@RequestParam("id") int id, Model model) {
-		model.addAttribute("id", id);
-		model.addAttribute("main_jsp", "../booking/seat.jsp");
-		return "main/main";
-	}
-
 }

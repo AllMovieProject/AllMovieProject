@@ -46,7 +46,8 @@
 					<div class="booking_movie">
 						<table class="table">
 							<tbody>
-								<tr v-for="mvo in store.datas.movie_list" :key="mvo.movie_id">
+								<tr v-for="mvo in store.scheduleDatas.movie_list"
+									:key="mvo.movie_id">
 									<td class="booking_data"
 										:class="{' table-active': store.booking_movie === mvo.movie_id }"
 										@click="store.movieUpdate(mvo.movie_id)"><img
@@ -63,7 +64,8 @@
 					<div class="theater_region">
 						<table class="table">
 							<tbody>
-								<tr v-for="rvo in store.datas.region_list" :key="rvo.region_no">
+								<tr v-for="rvo in store.scheduleDatas.region_list"
+									:key="rvo.region_no">
 									<td class="booking_data"
 										:class="{' table-active': store.booking_region === rvo.region_no }"
 										@click="store.regionUpdate(rvo.region_no)">{{
@@ -79,7 +81,7 @@
 					<div class="theater_name">
 						<table class="table">
 							<tbody>
-								<tr v-for="tvo in store.datas.theater_list"
+								<tr v-for="tvo in store.scheduleDatas.theater_list"
 									:key="tvo.theater_id">
 									<td class="booking_data"
 										v-if="store.booking_region == tvo.region_no"
@@ -96,110 +98,37 @@
 					<div class="v-line"></div>
 					<div class="booking_schedule">
 
-						
-							<!-- <table class="table">
-								<tbody>
-									<tr v-for="(svo, index) in store.datas.schedule_list"
-										:key="index">
-										<td class="booking_data"
-											@click="store.seatPage(form, svo.schedule_id)">
-											<div class="schedule_list">
-												<input type="hidden" name="id" :value="svo.schedule_id" />
+						<div class="schedule_wrap">
+							<div class="schedule_row"
+								v-for="(svo, index) in store.scheduleDatas.schedule_list"
+								@click="store.showSeatPage(svo.schedule_id)" :key="index">
 
-												<div class="schedule_info">
-													<div class="time">
-														<strong>{{ svo.starttime }} ~ </strong> <span>{{
-															svo.endtime }}</span>
-													</div>
-
-													<div class="movie_info">
-														<div class="title">{{ svo.mvo.title }}</div>
-														<div class="type">{{ svo.mvo.movie_type }}</div>
-													</div>
-
-													<div class="theater_info">
-														<div>{{ svo.tvo.theater_name }}</div>
-														<div>{{ svo.scvo.screen_name }}</div>
-													</div>
-
-													<div class="seat_count">
-														<span class="remain">{{ svo.available_count }}</span>/<span
-															class="total">{{ svo.total_count }}</span>
-													</div>
-												</div>
-
-											</div>
-										</td>
-									</tr>
-
-									<tr>
-										<td></td>
-									</tr>
-								</tbody>
-
-							</table> -->
-							<div class="schedule_wrap">
-							<form action="/booking/seat" method="post" ref="form">
-								<div class="schedule_row"
-									v-for="(svo, index) in store.datas.schedule_list" :key="index"
-									@click="store.seatPage(form)">
-									<input type="hidden" name="id"
-										:value="svo.schedule_id" />
-
-									<div class="time">
-										<strong>{{ svo.starttime }} ~ </strong> <span>{{
-											svo.endtime }}</span>
-									</div>
-
-									<div class="movie_info">
-										<div class="title">{{ svo.mvo.title }}</div>
-										<div class="type">{{ svo.mvo.movie_type }}</div>
-									</div>
-
-									<div class="theater_info">
-										<div>{{ svo.tvo.theater_name }}</div>
-										<div>{{ svo.scvo.screen_name }}</div>
-									</div>
-
-									<div class="seat_count">
-										<span class="remain">{{ svo.available_count }}</span> / <span
-											class="total">{{ svo.total_count }}</span>
-									</div>
+								<div class="time">
+									<strong>{{ svo.starttime }} ~ </strong> <span>{{
+										svo.endtime }}</span>
 								</div>
-								</form>
+
+								<div class="movie_info">
+									<div class="title">{{ svo.mvo.title }}</div>
+									<div class="type">{{ svo.mvo.movie_type }}</div>
+								</div>
+
+								<div class="theater_info">
+									<div>{{ svo.tvo.theater_name }}</div>
+									<div>{{ svo.scvo.screen_name }}</div>
+								</div>
+
+								<div class="seat_count">
+									<span class="remain">{{ svo.available_count }}</span> / <span
+										class="total">{{ svo.total_count }}</span>
+								</div>
 							</div>
+						</div>
 					</div>
 					<div class="v-line"></div>
 				</div>
 			</div>
 		</div>
 	</section>
-	<!-- Booking Section End -->
-	<script src="/teamjs/commons.js"></script>
-	<script src="/teamjs/booking/bookingStore.js"></script>
-	<script>
-    const { createApp, onMounted, ref } = Vue
-    const { createPinia } = Pinia
-    
-    const bookingApp = createApp({
-      setup() {
-        const store = useBookingStore()
-        const form = ref(null)
-        
-        onMounted(() => {
-        	store.bookingListData()
-        	store.user_id = '${sessionScope.userid}'
-        })
-        
-        return {
-          store,
-          form
-        }
-      }
-    })
-    
-    bookingApp.use(createPinia())
-    bookingApp.mount(".booking_row")
-  </script>
 </body>
 </html>

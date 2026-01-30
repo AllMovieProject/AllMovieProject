@@ -5,6 +5,7 @@
 <head>
 <meta charset="UTF-8">
 <title>AllMovie</title>
+<link rel="shortcut icon" href="#">
 <!-- Google Font -->
 <link
 	href="https://fonts.googleapis.com/css2?family=Oswald:wght@300;400;500;600;700&display=swap"
