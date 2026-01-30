@@ -39,7 +39,7 @@ public class ProductServiceImpl implements ProductService {
 		
 		String filename = "";
 		boolean checked = false;
-		if (productImageFile.isEmpty()) {
+		if (productImageFile == null || productImageFile.isEmpty()) {
 			checked = false; // 파일이 없는 상태
 		} else {
 			String oname = productImageFile.getOriginalFilename();
