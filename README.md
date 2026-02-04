@@ -27,21 +27,26 @@
 - 
 
 ### Database
-- 
+- Oracle RDBMS
 
 ### Infra / Tool
-- 
+- AWS EC2
 - Git / GitHub
+- Jenkins
 
 ---
 
 ##  프로젝트 구조
 
 -project-root
--┣ backend
--┃ ┣ src
--┃ ┗ build.gradle / pom.xml
--┣ README.md
+
+┣ backend
+
+┃ ┣ src
+
+┃ ┗ build.gradle / pom.xml
+
+┣ README.md
 
 
 ---
