@@ -119,7 +119,7 @@
     <th>영화 예매 DB 관계도</th>
   </tr>
   <tr>
-    <img width="2399" height="1396" alt="그림1" src="https://github.com/user-attachments/assets/8bf39c02-046c-492a-9175-b7122eb2c973" />
+    <td><img width="600" height="804" alt="Image" src="https://github.com/user-attachments/assets/259bb5b1-640e-40af-8764-ea881773dd20" /></td>
   </tr>
 </table>
 ---
