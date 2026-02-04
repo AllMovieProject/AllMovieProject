@@ -77,11 +77,33 @@
 
 ##  화면 구성 (UI)
 
-| 화면 | 설명 |
-|------|------|
-| 메인 페이지 | |
-| 영화 예매 | |
-| 마이페이지 | |
+### 영화 예매
+<table>
+  <tr>
+    <th>스케줄 페이지 (초기 화면)</th>
+    <th>스케줄 페이지 (스케줄 O)</th>
+  </tr>
+  <tr>
+    <td><img width="600" height="804" alt="Image" src="" /></td>
+    <td><img width="600" height="804" alt="Image" src="" /></td>
+  </tr>
+  <tr>
+    <td><img width="600" height="804" alt="Image" src="" /></td>
+    <td><img width="600" height="804" alt="Image" src="" /></td>
+  </tr>
+  <tr>
+    <th>좌석 페이지</th>
+    <th>결제 페이지</th>
+  </tr>
+  <tr>
+    <td><img width="600" height="804" alt="Image" src="" /></td>
+    <td><img width="600" height="804" alt="Image" src="" /></td>
+  </tr>
+  <tr>
+    <td><img width="600" height="804" alt="Image" src="" /></td>
+    <td><img width="600" height="804" alt="Image" src="" /></td>
+  </tr>
+</table>
 
 >  추후 스크린샷 추가 권장
 
@@ -92,8 +114,14 @@
 - 주요 테이블 설명
 - 테이블 간 관계
 
-> ERD 이미지 삽입 가능
-
+<table>
+  <tr>
+    <th>영화 예매 DB 관계도</th>
+  </tr>
+  <tr>
+    <td<img width="600" height="804" alt="Image" src="" />></td>
+  </tr>
+</table>
 ---
 
 ##  API 설계 (선택)
