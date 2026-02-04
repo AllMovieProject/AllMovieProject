@@ -40,11 +40,11 @@
 
 -project-root
 
-┣ backend
+┣ AllMovieProject
 
 ┃ ┣ src
 
-┃ ┗ build.gradle / pom.xml
+┃ ┗ build.gradle
 
 ┣ README.md
 
@@ -55,12 +55,14 @@
 
 ### 사용자 기능
 - 회원가입 / 로그인
-- 
-- 
+- 영화 예매 및 취소
+- 매점 구매 및 취소
+- 공지사항 확인, 단체 관람 문의
 
-### 관리자 기능 (선택)
-- 
-- 
+### 관리자 기능
+- 매점 재고 관리
+- 주문 관리
+- 공지사항 CRUD
 
 ---
 
