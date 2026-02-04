@@ -37,14 +37,11 @@
 
 ##  프로젝트 구조
 
-project-root
-┣ frontend
-┃ ┣ src
-┃ ┗ package.json
-┣ backend
-┃ ┣ src
-┃ ┗ build.gradle / pom.xml
-┣ README.md
+-project-root
+-┣ backend
+-┃ ┣ src
+-┃ ┗ build.gradle / pom.xml
+-┣ README.md
 
 
 ---
