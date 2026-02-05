@@ -24,6 +24,8 @@
 
 ---
 
+**배포 URL**: [https://sist-all-movie.duckdns.org](https://sist-all-movie.duckdns.org)
+
 ##  기술 스택
 
 ### Frontend
