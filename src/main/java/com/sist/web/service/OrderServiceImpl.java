@@ -104,6 +104,7 @@ public class OrderServiceImpl implements OrderService {
         OrderVO order = mapper.getOrderByMerchantUid(merchant_uid);
         if (order != null) {
             // 주문 상품 조회
+        	
             order.setItems(mapper.getOrderItems(order.getOrder_id()));
             // 각 상품의 옵션 조회
             if (order.getItems() != null) {

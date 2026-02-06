@@ -109,6 +109,7 @@ public interface OrderMapper {
           + "SUM(total_amount) as total_amount "
           + "FROM orders "
           + "WHERE store_id = #{store_id} "
+          + "AND order_status <> 'cancelled' "
           + "AND TO_CHAR(order_date, 'YYYY-MM-DD') = TO_CHAR(SYSDATE, 'YYYY-MM-DD')")
     public Map<String, Object> getTodayOrderStats(int store_id);
     

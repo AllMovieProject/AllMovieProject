@@ -78,6 +78,7 @@ public class ManagerOrderRestController {
             }
             
             Map<String, Object> stats = oService.getTodayOrderStats(store_id);
+            System.out.println(stats.get("total_count"));
             return new ResponseEntity<>(stats, HttpStatus.OK);
         } catch (Exception e) {
             e.printStackTrace();

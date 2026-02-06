@@ -162,6 +162,7 @@
 
         onMounted(async () => {
           await store.loadCartList()
+          console.log(store.cart_list);
         })
 
         return {

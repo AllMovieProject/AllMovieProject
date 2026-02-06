@@ -81,19 +81,16 @@
       
       pi.item_name,
       pi.item_size
-      
     FROM orders o
     JOIN member m ON o.userid = m.userid
     LEFT JOIN order_item oi ON o.order_id = oi.order_id
     LEFT JOIN store_product sp ON oi.product_id = sp.product_id
     LEFT JOIN order_item_detail oid ON oi.order_item_id = oid.order_item_id
     LEFT JOIN product_item pi ON oid.item_id = pi.item_id
-    
     WHERE o.store_id = #{store_id}
     <if test="order_status != null and order_status != ''">
       AND o.order_status = #{order_status}
     </if>
-    
     ORDER BY o.order_date DESC, oi.order_item_id, oid.order_item_detail_id
   </select>
 
@@ -124,16 +121,13 @@
       
       pi.item_name,
       pi.item_size
-      
     FROM orders o
     JOIN member m ON o.userid = m.userid
     LEFT JOIN order_item oi ON o.order_id = oi.order_id
     LEFT JOIN store_product sp ON oi.product_id = sp.product_id
     LEFT JOIN order_item_detail oid ON oi.order_item_id = oid.order_item_id
     LEFT JOIN product_item pi ON oid.item_id = pi.item_id
-    
     WHERE o.merchant_uid = #{merchant_uid}
-    
     ORDER BY oi.order_item_id, oid.order_item_detail_id
   </select>
 
@@ -164,16 +158,13 @@
       
       pi.item_name,
       pi.item_size
-      
     FROM orders o
     JOIN member m ON o.userid = m.userid
     LEFT JOIN order_item oi ON o.order_id = oi.order_id
     LEFT JOIN store_product sp ON oi.product_id = sp.product_id
     LEFT JOIN order_item_detail oid ON oi.order_item_id = oid.order_item_id
     LEFT JOIN product_item pi ON oid.item_id = pi.item_id
-    
     WHERE o.userid = #{userid}
-    
     ORDER BY o.order_date DESC, oi.order_item_id, oid.order_item_detail_id
   </select>
 

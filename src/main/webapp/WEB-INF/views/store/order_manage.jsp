@@ -173,7 +173,7 @@
 		  </div>
 
       <!-- 주문 없음 -->
-      <div v-else-if="!store.loading" class="empty-orders">
+      <div v-else-if="store.loading" class="empty-orders">
         <div style="font-size: 48px; margin-bottom: 20px;">📦</div>
         <div>주문이 없습니다</div>
       </div>

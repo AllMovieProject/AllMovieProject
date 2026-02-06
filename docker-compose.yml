@@ -3,3 +3,5 @@ services:
     image: necteo/all-movie
     ports:
       - '8000:8000'
+    volumes:
+      - /var/upload:/var/upload # host:container

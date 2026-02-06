@@ -1,4 +1,4 @@
-const { defineStore } = Pinia
+const { defineStore } = Pinia;
 
 const initialState = () => ({
 	currentPage: 'schedule',
@@ -22,7 +22,7 @@ const initialState = () => ({
 		movie_list: [],
 		region_list: [],
 		theater_list: [],
-		schedule_list: []
+		schedule_list: [],
 	},
 	//------------------------------------------------------------------------
 
@@ -30,7 +30,7 @@ const initialState = () => ({
 	seatDatas: {
 		row_list: [],
 		col_list: [],
-		seatId_list: []
+		seatId_list: [],
 	},
 	col_len: 0,
 
@@ -46,7 +46,7 @@ const initialState = () => ({
 	selected_adult: 0,
 	selected_teen: 0,
 	selected_prefer: 0,
-	
+
 	validation: 0,
 	//------------------------------------------------------------------------
 
@@ -56,16 +56,16 @@ const initialState = () => ({
 
 	selected_seats: [],
 	selected_info: [],
-	merchant_uid: ''
+	merchant_uid: '',
 	//------------------------------------------------------------------------
-})
+});
 
 const useBookingMainStore = defineStore('bookingMain', {
 	state: initialState,
 
 	actions: {
 		pageTo(page) {
-			this.currentPage = page
+			this.currentPage = page;
 		},
 
 		// bookingSchedule
@@ -74,364 +74,378 @@ const useBookingMainStore = defineStore('bookingMain', {
 				date: this.booking_date,
 				movie: this.booking_movie,
 				region: this.booking_region,
-				theater: this.booking_theater
-			})
+				theater: this.booking_theater,
+			});
 
-			this.scheduleDatas = res.data
+			this.scheduleDatas = res.data;
 
-			this.booking_date = ''
+			this.booking_date = '';
 
 			for (let i = 0; i < res.data.date_list.length; i++) {
 				if (res.data.date_list[i].date_data === this.tempDate) {
-					this.booking_date = this.tempDate
+					this.booking_date = this.tempDate;
 				}
 			}
 
 			if (this.booking_date === '') {
-				this.booking_date = res.data.date_list[0].date_data
+				this.booking_date = res.data.date_list[0].date_data;
 			}
 
-			this.maxPage = res.data.date_list.length / this.len
-			this.paginator()
+			this.maxPage = res.data.date_list.length / this.len;
+			this.paginator();
 		},
 
 		dateUpdate(date) {
 			if (this.booking_date !== date) {
-				this.tempDate = date
-				this.booking_date = date
-				this.bookingListData()
+				this.tempDate = date;
+				this.booking_date = date;
+				this.bookingListData();
 			}
 		},
 
 		movieUpdate(movie) {
 			if (this.booking_movie === movie) {
-				this.booking_movie = 0
+				this.booking_movie = 0;
 			} else {
-				this.booking_movie = movie
-				this.tempDate = this.booking_date
+				this.booking_movie = movie;
+				this.tempDate = this.booking_date;
 			}
 
-			this.bookingListData()
+			this.bookingListData();
 		},
 
 		regionUpdate(region) {
 			if (this.booking_region === region) {
-				this.booking_region = 0
+				this.booking_region = 0;
 			} else {
-				this.booking_region = region
+				this.booking_region = region;
 			}
 
-			this.bookingListData()
+			this.bookingListData();
 		},
 
 		theaterUpdate(theater) {
 			if (this.booking_theater === theater) {
-				this.booking_theater = ''
+				this.booking_theater = '';
 			} else {
-				this.booking_theater = theater
+				this.booking_theater = theater;
 			}
 
-			this.bookingListData()
+			this.bookingListData();
 		},
 
 		async showSeatPage(id) {
 			if (this.user_id === null || this.user_id === '') {
-				alert('로그인 후 사용해 주세요')
-				return
+				alert('로그인 후 사용해 주세요');
+				return;
 			}
-			this.schedule_id = id
+			this.schedule_id = id;
 
-			await this.seatListData(id)
-			await this.bookingScheduleInfoData(id)
+			await this.seatListData(id);
+			await this.bookingScheduleInfoData(id);
 
-			this.currentPage = 'seat'
+			this.currentPage = 'seat';
 		},
 
 		prevDateBtn() {
 			if (this.page === 1) {
-				alert('이전 일자가 없습니다')
-				return
+				alert('이전 일자가 없습니다');
+				return;
 			}
 
-			this.page -= 1
-			this.paginator()
+			this.page -= 1;
+			this.paginator();
 		},
 
 		nextDateBtn() {
 			if (this.page === this.maxPage) {
-				alert('이후 일자가 없습니다')
-				return
+				alert('이후 일자가 없습니다');
+				return;
 			}
 
-			this.page += 1
-			this.paginator()
+			this.page += 1;
+			this.paginator();
 		},
 
 		paginator() {
-			const startIndex = 0 + (this.page - 1) * 10
-			const endIndex = 10 + (this.page - 1) * 10
-			this.dateList = this.scheduleDatas.date_list.slice(startIndex, endIndex)
+			const startIndex = 0 + (this.page - 1) * 10;
+			const endIndex = 10 + (this.page - 1) * 10;
+			this.dateList = this.scheduleDatas.date_list.slice(startIndex, endIndex);
 		},
 
 		async schedulePageReturn() {
-			this.currentPage = 'booking'
+			this.currentPage = 'booking';
 		},
 
 		//------------------------------------------------------------------------
 
 		// bookingSeat
 		async seatListData(schedule_id) {
-			this.schedule_id = schedule_id
+			this.schedule_id = schedule_id;
 
 			const res = await api.post('/seat/data', {
-				schedule_id: this.schedule_id
-			})
+				schedule_id: this.schedule_id,
+			});
 
-			this.seatDatas = res.data
-			this.col_len = this.seatDatas.col_list.length
+			this.seatDatas = res.data;
+			this.col_len = this.seatDatas.col_list.length;
 		},
 
 		findSeatAvailable(rindex, cindex) {
-			const no = this.col_len * rindex + cindex
+			const no = this.col_len * rindex + cindex;
 
-			return this.seatDatas.seatId_list[no].reservation_flag === 0
+			return this.seatDatas.seatId_list[no].reservation_flag === 0;
 		},
 
 		findSeatChecked(rindex, cindex) {
-			const no = this.col_len * rindex + cindex
-			const seatId = this.seatDatas.seatId_list[no].seat_id
+			const no = this.col_len * rindex + cindex;
+			const seatId = this.seatDatas.seatId_list[no].seat_id;
 
 			for (let i = 0; i < this.selected_seats.length; i++) {
 				if (this.selected_seats[i] === seatId) {
-					return true
+					return true;
 				}
 			}
 
-			return false
+			return false;
 		},
 
 		async bookingScheduleInfoData(schedule_id) {
 			const res = await api.post('/seat/booking_info', {
-				schedule_id: schedule_id
-			})
+				schedule_id: schedule_id,
+			});
 
-			this.info = res.data
+			this.info = res.data;
 		},
 
 		showPaymentPage() {
-			let count = 0
-			
+			let count = 0;
+
 			if (this.user_id === null || this.user_id === '') {
-				alert('로그인 후 사용해 주세요')
-				location.href = '/booking'
-				return
+				alert('로그인 후 사용해 주세요');
+				location.href = '/booking';
+				return;
 			} else if (this.total_count !== this.selected_seats.length) {
-				return
+				return;
 			} else {
 				for (let i = 0; i < this.selected_seats.length; i++) {
-					this.seatValidation(this.selected_seats[i])
+					this.seatValidation(this.selected_seats[i]);
 				}
 			}
-			
+
 			if (this.validation === this.selected_seats.length) {
 				api.post('/seat/booking_seat', {
 					schedule_id: this.schedule_id,
-					selected_seats: this.selected_seats
-				})
+					selected_seats: this.selected_seats,
+				});
 
-				this.currentPage = 'payment'
+				this.currentPage = 'payment';
 			}
 		},
 
 		async seatPageReturn() {
 			await api.post('/seat/booking_cancel', {
 				schedule_id: this.schedule_id,
-				selected_seats: this.selected_seats
-			})
+				selected_seats: this.selected_seats,
+			});
 
-			this.reset()
-			this.currentPage = 'seat'
+			this.reset();
+			this.currentPage = 'seat';
 		},
 
 		async paymentCheck() {
-			const { IMP } = window
-			IMP.init("imp68206770")
+			const { IMP } = window;
+			IMP.init('imp68206770');
 
 			const data = {
-				pg: 'html5_inicis',                           // PG사
-				pay_method: 'card',                           // 결제수단
-				merchant_uid: `mid_${new Date().getTime()}`,  // 주문번호
-				amount: this.total_price,                                 // 결제금액
+				pg: 'html5_inicis', // PG사
+				pay_method: 'card', // 결제수단
+				merchant_uid: `mid_${new Date().getTime()}`, // 주문번호
+				amount: this.total_price, // 결제금액
 				name: this.info.schedule_info.mvo.title + ' ' + this.total_count + '매', // 주문명
-				buyer_name: this.user_id,                           // 구매자 이름
-			}
-			this.merchant_uid = data.merchant_uid
+				buyer_name: this.user_id, // 구매자 이름
+			};
+			this.merchant_uid = data.merchant_uid;
 
-			IMP.request_pay(data, this.callback)
+			IMP.request_pay(data, this.callback);
 		},
 
 		async callback(response) {
-			const { error_msg } = response
+			const { error_msg } = response;
 
 			if (error_msg) {
-				alert('결제 성공하셨습니다')
+				alert('결제 성공하셨습니다');
 
-				let seat_info = ''
-				let seatid_info = ''
-				this.selected_info = this.selected_info.sort()
+				let seat_info = '';
+				let seatid_info = '';
+				this.selected_info = this.selected_info.sort();
 
 				for (let i = 0; i < this.selected_info.length; i++) {
-					seat_info = seat_info + this.selected_info[i] + ', '
-					seatid_info = seatid_info + this.selected_seats[i] + ','
+					seat_info = seat_info + this.selected_info[i] + ', ';
+					seatid_info = seatid_info + this.selected_seats[i] + ',';
 				}
-				seat_info = seat_info.substr(0, seat_info.length - 2)
+				seat_info = seat_info.substr(0, seat_info.length - 2);
 
 				api.post('/booking/complete', {
 					schedule_id: this.schedule_id,
 					seat_info: seat_info,
 					seatid_info: seatid_info,
 					user_id: this.user_id,
-					merchant_uid: this.merchant_uid
-				})
+					merchant_uid: this.merchant_uid,
+				});
 
-				location.href = '/'
+				location.href = '/';
 			} else {
-				alert('오류 발생')
+				alert('오류 발생');
 			}
 		},
 
 		async selectSeat(row, rindex, cindex) {
 			if (this.total_count === null) {
-				alert('좌석 수량을 골라주세요')
-				return
+				alert('좌석 수량을 골라주세요');
+				return;
 			}
 
-			const no = this.col_len * rindex + cindex
+			const no = this.col_len * rindex + cindex;
 			for (let i = 0; i < this.selected_seats.length; i++) {
-				if (this.selected_seats[i] === this.seatDatas.seatId_list?.[no]?.seat_id) {
-					this.selected_seats.splice(i, 1)
-					this.selected_info.splice(i, 1)
-					this.priceCounter()
-					return
+				if (
+					this.selected_seats[i] === this.seatDatas.seatId_list?.[no]?.seat_id
+				) {
+					this.selected_seats.splice(i, 1);
+					this.selected_info.splice(i, 1);
+					this.priceCounter();
+					return;
 				}
 			}
 
-			this.pushSeatId(no, row, cindex)
+			this.pushSeatId(no, row, cindex);
 		},
 
 		async seatValidation(seat_id) {
 			const res = await api.post('/seat/validation', {
 				schedule_id: this.schedule_id,
-				seat_id: seat_id
-			})
+				seat_id: seat_id,
+			});
 
 			if (res.data === 'booked') {
-				alert('이미 선점된 좌석입니다')
-				this.reset()
-				return
+				alert('이미 선점된 좌석입니다');
+				this.reset();
+				return;
 			}
-			
-			this.validation++
+
+			this.validation++;
 		},
 
 		pushSeatId(no, row, cindex) {
 			if (this.total_count === this.selected_seats.length) {
-				alert('좌석 선택이 완료되었습니다')
-				return
+				alert('좌석 선택이 완료되었습니다');
+				return;
 			}
-			this.seatValidation(this.seatDatas.seatId_list[no].seat_id)
+			this.seatValidation(this.seatDatas.seatId_list[no].seat_id);
 
-			this.selected_seats.push(this.seatDatas.seatId_list[no].seat_id)
-			let col = String(cindex + 1).padStart(2, "0")
-			this.selected_info.push(row + col)
+			this.selected_seats.push(this.seatDatas.seatId_list[no].seat_id);
+			let col = String(cindex + 1).padStart(2, '0');
+			this.selected_info.push(row + col);
 
-			this.priceCounter()
+			this.priceCounter();
 		},
 
 		reset() {
-			this.adult_count = 0
-			this.teen_count = 0
-			this.prefer_count = 0
-			this.total_count = null
+			this.adult_count = 0;
+			this.teen_count = 0;
+			this.prefer_count = 0;
+			this.total_count = null;
 
-			this.selected_adult = 0
-			this.selected_teen = 0
-			this.selected_prefer = 0
-			this.total_price = 0
-			this.selected_seats = []
-			this.selected_info = []
-			
-			this.validation = 0
+			this.selected_adult = 0;
+			this.selected_teen = 0;
+			this.selected_prefer = 0;
+			this.total_price = 0;
+			this.selected_seats = [];
+			this.selected_info = [];
 
-			this.seatListData(this.schedule_id)
+			this.validation = 0;
+
+			this.seatListData(this.schedule_id);
 		},
 
 		plusCounter(seperator) {
-			if (seperator === 'adult++' && this.adult_count < 6 && this.total_count < 6) {
-				this.adult_count += 1
-				this.total_count += 1
-			} else if (seperator === 'teen++' && this.teen_count < 6 && this.total_count < 6) {
-				this.teen_count += 1
-				this.total_count += 1
-			} else if (seperator === 'prefer++' && this.prefer_count < 6 && this.total_count < 6) {
-				this.prefer_count += 1
-				this.total_count += 1
+			if (
+				seperator === 'adult++' &&
+				this.adult_count < 6 &&
+				this.total_count < 6
+			) {
+				this.adult_count += 1;
+				this.total_count += 1;
+			} else if (
+				seperator === 'teen++' &&
+				this.teen_count < 6 &&
+				this.total_count < 6
+			) {
+				this.teen_count += 1;
+				this.total_count += 1;
+			} else if (
+				seperator === 'prefer++' &&
+				this.prefer_count < 6 &&
+				this.total_count < 6
+			) {
+				this.prefer_count += 1;
+				this.total_count += 1;
 			} else if (this.total_count === 6) {
-				alert('좌석은 최대 6개 선택 가능합니다')
-				return
+				alert('좌석은 최대 6개 선택 가능합니다');
+				return;
 			}
 		},
 
 		minusCounter(seperator) {
 			if (this.selected_seats.length === this.total_count) {
 				if (confirm('선택하신 좌석을 모두 취소하고 다시 선택하시겠습니까?')) {
-					this.reset()
-					return
+					this.reset();
+					return;
 				}
 			} else if (seperator === 'adult--' && this.adult_count > 0) {
-				this.adult_count -= 1
-				this.total_count -= 1
+				this.adult_count -= 1;
+				this.total_count -= 1;
 			} else if (seperator === 'teen--' && this.teen_count > 0) {
-				this.teen_count -= 1
-				this.total_count -= 1
+				this.teen_count -= 1;
+				this.total_count -= 1;
 			} else if (seperator === 'prefer--' && this.prefer_count > 0) {
-				this.prefer_count -= 1
-				this.total_count -= 1
+				this.prefer_count -= 1;
+				this.total_count -= 1;
 			}
 
 			if (this.total_count === 0) {
-				this.total_count = null
+				this.total_count = null;
 			}
 		},
 
 		priceCounter() {
-			let aCount = this.adult_count
-			let tCount = this.teen_count
-			let pCount = this.prefer_count
+			let aCount = this.adult_count;
+			let tCount = this.teen_count;
+			let pCount = this.prefer_count;
 
-			this.selected_adult = 0
-			this.selected_teen = 0
-			this.selected_prefer = 0
-			this.total_price = 0
+			this.selected_adult = 0;
+			this.selected_teen = 0;
+			this.selected_prefer = 0;
+			this.total_price = 0;
 
 			for (let i = 0; i < this.selected_seats.length; i++) {
 				if (aCount === 0) {
 					if (tCount === 0) {
 						if (pCount === 0) {
-							return
+							return;
 						}
-						pCount--
-						this.selected_prefer++
-						this.total_price += this.info.price_info.prefer_price
+						pCount--;
+						this.selected_prefer++;
+						this.total_price += this.info.price_info.prefer_price;
 					} else {
-						tCount--
-						this.selected_teen++
-						this.total_price += this.info.price_info.teen_price
+						tCount--;
+						this.selected_teen++;
+						this.total_price += this.info.price_info.teen_price;
 					}
 				} else {
-					aCount--
-					this.selected_adult++
-					this.total_price += this.info.price_info.adult_price
+					aCount--;
+					this.selected_adult++;
+					this.total_price += this.info.price_info.adult_price;
 				}
 			}
 			//------------------------------------------------------------------------
@@ -439,6 +453,6 @@ const useBookingMainStore = defineStore('bookingMain', {
 			// bookingPayment
 
 			//------------------------------------------------------------------------
-		}
-	}
-})
+		},
+	},
+});
