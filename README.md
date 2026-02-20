@@ -46,90 +46,73 @@
 - Jenkins
 
 ---
+## 🛠 기술 스택
 
-##  프로젝트 구조
+### Frontend
+- Vue 3 (CDN 방식, JSP 내 구성)
+- Pinia (전역 상태 관리)
+- JavaScript / CSS
+- Axios
 
--project-root
+### Backend
+- Spring Boot
+- Spring Data JPA
+- Spring AI
+- REST API
 
-┣ AllMovieProject
+### Database
+- Oracle
 
-┃ ┣ src
-
-┃ ┗ build.gradle
-
-┣ README.md
-
-
----
-
-##  주요 기능
-
-### 사용자 기능
-- 회원가입 / 로그인
-- 영화 예매 및 취소
-- 매점 구매 및 취소
-- 공지사항 확인, 단체 관람 문의
-
-### 관리자 기능
-- 매점 재고 관리
-- 주문 관리
-- 공지사항 CRUD
+### DevOps / Tool
+- GitHub
+- Jenkins (CI/CD)
 
 ---
 
-##  화면 구성 (UI)
+## 📌 프로젝트 특징
 
-### 영화 예매
-<table>
-  <tr>
-    <th>스케줄 페이지 (초기 화면)</th>
-    <th>스케줄 페이지 (스케줄 O)</th>
-  </tr>
-  <tr>
-    <td><img width="600" height="804" alt="Image" src="" /></td>
-    <td><img width="600" height="804" alt="Image" src="" /></td>
-  </tr>
-  <tr>
-    <td><img width="600" height="804" alt="Image" src="" /></td>
-    <td><img width="600" height="804" alt="Image" src="" /></td>
-  </tr>
-  <tr>
-    <th>좌석 페이지</th>
-    <th>결제 페이지</th>
-  </tr>
-  <tr>
-    <td><img width="600" height="804" alt="Image" src="" /></td>
-    <td><img width="600" height="804" alt="Image" src="" /></td>
-  </tr>
-  <tr>
-    <td><img width="600" height="804" alt="Image" src="" /></td>
-    <td><img width="600" height="804" alt="Image" src="" /></td>
-  </tr>
-</table>
-
->  추후 스크린샷 추가 권장
+- JSP 환경에서 Vue(CDN) + Pinia를 결합하여 점진적으로 SPA 구조를 구성
+- 프런트엔드 상태를 Pinia 스토어로 통합 관리하여 컴포넌트 간 데이터 전달 구조 개선
+- 프런트엔드와 백엔드 분리 구조(Spring REST API)로 역할 분담 명확화
+- 영화 스케줄, 좌석 정보 등 사용자 선택에 따라 동적으로 변경되는 UI 구현
 
 ---
 
-##  ERD / DB 설계
+## 📂 주요 기능
 
-- 주요 테이블 설명
-- 테이블 간 관계
-
-<table>
-  <tr>
-    <th>영화 예매 DB 관계도</th>
-  </tr>
-  <tr>
-    <td><img width="600" height="804" alt="Image" src="https://github.com/user-attachments/assets/259bb5b1-640e-40af-8764-ea881773dd20" /></td>
-  </tr>
-</table>
----
-
-##  API 설계 (선택)
-
-| Method | URL | 설명 |
-|--------|-----|------|
-| GET | /api | |
+- 영화 목록 / 상세 정보 조회
+- 지역 및 영화관 선택
+- 상영 스케줄 조회
+- 좌석 선택 및 예매
+- 좌석 중복 예매 방지 로직
+- 마이페이지 내 예매 관리
 
 ---
+
+## 🧠 기술적 경험
+
+- Vue(CDN) + Pinia를 사용해 JSP 환경에서도 전역 상태 관리 구조 설계
+- 프런트엔드에서 사용자 편의에 맞게 데이터 가공,  
+  백엔드에서는 검증 및 비즈니스 로직 처리
+- REST API 기반으로 프런트엔드-백엔드 분리 아키텍처 경험
+- Jenkins를 이용한 빌드 및 배포 자동화(CI/CD 파이프라인 구성)
+
+---
+
+## ⚠️ 아쉬운 점 및 개선 방향
+
+- Spring Security를 적용하지 못해 사용자 인증 기반 기능을 구현하지 못한 점
+- AI 기능을 무료 API로 사용하여 모델 커스터마이징 및 학습에 한계가 있었던 점
+- 추후 개선 계획
+  - Spring Security 적용을 통한 사용자 인증 및 권한 처리
+  - 프런트엔드 캐싱 전략 개선
+  - 좌석 선택 알고리즘 개선
+
+---
+
+## 📸 포트폴리오
+
+> https://www.canva.com/design/DAG7Jyysa44/uqUZ8wVXx6HmIn4OHa6XNw/edit?utm_content=DAG7Jyysa44&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton
+
+---
+
